@@ -13,6 +13,7 @@ export default function Header() {
             <nav className='flex items-center justify-center'>                    
                 <li className='flex items-center justify-center gap-x-2'>
                     <HiSun />
+                    <HiMoon />
                     <button>Login</button>
                 </li>
             </nav>
