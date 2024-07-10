@@ -8,6 +8,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import NotFound from './pages/NotFound';
+import Connection from './pages/Connection';
+import Home from './pages/Home';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +21,8 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <NotFound />,
     children: [
-      // {index:true, path: '/', element: </>},
+      {index:true, path: '/', element: <Home />},
+      {path: 'Connection', element: <Connection/>},
     ],
   },
 ]);

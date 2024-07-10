@@ -14,7 +14,7 @@ export default function Header() {
                 <li className='flex items-center justify-center gap-x-2'>
                     <HiSun />
                     <HiMoon />
-                    <button>Login</button>
+                    <Link to="Connection">Login</Link>
                 </li>
             </nav>
         </header>
