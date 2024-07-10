@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Login from '../components/Login';
+import SignUp from '../components/SignUp';
 
 export default function Connection() {
+    const [isLogin, setIsLogin] = useState(true);
+    const [isSignup, setIsSignup] = useState(false);
+
     return (
         <div>
-            Connection
+            {isLogin && <Login />}
+            {isSignup && <SignUp />}
         </div>
     );
 }
