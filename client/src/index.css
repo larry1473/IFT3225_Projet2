@@ -27,3 +27,8 @@ html.dark {
 .logo_title {
   font-family: Anton;
 }
+
+/* -----Login----- */
+.login_form {
+  border-radius: 2rem;
+}

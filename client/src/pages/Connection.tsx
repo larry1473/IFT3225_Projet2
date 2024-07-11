@@ -7,7 +7,7 @@ export default function Connection() {
     const [isSignup, setIsSignup] = useState(false);
 
     return (
-        <div>
+        <div className='flex justify-center pt-24 h-lvh'>
             {isLogin && <Login />}
             {isSignup && <SignUp />}
         </div>
