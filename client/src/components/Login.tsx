@@ -1,6 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function Login() {
+interface LoginProps{
+    onSignupClick: ()=> void;
+}
+
+export default function Login({onSignupClick}:LoginProps) {
     return (
         <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-4/6'>
             <h1 className='text-xl'>LOG IN</h1>
@@ -17,7 +22,7 @@ export default function Login() {
                 <small className='text-center'><a href="">forgot email or password?</a></small>
 
                 <small className='text-center'>Or create new account?</small>
-                <button className='border rounded-full p-1 my-6'>SIGN UP</button>
+                <button onClick={onSignupClick} className='border text-center rounded-full p-1 my-6'>SIGN UP</button>
             </form>
         </div>
     );
