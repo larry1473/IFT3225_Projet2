@@ -12,12 +12,12 @@ export default function Header() {
                 <p className='logo_title text-2xl'>TaskMaster</p>
             </Link>
             <nav className='flex items-center justify-center'>                    
-                <li className='flex items-center justify-center gap-x-2'>
+                <li className='flex items-center justify-center gap-x-4'>
                     <button onClick={toggleDarkMode} className=''>
-                        {darkMode && <HiSun />}
-                        {!darkMode && <HiMoon />}
+                        {darkMode && <HiSun className='size-6'/>}
+                        {!darkMode && <HiMoon className='size-6'/>}
                     </button>
-                    <Link to="Connection">Login</Link>
+                    <Link to="Connection" className='size-6'>Login</Link>
                 </li>
             </nav>
         </header>
