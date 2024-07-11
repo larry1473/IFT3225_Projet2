@@ -1,10 +1,10 @@
 import { createContext, useState, ReactNode, useEffect, useContext } from 'react';
 
-interface DarkModeProviderProps{
+type DarkModeProviderProps = {
     children: ReactNode;
 }
 
-interface DarkModeContextType{
+type DarkModeContextType = {
     darkMode: boolean;
     toggleDarkMode: () => void;
 }
