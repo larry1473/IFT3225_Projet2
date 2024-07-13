@@ -1,33 +1,61 @@
-import mongoose, {Connection} from "mongoose";
+import { MongoClient, Db, Collection, Document } from 'mongodb';
+import mongoose,{Connection} from 'mongoose';
 class Database {
-  private connection: Connection;
-  private readonly URL:string = "mongodb+srv://projet:IFT3225@projet2.bnuus2i.mongodb.net/?retryWrites=true&w=majority&appName=projet2";
-
-  constructor() {
-    this.connection = mongoose.connection;
-  }
-
-  public async connect(){
-    try{
-        await mongoose.connect(this.URL);
-        console.log("Connected to the database");
+    private static instance: Database;
+    private client: Connection;
+    //private db: Db;
+    private static readonly  URI = <string>process.env.MONGODB_URI;
+    private static _connectionFlag:boolean=false;
+    private constructor(dbName: string) {
+        this.client = mongoose.connection;
     }
-    catch(err){
-        console.error("An error occured during the connection",err);
-    }
-  }
 
-  public async disconnect() {
-    try{
-        await mongoose.disconnect();
-        console.log("Disconnected from the database");
-    }
-    catch(err){
-        console.error("An error occured during the disconnection",err);
-    }
-  }
+    public static async getInstance(dbName: string): Promise<Database> {
 
- 
+        if (!Database.instance) {
+            Database.instance = new Database(dbName);
+            await Database.instance.connect();
+        }
+        if(!Database._connectionFlag){
+            await Database.instance.connect();
+        }
+        return Database.instance;
+    }
+
+    public async connect() {
+        
+            try {
+                await mongoose.connect(Database.URI);    
+                Database._connectionFlag = true;
+                
+                console.log('Connected to MongoDB');
+            } catch (error) {
+                console.error('Error connecting to MongoDB:', error);
+            }
+
+        
+        
+    }
+
+   
+
+    public async close() {
+        if (Database._connectionFlag) {
+            try {
+                await mongoose.disconnect();
+                Database._connectionFlag = false;
+                console.log('Disconnected from MongoDB');
+            } catch (error) {
+                console.error('Failed to disconnect from MongoDB:', error);
+            }
+        }
+    }
+
+  
+
+    public get connectionFlag(): boolean {
+        return Database._connectionFlag;
+    }
 }
 
 export default Database;

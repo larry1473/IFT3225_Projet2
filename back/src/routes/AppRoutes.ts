@@ -1,5 +1,5 @@
 import { Router, Request,Response } from "express";
-import { AppService } from "../services/appService";
+import { AppService } from "../services/AppService";
 
 
 class AppRoutes{
@@ -13,12 +13,66 @@ class AppRoutes{
         this.appService = new AppService();
         this.init();
     }
+    /**
+     * this function is used to sign up a user
+     * call the service method signUp to sign up a user
+     * @param req 
+     * @param res 
+     */
+    public async signUp(req:Request,res:Response){
+        try{
+            const {name,email,password} = req.body;
+            const result = await this.appService.signUp(name,email,password);
+            if(result.success){
+                res.status(201).send({ // created successfully
+                    message:result.message
+                });
+            }
+            else if(result.message === "This email already exists"){
+                res.status(409).send({ // conflict during sign up
+                    message:result.message
+                });
+            }
+            else if(result.message === "Invalid email format" || result.message === "Password is too weak"){
+                res.status(400).send({ // bad request
+                    message:result.message
+                });
+            }
+            else{
+                res.status(500).send({
+                    message:result.message
+                });
+            }
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
 
-    public async signin(req:Request,res:Response){
+    public async signIn(req:Request,res:Response){
         try{
             const {email,password} = req.body;
-            this.appService.signin(email,password);
-            res.status(200).send("Hello World!") ; 
+            const result = await this.appService.signIn(email,password);
+            if(result.success){
+                res.status(200).send({
+                    message:result.message
+                });
+            }
+            else if(result.message === "This email does not exist"){
+                res.status(404).send({
+                    message:result.message
+                });
+            }
+            else if(result.message === "Wrong password"){
+                res.status(401).send({
+                    message:result.message
+                });
+            }
+            else{
+                res.status(500).send({
+                    message:result.message
+                });
+            }
         }
         catch(err){
             res.status(500).send("Internal Server Error");
@@ -32,7 +86,8 @@ class AppRoutes{
 
 
     private init():void{
-        this._routes.post('/signin',this.signin.bind(this));
+        this._routes.post('/signup',this.signUp.bind(this));
+        this._routes.post('/signin',this.signIn.bind(this));
     }
 
     

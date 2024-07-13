@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import express, { Application } from "express";
 import { appRoutes, AppRoutes} from "./routes/AppRoutes";
+
 class Server {
 
     private _app: Application;
@@ -37,6 +39,7 @@ class Server {
     }
 
     private init(): void {
+        this._app.use(express.json());
         this.root();
         this.signIn();
     }
