@@ -2,9 +2,12 @@ import { Link } from 'react-router-dom';
 import { SiNginxproxymanager } from "react-icons/si";
 import { HiSun, HiMoon } from "react-icons/hi";
 import { useDarkMode } from '../context/DarkModeContext';
+import { useLoginStatus } from '../context/LoginStatusProvider';
 
 export default function Header() {
     const {darkMode, toggleDarkMode} = useDarkMode();
+    const {hasLogin, toggleHasLogin}  =useLoginStatus();
+    
     return (
         <header className='header flex h-14 justify-between px-14'>
             <Link to='/' className='flex justify-center items-center gap-x-1'>
@@ -17,7 +20,8 @@ export default function Header() {
                         {darkMode && <HiSun className='size-6'/>}
                         {!darkMode && <HiMoon className='size-6'/>}
                     </button>
-                    <Link to="Connection" className='size-6'>Login</Link>
+                    {!hasLogin && <Link to="Connection" className='size-6'>Login</Link>}
+                    {hasLogin && <Link to="Connection" className='size-6'>Logout</Link>}
                 </li>
             </nav>
         </header>
