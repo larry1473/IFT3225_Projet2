@@ -32,3 +32,17 @@ html.dark {
 .login_form {
   border-radius: 2rem;
 }
+
+/* -----Filter----- */
+.filter_form {
+}
+
+.filter_input {
+  @apply w-52;
+  background-color: var(--color-bg-dark);
+}
+
+.filter_search_icon {
+  /* background-color: #4f4e4c; */
+  /* color: white; */
+}
