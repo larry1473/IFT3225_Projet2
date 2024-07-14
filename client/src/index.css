@@ -6,11 +6,15 @@
   --color-bg-dark: #f5f5f5;
   --color-text: #22243b;
   --color-scrollbar: #aaa7a7;
+  --color-page-bg: #1a1c35;
+  --color-page-text: #f5f5f5;
 }
 
 html.dark {
   --color-bg-dark: #1a1c35;
   --color-text: #fdfffd;
+  --color-page-bg: #f5f5f5;
+  --color-page-text: #1a1c35;
 }
 
 #root {
@@ -83,6 +87,6 @@ html.dark {
 .page_number {
 }
 .page_number.selected {
-  background-color: black;
-  color: white;
+  background-color: var(--color-page-bg);
+  color: var(--color-page-text);
 }
