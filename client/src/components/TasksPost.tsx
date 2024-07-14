@@ -1,0 +1,24 @@
+import React from 'react';
+import {v4 as uuidv4} from 'uuid';
+import TaskCard from './TaskCard';
+
+type TaskCardPropValueType = {
+    projectname : string;
+    username : string;
+    date : string;
+}
+
+type TasksPostPropsType = {
+    tasks:TaskCardPropValueType[];
+}
+
+export default function TasksPost({tasks}:TasksPostPropsType) {
+    return (
+        <ul className='taskcards grid grid-cols-3 grid-rows-4 place-items-center gap-x-0 gap-y-2 px-5 py-5 w-full'>
+            {tasks.map(task =>(
+                <TaskCard key={uuidv4()} task={task}/>
+            ))}
+        </ul>
+    );
+}
+

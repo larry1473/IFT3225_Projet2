@@ -5,7 +5,7 @@ export default function SignUp() {
         e.preventDefault();
     }
     return (
-        <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-4/5'>
+        <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-full'>
             <h1 className='text-xl'>CREATE NEW ACCOUNT</h1>
             <form className='flex flex-col gap-3'>
                 <div className='flex flex-col'>

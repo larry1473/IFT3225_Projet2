@@ -13,7 +13,7 @@ export default function Filter() {
                     <label htmlFor="username_input">User name</label>
                     <input id='username_input' type="text" placeholder='Type a user name' className='filter_input'/>
                 </div>
-                <button><CiSearch className='filter_search_icon size-4'/></button>
+                <button><CiSearch className='filter_search_icon size-6'/></button>
             </form>
         </div>
     );
