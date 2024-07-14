@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import TaskCard from './TaskCard';
 import TasksPost from './TasksPost';
 import TaskPagination from './TaskPagination';
+import TaskDetail from './TaskDetail';
 
 type TaskCardPropValueType = {
     projectname : string;
@@ -93,6 +94,7 @@ export default function TaskCards() {
     const [tasks, setTasks] = useState<TaskCardPropValueType[]>(testData);
     const [currentPage, setCurrentPage] = useState(1);
     const [tasksPerPage, setTasksPerPage] = useState(12);
+    const [cardDetailMode, setCardDetailMode] = useState(false);
 
     // Set current tasks
     const lastTaskIndex = currentPage * tasksPerPage;
@@ -104,16 +106,21 @@ export default function TaskCards() {
         setCurrentPage(pageNum);
     };
 
+    const handleCardClick = ()=>{
+    
+    }
+
     return (
         <div className='flex flex-col items-center w-full border-t p-5'>
-            <p className='pt-5'>{tasks.length} tasks found</p>
+            {!cardDetailMode && <><p className='pt-5'>{tasks.length} tasks found</p>
             <TasksPost tasks={currentTask}/>
             <TaskPagination 
                 currentPage={currentPage}
                 tasksPerPage={tasksPerPage}
                 tasksNum={tasks.length}
                 onPageChangeClick={handleChangePage}
-            />
+            /></>}
+            {cardDetailMode && <TaskDetail />}
         </div>
     );
 }

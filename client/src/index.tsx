@@ -10,6 +10,7 @@ import {
 import NotFound from './pages/NotFound';
 import Connection from './pages/Connection';
 import Home from './pages/Home';
+import TaskDetail from './components/TaskDetail';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,6 +23,8 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {index:true, path: '/', element: <Home />},
+      {path: '/taskcards', element: <Home />},
+      {path: '/taskcards/:taskid', element: <TaskDetail />},
       {path: 'connection', element: <Connection/>},
     ],
   },

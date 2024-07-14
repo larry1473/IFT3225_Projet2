@@ -21,6 +21,7 @@ export default function TaskPagination({currentPage, tasksPerPage, tasksNum, onP
         if(newPage === 1) return;
         onPageChangeClick(currentPage - 1);
     }
+    
     const handleRightClick = ()=>{
         const newPage = currentPage;
         const lastPage = pageNums[pageNums.length - 1];
