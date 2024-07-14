@@ -63,3 +63,12 @@ html.dark {
 .tasklist {
   overflow: auto;
 }
+
+/* -----TaskGroup----- */
+.taskgroup {
+}
+
+/* -----TaskCards----- */
+.taskcards {
+  overflow: auto;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {v4 as uuidv4} from 'uuid';
 import TaskCard from './TaskCard';
 
 type TaskCardPropValueType = {
@@ -60,13 +61,13 @@ const testData: TaskCardPropValueType[] = [
     },
 ]
 
-export default function TasksCards() {
+export default function TaskCards() {
     const [tasks, setTasks] = useState<TaskCardPropValueType[]>(testData);
 
     return (
-        <div className='grid grid-cols-3 gap-2 px-10'>
+        <div className='taskcards flex flex-col gap-x-1 gap-y-2 px-5'>
             {tasks.map((task)=>(
-                <TaskCard task={task}/>
+                <TaskCard key={uuidv4()} task={task}/>
             ))}
         </div>
     );
