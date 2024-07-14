@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Filter from './Filter';
 import { SiNginxproxymanager } from "react-icons/si";
 import { HiSun, HiMoon } from "react-icons/hi";
 import { useDarkMode } from '../context/DarkModeContext';
@@ -9,7 +10,7 @@ export default function Header() {
     const {hasLogin, toggleHasLogin} = useLoginStatus();
     
     return (
-        <header className='header flex h-14 justify-between px-14'>
+        <header className='header flex h-16 justify-between px-14'>
             <Link to='/' className='flex justify-center items-center gap-x-1'>
                 <SiNginxproxymanager className='logo size-8'/>
                 <p className='logo_title text-2xl'>TaskMaster</p>

@@ -47,6 +47,7 @@ html.dark {
 
 .filter_input {
   background-color: var(--color-bg-dark);
+  @apply w-48;
 }
 
 .filter_search_icon {

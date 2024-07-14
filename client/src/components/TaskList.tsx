@@ -42,7 +42,7 @@ export default function TaskList() {
     const [tasks, setTasks] = useState(taskNames);
 
     return (
-        <div className='tasklist w-full px-5 py-2'>
+        <div className='tasklist w-full h-lvh px-5 py-2'>
             <ul className='flex flex-col gap-y-2 items-start'>
                 {tasks.map(task => (
                    <li key={uuidv4()} className='px-2'>{task.name}</li> 
