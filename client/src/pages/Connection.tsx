@@ -17,7 +17,7 @@ export default function Connection() {
     }
 
     return (
-        <div className='flex justify-center pt-24 h-lvh'>
+        <div className='flex justify-center py-24 h-full'>
             {isLogin && <Login onSignupClick={handleSignupClick}/>}
             {isSignup && <SignUp onSignupCancelClick={handleSignupCancelClick}/>}
         </div>
