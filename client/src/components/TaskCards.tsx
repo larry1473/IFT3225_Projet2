@@ -10,6 +10,7 @@ type TaskCardPropValueType = {
     date : string;
 }
 
+// test data
 const testData: TaskCardPropValueType[] = [
     {
         projectname : "project1",
@@ -100,20 +101,15 @@ export default function TaskCards() {
 
     // Change page
     const handleChangePage = (pageNum:number):void => {
-        console.log(pageNum);
         setCurrentPage(pageNum);
     };
 
     return (
-        <div className='flex flex-col items-center w-full border-t'>
+        <div className='flex flex-col items-center w-full border-t p-5'>
             <p className='pt-5'>{tasks.length} tasks found</p>
-            {/* <div className='taskcards grid grid-cols-3 place-items-center gap-x-0 gap-y-2 px-5 py-5 w-full'>
-                {tasks.map((task)=>(
-                    <TaskCard key={uuidv4()} task={task}/>
-                ))}
-            </div> */}
             <TasksPost tasks={currentTask}/>
             <TaskPagination 
+                currentPage={currentPage}
                 tasksPerPage={tasksPerPage}
                 tasksNum={tasks.length}
                 onPageChangeClick={handleChangePage}
