@@ -21,7 +21,7 @@ export default function Header() {
                         {darkMode && <HiSun className='size-6'/>}
                         {!darkMode && <HiMoon className='size-6'/>}
                     </button>
-                    {!hasLogin && <Link to="Connection" className='size-6'>Login</Link>}
+                    {!hasLogin && <Link to="connection/login" className='size-6'>Login</Link>}
                     {hasLogin && <Link to="Connection" className='size-6'>Logout</Link>}
                 </li>
             </nav>

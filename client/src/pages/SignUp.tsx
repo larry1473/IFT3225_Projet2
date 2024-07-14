@@ -1,18 +1,21 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type SignUpPropsType = {
     onSignupCancelClick: ()=>void;
 }
 
-export default function SignUp({onSignupCancelClick}:SignUpPropsType) {
+export default function SignUp() {
+    const navigate = useNavigate();
     const handleSignupClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
     }
-    const handleSignupCancelClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
+    const handleCancelClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
-        onSignupCancelClick();
+        navigate('../connection/login');
     }
     return (
+        <div className='flex justify-center py-24 h-full'>
         <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-full'>
             <h1 className='text-xl'>CREATE NEW ACCOUNT</h1>
             <form className='flex flex-col gap-3'>
@@ -42,10 +45,11 @@ export default function SignUp({onSignupCancelClick}:SignUpPropsType) {
                 </div>
 
                 <div className='flex justify-between'>
-                    <button onClick={handleSignupCancelClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>CANCEL</button>
-                    <button onClick={handleSignupClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>SIGN UP</button>
+                    <button onClick={handleCancelClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>CANCEL</button>
+                    <button className='border rounded-full p-1 my-6 px-3 py-1 w-24'>SIGN UP</button>
                 </div>
             </form>
+        </div>
         </div>
     );
 }

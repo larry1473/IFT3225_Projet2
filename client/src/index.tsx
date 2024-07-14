@@ -8,9 +8,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import NotFound from './pages/NotFound';
-import Connection from './pages/Connection';
 import Home from './pages/Home';
 import TaskDetail from './components/TaskDetail';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,9 +24,11 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {index:true, path: '/', element: <Home />},
-      {path: '/taskcards', element: <Home />},
-      {path: '/taskcards/:taskid', element: <TaskDetail />},
-      {path: 'connection', element: <Connection/>},
+      {path: 'taskcards', element: <Home />},
+      {path: 'taskcards/:taskid', element: <TaskDetail />},
+      // {path: 'connection', element: <Connection/>},
+      {path: 'connection/login', element: <Login/>},
+      {path: 'connection/signup', element: <SignUp/>},
     ],
   },
 ]);
