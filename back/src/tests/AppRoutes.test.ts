@@ -1,5 +1,5 @@
 import request from "supertest";
-import {server} from "../src/Server";
+import {server} from "../Server";
 
 describe("should valid the email and the password", () => {
 

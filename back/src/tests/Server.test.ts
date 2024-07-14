@@ -1,4 +1,4 @@
-import { server } from '../src/Server';
+import { server } from '../Server';
 import request from 'supertest';
 
 describe('Server', () => {
