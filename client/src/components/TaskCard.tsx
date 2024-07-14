@@ -14,16 +14,15 @@ type TaskCardPropsType = {
 export default function TaskCard({onCardClick, task}:TaskCardPropsType) {
     const {hasLogin, toggleHasLogin} = useLoginStatus();
     const navigate = useNavigate();
-    const [canDisplayCard, setCanDisplayCard] = useState(false);
 
     const handleCardClick = (e:React.MouseEvent)=>{
         console.log(e.target);
         
         if(!hasLogin){
-            navigate(`/Connection`);
+            navigate(`/connection/login`);
             return;
         } else {
-            setCanDisplayCard(true);
+            navigate(`../taskcards/${task.projectname}`);
         }
     }
 

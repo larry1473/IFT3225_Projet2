@@ -26,7 +26,6 @@ const router = createBrowserRouter([
       {index:true, path: '/', element: <Home />},
       {path: 'taskcards', element: <Home />},
       {path: 'taskcards/:taskid', element: <TaskDetail />},
-      // {path: 'connection', element: <Connection/>},
       {path: 'connection/login', element: <Login/>},
       {path: 'connection/signup', element: <SignUp/>},
     ],

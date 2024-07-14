@@ -7,9 +7,9 @@ type TaskGroupProps = {
 
 export default function TaskGroup({title}:TaskGroupProps) {
     return (
-        <div className='taskgroup col-span-1 flex flex-col gap-y-4 px-1 py-2 border h-4/5'>
+        <div className='taskgroup col-span-1 flex flex-col gap-y-4 px-1 py-2 border min-h-20'>
             <h3>{title}</h3>
-            <TaskCards />
+            {/* <TaskCards /> */}
             <button>+ Add a card</button>
         </div>
     );
