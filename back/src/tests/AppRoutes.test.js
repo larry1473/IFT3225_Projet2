@@ -13,11 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-<<<<<<< Updated upstream
-const Server_1 = require("../Server");
-=======
 const Server_1 = require("../src/Server");
->>>>>>> Stashed changes
 describe("should valid the email and the password", () => {
     it("should return pasword  is too  weak", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(Server_1.server.app)
