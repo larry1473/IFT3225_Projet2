@@ -82,3 +82,7 @@ html.dark {
 /* -----TaskPagination----- */
 .page_number {
 }
+.page_number.selected {
+  background-color: black;
+  color: white;
+}

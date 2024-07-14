@@ -33,7 +33,7 @@ export default function TaskPagination({currentPage, tasksPerPage, tasksNum, onP
             <button onClick={handleLeftClick}><FaAngleLeft /></button>
             <ul className='taskpagination flex items-center gap-2'>
                 {pageNums.map(number => (
-                    <li key={uuidv4()} className='page_number border px-2 rounded-full'>
+                    <li key={uuidv4()} className={`page_number ${currentPage === number ? "selected" : ""} border px-2 rounded-full`}>
                         <a onClick={() => onPageChangeClick(number)} className='page_link'>
                             {number}
                         </a>

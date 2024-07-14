@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoginStatus } from '../context/LoginStatusProvider';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,9 +13,14 @@ type TaskType = {
 export default function TaskCard({task}:TaskType) {
     const {hasLogin, toggleHasLogin} = useLoginStatus();
     const navigate = useNavigate();
+    const [canDisplayCard, setCanDisplayCard] = useState(false);
 
     const handleCardClick = ()=>{
-        navigate(`/Connection`)
+        if(!hasLogin){
+            navigate(`/Connection`);
+        } else {
+            setCanDisplayCard(true);
+        }
     }
 
     return (
