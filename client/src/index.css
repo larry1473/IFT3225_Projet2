@@ -21,6 +21,10 @@ html.dark {
 }
 
 /* -----header----- */
+.header {
+  @apply border-b;
+}
+
 .logo {
   /* color: red; */
 }
@@ -33,16 +37,29 @@ html.dark {
   border-radius: 2rem;
 }
 
+/* -----filter section----- */
+.filter_section {
+}
+
 /* -----Filter----- */
 .filter_form {
 }
 
 .filter_input {
-  @apply w-52;
   background-color: var(--color-bg-dark);
 }
 
 .filter_search_icon {
   /* background-color: #4f4e4c; */
   /* color: white; */
+}
+
+/* -----TaskAdd----- */
+.task_add_input {
+  background-color: var(--color-bg-dark);
+}
+
+/* -----Tasklist----- */
+.tasklist {
+  overflow: auto;
 }
