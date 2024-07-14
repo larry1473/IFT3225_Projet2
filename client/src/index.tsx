@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       {index:true, path: '/', element: <Home />},
-      {path: 'Connection', element: <Connection/>},
+      {path: 'connection', element: <Connection/>},
     ],
   },
 ]);

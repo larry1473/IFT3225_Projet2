@@ -10,7 +10,7 @@ import TaskCards from '../components/TaskCards';
 export default function Home() {
     const {hasLogin, toggleHasLogin} = useLoginStatus();
     return (
-        <div className='flex flex-col items-center h-screen'>
+        <div className='flex flex-col items-center h-full'>
             <Filter />
             <TaskCards />
             {/* <section className='filter_section w-1/4 flex flex-col items-center h-screen py-2 border-r'>

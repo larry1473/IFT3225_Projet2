@@ -1,8 +1,16 @@
 import React from 'react';
 
-export default function SignUp() {
+type SignUpPropsType = {
+    onSignupCancelClick: ()=>void;
+}
+
+export default function SignUp({onSignupCancelClick}:SignUpPropsType) {
     const handleSignupClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
+    }
+    const handleSignupCancelClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+        onSignupCancelClick();
     }
     return (
         <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-full'>
@@ -34,7 +42,7 @@ export default function SignUp() {
                 </div>
 
                 <div className='flex justify-between'>
-                    <button onClick={handleSignupClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>CANCEL</button>
+                    <button onClick={handleSignupCancelClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>CANCEL</button>
                     <button onClick={handleSignupClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>SIGN UP</button>
                 </div>
             </form>

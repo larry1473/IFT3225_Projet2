@@ -11,10 +11,15 @@ export default function Connection() {
         setIsSignup(true);
     }
 
+    const handleSignupCancelClick = ():void =>{
+        setIsLogin(true);
+        setIsSignup(false);
+    }
+
     return (
         <div className='flex justify-center pt-24 h-lvh'>
             {isLogin && <Login onSignupClick={handleSignupClick}/>}
-            {isSignup && <SignUp />}
+            {isSignup && <SignUp onSignupCancelClick={handleSignupCancelClick}/>}
         </div>
     );
 }
