@@ -3,11 +3,11 @@ import Filter from './Filter';
 import { SiNginxproxymanager } from "react-icons/si";
 import { HiSun, HiMoon } from "react-icons/hi";
 import { useDarkMode } from '../context/DarkModeContext';
-import { useLoginStatus } from '../context/LoginStatusProvider';
+import { useLoginStatus } from '../context/LoginStatusContext';
 
 export default function Header() {
     const {darkMode, toggleDarkMode} = useDarkMode();
-    const {hasLogin, toggleHasLogin} = useLoginStatus();
+    const {hasLogedin, toggleHasLogin} = useLoginStatus();
     
     return (
         <header className='header flex h-16 justify-between px-14'>
@@ -21,8 +21,8 @@ export default function Header() {
                         {darkMode && <HiSun className='size-6'/>}
                         {!darkMode && <HiMoon className='size-6'/>}
                     </button>
-                    {!hasLogin && <Link to="connection/login" className='size-6'>Login</Link>}
-                    {hasLogin && <Link to="" className='size-6'>Logout</Link>}
+                    {!hasLogedin && <Link to="connection/login" className='size-6'>Login</Link>}
+                    {hasLogedin && <Link to="" className='size-6'>Logout</Link>}
                 </li>
             </nav>
         </header>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLoginStatus } from '../context/LoginStatusProvider';
+import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
 
 type TaskCardPropsType = {
@@ -12,13 +12,13 @@ type TaskCardPropsType = {
 }
 
 export default function TaskCard({onCardClick, task}:TaskCardPropsType) {
-    const {hasLogin, toggleHasLogin} = useLoginStatus();
+    const {hasLogedin, toggleHasLogin} = useLoginStatus();
     const navigate = useNavigate();
 
     const handleCardClick = (e:React.MouseEvent)=>{
         console.log(e.target);
         
-        if(!hasLogin){
+        if(!hasLogedin){
             navigate(`/connection/login`);
             return;
         } else {
