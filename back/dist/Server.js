@@ -26,11 +26,7 @@ class Server {
     }
     root() {
         this._app.get('/', (req, res) => {
-<<<<<<< Updated upstream
             res.status(200).send("Hello");
-=======
-            res.status(200).send("Hello World!");
->>>>>>> Stashed changes
         });
     }
     signIn() {
