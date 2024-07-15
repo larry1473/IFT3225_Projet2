@@ -14,9 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Server_1 = require("../Server");
 const supertest_1 = __importDefault(require("supertest"));
+let server = new Server_1.Server();
 describe('Server', () => {
     it('should start the server', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(Server_1.server.app).get('/');
+        const res = yield (0, supertest_1.default)(server.app).get('/');
         expect(res.status).toEqual(200);
     }));
 });

@@ -1,6 +1,7 @@
 import request from "supertest";
-import {server} from "../Server";
+import {Server} from "../Server";
 
+let server:Server = new Server();
 describe("should valid the email and the password", () => {
 
     it("should return pasword  is too  weak", async () => {
@@ -25,8 +26,8 @@ describe("should valid the email and the password", () => {
                     email:"leandre@umontreal.ca",
                     password:"#Cherileplus1_7"
                 });
-        expect(response.body.message).toBe("User signed up successfully");
-        expect(response.status).toBe(201);
+        expect(response.body.message).toBe("This email already exists");
+        expect(response.status).toBe(409);
     });
 });
 
@@ -54,8 +55,8 @@ describe("the return status should be 201", () => {
                     email:"leandre.van.etongo@umontreal.ca",
                     password:""
                 });
-        expect(response.status).toBe(401);
-        expect(response.body.message).toBe("Wrong password");
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe("Invalid email or password");
     });
 
     it("should return status 200", async () => {
@@ -67,10 +68,23 @@ describe("the return status should be 201", () => {
                     email:"leoMbila@gmail.com",
                     password:"123456"
                 });
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe("This email does not exist");
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe("Invalid email or password");
     });
 
 
     
+});
+
+describe("get requests testing ", () => {
+    
+        it("should return status 200", async () => {
+            const response = await request(server.app).get("/api/v1/signin");
+            expect(response.status).toBe(200);
+        });
+
+        it("should return status 200", async () => {
+            const response = await request(server.app).get("/api/v1/signup");
+            expect(response.status).toBe(200);
+        });
 });

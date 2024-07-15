@@ -55,16 +55,17 @@ class AppRoutes{
             const result = await this.appService.signIn(email,password);
             if(result.success){
                 res.status(200).send({
-                    message:result.message
+                    message:result.message,
+                    token:result.token
                 });
             }
             else if(result.message === "This email does not exist"){
-                res.status(404).send({
+                res.status(500).send({
                     message:result.message
                 });
             }
             else if(result.message === "Wrong password"){
-                res.status(401).send({
+                res.status(500).send({
                     message:result.message
                 });
             }
@@ -79,6 +80,28 @@ class AppRoutes{
         }
     }
 
+    public  signInGet(req:Request,res:Response){
+        try{
+            res.status(200).send("welcome to the sign in page");
+        }
+        catch(err){
+
+            res.status(500).send("Internal Server Error");
+        }
+
+    }
+
+    public  signUpGet(req:Request,res:Response){
+        try{
+            res.status(200).send("welcome to the sign up page");
+        }
+        catch(err){
+
+            res.status(500).send("Internal Server Error");
+        }
+
+    }
+
     public get routes():Router{
         return this._routes;
     }
@@ -88,6 +111,8 @@ class AppRoutes{
     private init():void{
         this._routes.post('/signup',this.signUp.bind(this));
         this._routes.post('/signin',this.signIn.bind(this));
+        this._routes.get('/signin',this.signInGet.bind(this));
+        this._routes.get('/signup',this.signUpGet.bind(this));
     }
 
     
