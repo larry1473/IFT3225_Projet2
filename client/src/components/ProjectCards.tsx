@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import {v4 as uuidv4} from 'uuid';
-import TaskCard from './TaskCard';
+import ProjectCard from './ProjectCard';
 import TasksPost from './TasksPost';
 import TaskPagination from './TaskPagination';
 import TaskDetail from './TaskDetail';
 
-type TaskCardPropValueType = {
+type ProjectCardPropValueType = {
     projectname : string;
     username : string;
     description : string;
 }
 
 // test data
-const testData: TaskCardPropValueType[] = [
+const testData: ProjectCardPropValueType[] = [
     {
         projectname : "project1",
         username : "user1",
@@ -90,8 +90,8 @@ const testData: TaskCardPropValueType[] = [
     },
 ]
 
-export default function TaskCards() {
-    const [tasks, setTasks] = useState<TaskCardPropValueType[]>(testData);
+export default function ProjectCards() {
+    const [tasks, setTasks] = useState<ProjectCardPropValueType[]>(testData);
     const [currentPage, setCurrentPage] = useState(1);
     const [tasksPerPage, setTasksPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
@@ -99,7 +99,7 @@ export default function TaskCards() {
     // Set current tasks
     const lastTaskIndex = currentPage * tasksPerPage;
     const firstTaskIndex = lastTaskIndex - tasksPerPage;
-    const currentTask:TaskCardPropValueType[] = tasks.slice(firstTaskIndex, lastTaskIndex);
+    const currentTask:ProjectCardPropValueType[] = tasks.slice(firstTaskIndex, lastTaskIndex);
 
     // Change page
     const handleChangePage = (pageNum:number):void => {

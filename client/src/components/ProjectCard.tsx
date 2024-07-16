@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
 
-type TaskCardPropsType = {
+type ProjectCardPropsType = {
     onCardClick: (e:React.MouseEvent) => void;
     task:{
         projectname : string;
@@ -11,7 +11,7 @@ type TaskCardPropsType = {
     }
 }
 
-export default function TaskCard({onCardClick, task}:TaskCardPropsType) {
+export default function ProjectCard({onCardClick, task}:ProjectCardPropsType) {
     const {hasLogedin, toggleHasLogin} = useLoginStatus();
     const navigate = useNavigate();
 

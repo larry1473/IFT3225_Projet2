@@ -1,6 +1,6 @@
 import React from 'react';
 import {v4 as uuidv4} from 'uuid';
-import TaskCard from './TaskCard';
+import TaskCard from './ProjectCard';
 
 type TaskCardPropValueType = {
     projectname : string;

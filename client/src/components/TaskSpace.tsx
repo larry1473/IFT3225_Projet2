@@ -7,7 +7,7 @@ const categories: string[]=[
     "Done",
 ]
 
-export default function TaskSpace() {
+export default function ProjectSpace() {
     const [taskCategories, setTaskCategories] = useState(categories);
 
     return (
