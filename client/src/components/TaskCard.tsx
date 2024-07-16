@@ -7,7 +7,7 @@ type TaskCardPropsType = {
     task:{
         projectname : string;
         username : string;
-        date : string;
+        description : string;
     }
 }
 
@@ -30,7 +30,7 @@ export default function TaskCard({onCardClick, task}:TaskCardPropsType) {
         <div onClick={handleCardClick} className='taskcard flex flex-col items-start border p-1 w-4/5'>
             <h3>{task.projectname}</h3>
             <p>{task.username}</p>
-            <p>{task.date}</p>
+            <p>{task.description}</p>
         </div>
     );
 }

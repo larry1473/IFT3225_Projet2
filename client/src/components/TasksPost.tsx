@@ -5,7 +5,7 @@ import TaskCard from './TaskCard';
 type TaskCardPropValueType = {
     projectname : string;
     username : string;
-    date : string;
+    description: string;
 }
 
 type TasksPostPropsType = {

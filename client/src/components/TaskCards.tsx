@@ -8,7 +8,7 @@ import TaskDetail from './TaskDetail';
 type TaskCardPropValueType = {
     projectname : string;
     username : string;
-    date : string;
+    description : string;
 }
 
 // test data
@@ -16,77 +16,77 @@ const testData: TaskCardPropValueType[] = [
     {
         projectname : "project1",
         username : "user1",
-        date : "date1",
+        description : "desription1",
     },
     {
         projectname : "project2",
         username : "user2",
-        date : "date2",
+        description : "desription2",
     },
     {
         projectname : "project3",
         username : "user3",
-        date : "date3",
+        description : "desription3",
     },
     {
         projectname : "project4",
         username : "user4",
-        date : "date4",
+        description : "desription4",
     },
     {
         projectname : "project5",
         username : "user5",
-        date : "date5",
+        description : "desription5",
     },
     {
         projectname : "project6",
         username : "user6",
-        date : "date6",
+        description : "desription6",
     },
     {
         projectname : "project7",
         username : "user7",
-        date : "date7",
+        description : "desription7",
     },
     {
         projectname : "project8",
         username : "user8",
-        date : "date8",
+        description : "desription8",
     },
     {
         projectname : "project9",
         username : "user9",
-        date : "date9",
+        description : "desription9",
     },
     {
         projectname : "project10",
         username : "user10",
-        date : "date10",
+        description : "desription10",
     },
     {
         projectname : "project6",
         username : "user6",
-        date : "date6",
+        description : "desription6",
     },
     {
         projectname : "project7",
         username : "user7",
-        date : "date7",
+        description : "desription7",
     },
     {
         projectname : "project8",
         username : "user8",
-        date : "date8",
+        description : "desription8",
     },
     {
         projectname : "project9",
         username : "user9",
-        date : "date9",
+        description : "desription9",
     },
     {
         projectname : "project10",
         username : "user10",
-        date : "date10",
+        description : "desription10",
     },
 ]
 
