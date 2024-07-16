@@ -1,6 +1,7 @@
 import { Router, Request,Response } from "express";
 import { AppService } from "../services/AppService";
 import authMiddleware from '../middlewares/auth';
+import { Task, TaskModel } from "../models/Task";
 
 
 class AppRoutes{
@@ -112,6 +113,22 @@ class AppRoutes{
         }
     }
 
+    public async addTask(req:Request,res:Response){
+        console.log("in add task");
+        console.log(req.body);
+        try{
+            const taskSchema = new Task(req.body);
+            const result = await this.appService.addTask(taskSchema);
+            res.status(200).send({
+                message:result.message
+            });
+           
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
     public get routes():Router{
         return this._routes;
     }
@@ -124,6 +141,7 @@ class AppRoutes{
         this._routes.get('/signin',this.signInGet.bind(this));
         this._routes.get('/signup',this.signUpGet.bind(this));
         this.routes.get('/logout',authMiddleware,this.logout.bind(this));
+        this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
     }
 
     

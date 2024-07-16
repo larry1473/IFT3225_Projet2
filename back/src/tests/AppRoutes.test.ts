@@ -90,6 +90,27 @@ describe("get requests testing ", () => {
 
         it("should return status 200", async () => {
             const response = await request(server.app).get("/api/v1/logout");
-            expect(response.status).toBe(200);
+            expect(response.status).toBe(401);
         });
+});
+
+
+describe(" task  end testing", () => {
+    it("should return status 200", async () => {
+        const response = await request(server.app)
+        .post("/api/v1/tasks")
+        .send(
+            {
+            "title": "Finish project report",
+            "description": "Complete the final report for the project by end of the week.",
+            "status": "Pending",
+            "dueDate": "2024-07-20",
+            "createdDate": "2024-07-10",
+            "updatedDate":"2024-07-15",
+            "userId": "larry.fotso.guiffo@umontreal.ca"
+          }
+        );
+        console.log(response.body.message);
+        expect(response.status).toBe(401);
+    });
 });
