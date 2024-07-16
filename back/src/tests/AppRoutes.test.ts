@@ -87,4 +87,9 @@ describe("get requests testing ", () => {
             const response = await request(server.app).get("/api/v1/signup");
             expect(response.status).toBe(200);
         });
+
+        it("should return status 200", async () => {
+            const response = await request(server.app).get("/api/v1/logout");
+            expect(response.status).toBe(200);
+        });
 });

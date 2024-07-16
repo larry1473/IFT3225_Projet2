@@ -1,5 +1,6 @@
 import { Router, Request,Response } from "express";
 import { AppService } from "../services/AppService";
+import authMiddleware from '../middlewares/auth';
 
 
 class AppRoutes{
@@ -101,6 +102,15 @@ class AppRoutes{
         }
 
     }
+    public async logout(req:Request,res:Response){
+        try{
+            res.status(200).send("You have been logged out");
+
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
 
     public get routes():Router{
         return this._routes;
@@ -113,6 +123,7 @@ class AppRoutes{
         this._routes.post('/signin',this.signIn.bind(this));
         this._routes.get('/signin',this.signInGet.bind(this));
         this._routes.get('/signup',this.signUpGet.bind(this));
+        this.routes.get('/logout',authMiddleware,this.logout.bind(this));
     }
 
     
