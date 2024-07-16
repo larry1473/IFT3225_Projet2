@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import express, { Application } from "express";
 import { appRoutes, AppRoutes} from "./routes/AppRoutes";
+import cors from 'cors'; 
 
-class Server {
+export class Server {
 
     private _app: Application;
     private _appRoutes: AppRoutes;
@@ -33,21 +34,21 @@ class Server {
         });
     }
 
-    public signIn(): void {
+    public linkRoutes(): void {
         this._app.use('/api/v1', this._appRoutes.routes)
         
     }
 
     private init(): void {
+        this._app.use(cors());
         this._app.use(express.json());
         this.root();
-        this.signIn();
+        this.linkRoutes();
     }
 
 
 }
 
 
-const server: Server = new Server();
-export { server };
+
 

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models/User';
+import { User } from '../models/user';
 
-export class AuthService{
+ class AuthService{
     /**
      * this function is used to generate a token for a user
      * @param user the user object 
@@ -16,15 +16,17 @@ export class AuthService{
     }
 
     public static async signIn(email: string, password: string): Promise<string>{
-        const user = await User.findOne({ email});
+        const user = await User.findOne({ email: email , password: password});
 
         if(!user){
             throw new Error('Invalid email or password');
         }
-
-        const isPasswordValid = await user.comparePassword(password);
+        const token = this.generateToken(user);
+        return token;
+    }
 
 
 
 
 }
+export default AuthService;

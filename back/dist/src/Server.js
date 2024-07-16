@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.server = void 0;
+exports.Server = void 0;
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const AppRoutes_1 = require("./routes/AppRoutes");
+const cors_1 = __importDefault(require("cors"));
 class Server {
     constructor() {
         this._app = (0, express_1.default)();
@@ -29,14 +30,14 @@ class Server {
             res.status(200).send("Hello");
         });
     }
-    signIn() {
+    linkRoutes() {
         this._app.use('/api/v1', this._appRoutes.routes);
     }
     init() {
+        this._app.use((0, cors_1.default)());
         this._app.use(express_1.default.json());
         this.root();
-        this.signIn();
+        this.linkRoutes();
     }
 }
-const server = new Server();
-exports.server = server;
+exports.Server = Server;

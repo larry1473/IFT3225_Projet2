@@ -2,6 +2,7 @@ import { User } from "../models/user";
 import Database from "./Database";
 import validator from 'validator';
 import zxcvbn from 'zxcvbn';
+import AuthServices from "./AuthService";
 export class AppService{
     
 
@@ -52,23 +53,19 @@ export class AppService{
         }
     }
 
-    public async signIn(email: any, password: any):Promise<{success:boolean; message:String}> {
+    public async signIn(email: any, password: any):Promise<{success:boolean; message:String; token?:string }> {
         this.database = await Database.getInstance("users");
         try {
-            const existingUser = await User.findOne({ email });
-            if(existingUser){
-                if(existingUser.password !== password){
-                    return { success: false, message: 'Wrong password' };
-                }
-                else{
-                    return { success: true, message: "User signed in successfully" };
-                }
-            }
-            return { success: false, message: "This email does not exist" };
+            const token = await AuthServices.signIn(email,password);
+            return { success: true, message: 'User signed in successfully', token };
+
+           
         }
         catch (err) {
-            return { success: false, message: 'An error occurred during sign in' };
-            console.error("An error occured during the signIn", err);
+            const error = err as Error;
+            return { success: false, message: error.message };
+            
+            console.error("An error occured during the signIn", error);
         }
         finally {
             await this.database.close();

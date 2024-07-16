@@ -86,12 +86,21 @@ class AppRoutes {
             }
         });
     }
+    signInGet(req, res) {
+        try {
+            res.status(200).send("welcome to the sign in page");
+        }
+        catch (err) {
+            res.status(500).send("Internal Server Error");
+        }
+    }
     get routes() {
         return this._routes;
     }
     init() {
         this._routes.post('/signup', this.signUp.bind(this));
         this._routes.post('/signin', this.signIn.bind(this));
+        this._routes.get('/signin', this.signInGet.bind(this));
     }
 }
 exports.AppRoutes = AppRoutes;
