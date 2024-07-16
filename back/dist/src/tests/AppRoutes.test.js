@@ -59,8 +59,8 @@ describe("the return status should be 201", () => {
             email: "leandre.van.etongo@umontreal.ca",
             password: ""
         });
-        expect(response.status).toBe(401);
-        expect(response.body.message).toBe("Wrong password");
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe("Invalid email or password");
     }));
     it("should return status 200", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server.app)
@@ -70,13 +70,21 @@ describe("the return status should be 201", () => {
             email: "leoMbila@gmail.com",
             password: "123456"
         });
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe("This email does not exist");
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe("Invalid email or password");
     }));
 });
 describe("get requests testing ", () => {
     it("should return status 200", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server.app).get("/api/v1/signin");
+        expect(response.status).toBe(200);
+    }));
+    it("should return status 200", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(server.app).get("/api/v1/signup");
+        expect(response.status).toBe(200);
+    }));
+    it("should return status 200", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(server.app).get("/api/v1/logout");
         expect(response.status).toBe(200);
     }));
 });

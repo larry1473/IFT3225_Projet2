@@ -17,6 +17,7 @@ const user_1 = require("../models/user");
 const Database_1 = __importDefault(require("./Database"));
 const validator_1 = __importDefault(require("validator"));
 const zxcvbn_1 = __importDefault(require("zxcvbn"));
+const AuthService_1 = __importDefault(require("./AuthService"));
 class AppService {
     constructor() { }
     validateEmail(email) {
@@ -61,20 +62,13 @@ class AppService {
         return __awaiter(this, void 0, void 0, function* () {
             this.database = yield Database_1.default.getInstance("users");
             try {
-                const existingUser = yield user_1.User.findOne({ email });
-                if (existingUser) {
-                    if (existingUser.password !== password) {
-                        return { success: false, message: 'Wrong password' };
-                    }
-                    else {
-                        return { success: true, message: "User signed in successfully" };
-                    }
-                }
-                return { success: false, message: "This email does not exist" };
+                const token = yield AuthService_1.default.signIn(email, password);
+                return { success: true, message: 'User signed in successfully', token };
             }
             catch (err) {
-                return { success: false, message: 'An error occurred during sign in' };
-                console.error("An error occured during the signIn", err);
+                const error = err;
+                return { success: false, message: error.message };
+                console.error("An error occured during the signIn", error);
             }
             finally {
                 yield this.database.close();

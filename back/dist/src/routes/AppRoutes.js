@@ -8,10 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppRoutes = exports.appRoutes = void 0;
 const express_1 = require("express");
 const AppService_1 = require("../services/AppService");
+const auth_1 = __importDefault(require("../middlewares/auth"));
 class AppRoutes {
     constructor() {
         this._routes = (0, express_1.Router)();
@@ -62,16 +66,17 @@ class AppRoutes {
                 const result = yield this.appService.signIn(email, password);
                 if (result.success) {
                     res.status(200).send({
-                        message: result.message
+                        message: result.message,
+                        token: result.token
                     });
                 }
                 else if (result.message === "This email does not exist") {
-                    res.status(404).send({
+                    res.status(500).send({
                         message: result.message
                     });
                 }
                 else if (result.message === "Wrong password") {
-                    res.status(401).send({
+                    res.status(500).send({
                         message: result.message
                     });
                 }
@@ -94,6 +99,24 @@ class AppRoutes {
             res.status(500).send("Internal Server Error");
         }
     }
+    signUpGet(req, res) {
+        try {
+            res.status(200).send("welcome to the sign up page");
+        }
+        catch (err) {
+            res.status(500).send("Internal Server Error");
+        }
+    }
+    logout(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                res.status(200).send("You have been logged out");
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
     get routes() {
         return this._routes;
     }
@@ -101,6 +124,8 @@ class AppRoutes {
         this._routes.post('/signup', this.signUp.bind(this));
         this._routes.post('/signin', this.signIn.bind(this));
         this._routes.get('/signin', this.signInGet.bind(this));
+        this._routes.get('/signup', this.signUpGet.bind(this));
+        this.routes.get('/logout', auth_1.default, this.logout.bind(this));
     }
 }
 exports.AppRoutes = AppRoutes;
