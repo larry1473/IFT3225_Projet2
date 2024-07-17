@@ -8,21 +8,22 @@ enum TaskStatus {
 interface ITask extends Document {
    'title': string;
    'description': string;
-   'status': TaskStatus;
-   'dueDate': Date;
+   'hostId': string;
+   'guestId': string[];
+   'endDate': Date;
    'createdDate': Date;
-   'updatedDate': Date;
-   'userId': string;
+   'targetDate': Date;
 }
 
 const TaskSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    status: { type: String, required: true },
-    dueDate: { type: Date, required: true },
+    hostId: { type: String, required: true },
+    guestId: { type: [String], required: true },
+    endDate: { type: Date, required: true },
     createdDate: { type: Date, required: true },
-    updatedDate: { type: Date, required: true },
-    userId: { type: String, required: true },
+    targetDate: { type: Date, required: true },
+    
 });
 
 const Task = mongoose.model<ITask>("Tasks", TaskSchema);

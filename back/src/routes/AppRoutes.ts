@@ -2,6 +2,7 @@ import { Router, Request,Response } from "express";
 import { AppService } from "../services/AppService";
 import authMiddleware from '../middlewares/auth';
 import { Task, TaskModel } from "../models/Task";
+import { Project } from "../models/project";
 
 
 class AppRoutes{
@@ -114,15 +115,96 @@ class AppRoutes{
     }
 
     public async addTask(req:Request,res:Response){
-        console.log("in add task");
-        console.log(req.body);
         try{
             const taskSchema = new Task(req.body);
-            const result = await this.appService.addTask(taskSchema);
+            const result = await this.appService.addTask(taskSchema,req.params.id);
             res.status(200).send({
                 message:result.message
             });
            
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async addProject(req:Request,res:Response){
+        try {
+            const projectSchema = new Project(req.body);
+            const result = await this.appService.addProject(projectSchema);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async getProjects(req:Request,res:Response){
+        try{
+            const result = await this.appService.getProjects();
+
+            res.status(200).send({
+                message:result.message,
+                projects:result.projects
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async deleteProject(req:Request,res:Response){
+        console.log("in delete project");
+        try{
+            const id = req.params.id;
+            const result = await this.appService.deleteProject(id);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async getTasks(req:Request,res:Response){
+        try{
+            const id = req.params.id;
+            const result = await this.appService.getTask(id);
+            res.status(200).send({
+                message:result.message,
+                tasks:result.tasks
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error ");
+        }
+    }
+
+    public async deleteTask(req:Request,res:Response){
+        try{
+            const {projectId, taskId} = req.params;
+           
+            const result = await this.appService.deleteTask(projectId,taskId);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async getByIdTask(req:Request,res:Response){
+        try{
+            const {projectId, taskId} = req.params;
+            const result = await this.appService.getByIdTask(projectId,taskId);
+            res.status(200).send({
+                message:result.message,
+                task:result.task
+            });
         }
         catch(err){
             res.status(500).send("Internal Server Error");
@@ -141,7 +223,15 @@ class AppRoutes{
         this._routes.get('/signin',this.signInGet.bind(this));
         this._routes.get('/signup',this.signUpGet.bind(this));
         this.routes.get('/logout',authMiddleware,this.logout.bind(this));
-        this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
+        //this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
+        this._routes.post('/projects',authMiddleware,this.addProject.bind(this));
+        this._routes.get('/projects',authMiddleware,this.getProjects.bind(this));
+        this._routes.delete('/projects/:id',authMiddleware,this.deleteProject.bind(this));
+        this._routes.get('/projects/:id/tasks',authMiddleware,this.getTasks.bind(this));
+        this._routes.post('/projects/:id',authMiddleware,this.addTask.bind(this));
+        this._routes.delete('/projects/:projectId/tasks/:taskId',authMiddleware,this.deleteTask.bind(this));
+        this._routes.get('/projects/:projectId/tasks/:taskId',authMiddleware,this.getByIdTask.bind(this));
+
     }
 
     
