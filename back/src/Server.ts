@@ -40,7 +40,13 @@ export class Server {
     }
 
     private init(): void {
-        this._app.use(cors());
+      
+        const corsOptions ={
+            origin:'http://localhost:5000', 
+            credentials:true,            //access-control-allow-credentials:true
+            optionSuccessStatus:200
+        }
+        this._app.use(cors(corsOptions));
         this._app.use(express.json());
         this.root();
         this.linkRoutes();
