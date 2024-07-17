@@ -111,7 +111,7 @@ export default function ProjectCards() {
     }
 
     return (
-        <div className='flex flex-col items-center w-full border-t p-5'>
+        <div className='flex flex-col items-center w-full h-lvh border-t p-5'>
             {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
             <TasksPost tasks={currentTask}/>
             <TaskPagination 

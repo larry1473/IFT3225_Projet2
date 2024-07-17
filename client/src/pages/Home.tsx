@@ -21,6 +21,7 @@ export default function Home() {
     return (
         <div className='flex flex-col items-center h-full'>
             <Filter />
+            {/* <div></div> */}
             <ProjectCards />
         </div>
     );
