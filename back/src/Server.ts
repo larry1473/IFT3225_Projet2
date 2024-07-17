@@ -42,7 +42,7 @@ export class Server {
     private init(): void {
       
         const corsOptions ={
-            origin:'http://localhost:5000', 
+            origin:true, 
             methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
             credentials:true,            //access-control-allow-credentials:true
             optionSuccessStatus:200
