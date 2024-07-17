@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useFetcher, useNavigate } from 'react-router-dom';
 import { signUp } from '../apis/user-api';
-import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 type SignUpPropsType = {
     onSignupCancelClick: ()=>void;
@@ -21,7 +22,17 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const queryClient = useQueryClient();
+    const [message, setMessage] = useState<string>('');
+
+    const query = useQuery({
+        queryKey:['msg', message],
+        queryFn: ()=>{
+            console.log(message);
+        }
+    });
+
+    console.log(query.data);
+    
 
     const mut = useMutation({
         mutationFn: signUp,
@@ -56,11 +67,11 @@ export default function SignUp() {
             setError(prevMsg => prevMsg ? `${prevMsg} password is required` : `password is required`);
         }
 
-        try {
-            await mut.mutateAsync({ name, email, password });
-        } catch (err: any) {
-            setError(err.message);
-        }
+        // try {
+        //     await mut.mutateAsync({ name, email, password });
+        // } catch (err: any) {
+        //     setError(err.message);
+        // }
     }
     const handleCancelClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
