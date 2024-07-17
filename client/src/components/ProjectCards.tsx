@@ -107,12 +107,12 @@ export default function ProjectCards() {
     };
 
     const handleCardClick = ()=>{
-    
+        
     }
 
     return (
         <div className='flex flex-col items-center w-full border-t p-5'>
-            {!cardDetailMode && <><p className='pt-5'>{tasks.length} tasks found</p>
+            {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
             <TasksPost tasks={currentTask}/>
             <TaskPagination 
                 currentPage={currentPage}

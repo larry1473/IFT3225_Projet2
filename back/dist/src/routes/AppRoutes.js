@@ -16,6 +16,8 @@ exports.AppRoutes = exports.appRoutes = void 0;
 const express_1 = require("express");
 const AppService_1 = require("../services/AppService");
 const auth_1 = __importDefault(require("../middlewares/auth"));
+const Task_1 = require("../models/Task");
+const project_1 = require("../models/project");
 class AppRoutes {
     constructor() {
         this._routes = (0, express_1.Router)();
@@ -117,6 +119,107 @@ class AppRoutes {
             }
         });
     }
+    addTask(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const taskSchema = new Task_1.Task(req.body);
+                const result = yield this.appService.addTask(taskSchema, req.params.id);
+                res.status(200).send({
+                    message: result.message
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
+    addProject(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const projectSchema = new project_1.Project(req.body);
+                const result = yield this.appService.addProject(projectSchema);
+                res.status(200).send({
+                    message: result.message
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
+    getProjects(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.appService.getProjects();
+                res.status(200).send({
+                    message: result.message,
+                    projects: result.projects
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
+    deleteProject(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log("in delete project");
+            try {
+                const id = req.params.id;
+                const result = yield this.appService.deleteProject(id);
+                res.status(200).send({
+                    message: result.message
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
+    getTasks(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.id;
+                const result = yield this.appService.getTask(id);
+                res.status(200).send({
+                    message: result.message,
+                    tasks: result.tasks
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error ");
+            }
+        });
+    }
+    deleteTask(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { projectId, taskId } = req.params;
+                const result = yield this.appService.deleteTask(projectId, taskId);
+                res.status(200).send({
+                    message: result.message
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
+    getByIdTask(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { projectId, taskId } = req.params;
+                const result = yield this.appService.getByIdTask(projectId, taskId);
+                res.status(200).send({
+                    message: result.message,
+                    task: result.task
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
     get routes() {
         return this._routes;
     }
@@ -126,6 +229,14 @@ class AppRoutes {
         this._routes.get('/signin', this.signInGet.bind(this));
         this._routes.get('/signup', this.signUpGet.bind(this));
         this.routes.get('/logout', auth_1.default, this.logout.bind(this));
+        //this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
+        this._routes.post('/projects', auth_1.default, this.addProject.bind(this));
+        this._routes.get('/projects', auth_1.default, this.getProjects.bind(this));
+        this._routes.delete('/projects/:id', auth_1.default, this.deleteProject.bind(this));
+        this._routes.get('/projects/:id/tasks', auth_1.default, this.getTasks.bind(this));
+        this._routes.post('/projects/:id', auth_1.default, this.addTask.bind(this));
+        this._routes.delete('/projects/:projectId/tasks/:taskId', auth_1.default, this.deleteTask.bind(this));
+        this._routes.get('/projects/:projectId/tasks/:taskId', auth_1.default, this.getByIdTask.bind(this));
     }
 }
 exports.AppRoutes = AppRoutes;

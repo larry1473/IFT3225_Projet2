@@ -14,7 +14,7 @@ type LoginStatusContextType = {
 const LoginStatusContext = createContext<LoginStatusContextType | undefined>(undefined);
 
 export function LoginStatusProvider({children} : LoginStatusProps){
-    const [hasLogedin, setHasLogedin] = useState(true);
+    const [hasLogedin, setHasLogedin] = useState(false);
     const toggleHasLogin = ()=>{
         setHasLogedin(true);
     }
