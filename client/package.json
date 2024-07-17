@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "proxy": "http://localhost:3000",
   "dependencies": {
     "@tanstack/react-query": "^5.51.3",
     "@testing-library/jest-dom": "^5.17.0",
