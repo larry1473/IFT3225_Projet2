@@ -13,21 +13,40 @@ export default function Login() {
         password: ""
     })
 
-    const fetchData = async () => {
+    const fetchLoginData = async () => {
         try {
             const response = await axios.post('http://localhost:3000/api/v1/signin', loginData);
             console.log('Data from server:', response.data);
+            console.log("Log in success");
             navigate('/');
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
+    //     fetch('http://localhost:3000/api/v1/signin', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-type': 'application/json',
+    //         },
+    //         body: JSON.stringify(loginData),
+    //     })
+    //     .then((res) => {
+    //         if(!res.ok){
+    //             throw new Error("Network response was not ok");
+    //         }
+    //         return res.json();
+    //     })
+    //     .then((data) => {
+    //         console.log(data);
+    //     })
+    //     .catch((error) => console.error("Error fetching data: ", error));
+    // };
 
     const handleLoginSubmit = (e:React.SyntheticEvent)=>{
         e.preventDefault();
         console.log(loginData);
         console.log("Login");
-        fetchData();
+        fetchLoginData();
     }
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
