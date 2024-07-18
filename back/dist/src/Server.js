@@ -34,7 +34,13 @@ class Server {
         this._app.use('/api/v1', this._appRoutes.routes);
     }
     init() {
-        this._app.use((0, cors_1.default)());
+        const corsOptions = {
+            origin: true,
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            credentials: true, //access-control-allow-credentials:true
+            optionSuccessStatus: 200
+        };
+        this._app.use((0, cors_1.default)(corsOptions));
         this._app.use(express_1.default.json());
         this.root();
         this.linkRoutes();

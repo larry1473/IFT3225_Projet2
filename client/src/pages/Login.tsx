@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 type LoginProps = {
     onSignupClick: ()=> void;
@@ -7,10 +8,32 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
+    const [loginData, setLoginData] = useState({
+        email: "",
+        password: ""
+    })
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/api/v1/signin', loginData);
+            console.log('Data from server:', response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const handleLoginSubmit = (e:React.SyntheticEvent)=>{
         e.preventDefault();
         console.log("Login");
+        fetchData();
+    }
+
+    const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const { name, value } = e.target;
+        setLoginData(prev =>({
+            ...prev,
+            [name] : value
+        }));
     }
 
     const handleSignupClick = ()=>{
@@ -23,12 +46,12 @@ export default function Login() {
                 <h1 className='text-xl'>LOG IN</h1>
                 <form onSubmit={handleLoginSubmit} className='flex flex-col gap-3'>
                     <div className='flex flex-col'>
-                        <label htmlFor="">Email</label>
-                        <input type="text" placeholder='Type your email' className='border p-1 w-60'/>
+                        <label htmlFor="email">Email</label>
+                        <input id='email' name='email' type="text" placeholder='Type your email' className='border p-1 w-60'/>
                     </div>
                     <div className='flex flex-col'>
-                        <label htmlFor="">Password</label>
-                        <input type="password" placeholder='Type your password' className='border p-1 w-60'/>
+                        <label htmlFor="password">Password</label>
+                        <input id='password' name='password' type="password" placeholder='Type your password' className='border p-1 w-60'/>
                     </div>
 
                     <button className='border rounded-full p-1 my-5'>LOGIN</button>
