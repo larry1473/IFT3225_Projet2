@@ -77,7 +77,13 @@ export default function ProjectDetail() {
     }
     const handleRequestsAdd = (newRequester:UserNameType)=>{
         console.log("request add");
-        setJoinRequests([...teammates, newRequester]);
+        const requestExists = joinRequests.some(req => req.username === newRequester.username)
+        const teammateExists = joinRequests.some(req => req.username === newRequester.username)
+        
+        if (!requestExists && !teammateExists){
+            setJoinRequests([...joinRequests, newRequester]);
+        }
+        alert("you are already on the list");
         console.log(joinRequests);
         
         // update server

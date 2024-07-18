@@ -1,34 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {v4 as uuidv4} from 'uuid';
 import { CiSearch } from "react-icons/ci";
+import { useLoginStatus } from '../context/LoginStatusContext';
 
 type UserNameType = {
     username: string;
 }
-
-const userNames:UserNameType[] = [
-    {username: "user1"},
-    {username: "user2"},
-    {username: "user3"},
-    {username: "user4"},
-    {username: "user5"},
-    {username: "user6"},
-    {username: "user7"},
-    {username: "user8"},
-    {username: "user9"},
-    {username: "user10"},
-    {username: "user11"},
-    {username: "user12"},
-    {username: "user13"},
-    {username: "user14"},
-    {username: "user15"},
-    {username: "user16"},
-    {username: "user17"},
-    {username: "user18"},
-    {username: "user19"},
-    {username: "user20"},
-]
-
 
 type UserListType = {
     title: string;
@@ -42,6 +19,7 @@ type UserListType = {
 }
 
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequetsAdd, onRequetsDelete}:UserListType) {
+    const {userLogedIn} = useLoginStatus();
     const [users, setUsers] = useState(userlist);
 
     useEffect(()=>{
@@ -68,12 +46,17 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
             onRequetsDelete({username: userSelectedName});
         }
     }
+    const handleAddRequestClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+        onRequetsAdd({username: userLogedIn});
+    }
 
     return (
-        <div className='tasklist w-full h-lvh px-5 py-4 my-4 border-t'>
+        <div className='tasklist w-full flex flex-col items-center gap-y-3 h-lvh px-5 py-4 my-4 border-t'>
             <h3 className='text-center'>{title}</h3>
+            {isRequest && <button onClick={handleAddRequestClick} type='submit' className='text-center border px-2 py-1'>Add my request</button>}
             <div className='flex justify-center items-center gap-x-1 w-full'>
-                <input className='w-36 my-2' type="text" placeholder='Search by name'/>
+                <input className='w-32 my-2' type="text" placeholder='Search by name'/>
                 <button className='border rounded-full p-1'><CiSearch /></button>
             </div>
             <ul className='userlist flex flex-col gap-y-2 items-start w-full'>

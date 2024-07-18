@@ -15,7 +15,7 @@ const LoginStatusContext = createContext<LoginStatusContextType | undefined>(und
 
 export function LoginStatusProvider({children} : LoginStatusProps){
     const [hasLogedin, setHasLogedin] = useState(false);
-    const [userLogedIn, setUserLogedIn] = useState("");
+    const [userLogedIn, setUserLogedIn] = useState("me");
 
     return (
         <LoginStatusContext.Provider value={{hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn}}>
