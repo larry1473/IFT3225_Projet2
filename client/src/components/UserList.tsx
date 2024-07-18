@@ -21,6 +21,7 @@ type UserListType = {
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequetsAdd, onRequetsDelete}:UserListType) {
     const {userLogedIn} = useLoginStatus();
     const [users, setUsers] = useState(userlist);
+    const [filter, setFilter] = useState("");
 
     useEffect(()=>{
         setUsers(userlist);
@@ -50,15 +51,27 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
         e.preventDefault();
         onRequetsAdd({username: userLogedIn});
     }
+    const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        setFilter(e.target.value);
+    }
+    const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
+        e.preventDefault();
+        if(filter !== ""){
+            const filteredUsers = users.filter(user => user.username.includes(filter))
+            setUsers(filteredUsers);
+        } else {
+            setUsers(userlist);
+        }
+    }
 
     return (
         <div className='tasklist w-full flex flex-col items-center gap-y-3 h-lvh px-5 py-4 my-4 border-t'>
             <h3 className='text-center'>{title}</h3>
             {isRequest && <button onClick={handleAddRequestClick} type='submit' className='text-center border px-2 py-1'>Add my request</button>}
-            <div className='flex justify-center items-center gap-x-1 w-full'>
-                <input className='w-32 my-2' type="text" placeholder='Search by name'/>
+            <form onSubmit={handleFilterSubmit} className='flex justify-center items-center gap-x-1 w-full'>
+                <input onChange={handleFilterChange} className='w-32 my-2' type="text" placeholder='Search by name'/>
                 <button className='border rounded-full p-1'><CiSearch /></button>
-            </div>
+            </form>
             <ul className='userlist flex flex-col gap-y-2 items-start w-full'>
                 {users.map(user => (
                     <div key={uuidv4()} className='userlist_items flex justify-between items-center w-44 border p-2'>
