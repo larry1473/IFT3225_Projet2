@@ -7,7 +7,12 @@ import { useLoginStatus } from '../context/LoginStatusContext';
 
 export default function Header() {
     const {darkMode, toggleDarkMode} = useDarkMode();
-    const {hasLogedin, setHasLogedin} = useLoginStatus();
+    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn} = useLoginStatus();
+    const handleLogout = (e:React.MouseEvent<HTMLButtonElement>)=>{
+        console.log(e.target);
+        setHasLogedin(false);
+        setUserLogedIn("");
+    }
     
     return (
         <header className='header flex h-16 justify-between px-14'>
@@ -22,7 +27,7 @@ export default function Header() {
                         {!darkMode && <HiMoon className='size-6'/>}
                     </button>
                     {!hasLogedin && <Link to="connection/login" className='size-6'>Login</Link>}
-                    {hasLogedin && <Link to="" className='size-6'>Logout</Link>}
+                    {hasLogedin && <button onClick={handleLogout} className='size-6'>Logout</button>}
                 </li>
             </nav>
         </header>
