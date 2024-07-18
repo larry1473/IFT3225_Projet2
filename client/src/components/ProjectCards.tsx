@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import {v4 as uuidv4} from 'uuid';
-import ProjectCard from './ProjectCard';
+import React, { useEffect, useState } from 'react';
 import TasksPost from './TasksPost';
-import TaskPagination from './TaskPagination';
-import TaskDetail from './TaskDetail';
+import TaskDetail from './ProjectDetail';
+import { useProjects } from '../context/ProjectsContext';
+import axios from 'axios';
+import ProjectsPagination from './ProjectsPagination';
+import ProjectDetail from './ProjectDetail';
 
 type ProjectCardPropValueType = {
     projectname : string;
@@ -90,11 +91,50 @@ const testData: ProjectCardPropValueType[] = [
     },
 ]
 
+type TaskType = {
+    title: string;
+    description: string;
+    hostId: string;
+    guestId: string[];
+    endDate: Date;
+    createDate: Date;
+    targetDate: Date;
+}
+
+type ProjectsType = {
+    name: string;
+    hostId: string;
+    gestId: string[];
+    description: string;
+    createDate: Date;
+    targetDate: Date;
+    endDate: Date;
+    requestJoin: string[];
+    tasks: TaskType[];
+}
+
 export default function ProjectCards() {
     const [tasks, setTasks] = useState<ProjectCardPropValueType[]>(testData);
     const [currentPage, setCurrentPage] = useState(1);
     const [tasksPerPage, setTasksPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
+    const [projects, setProjects] = useState<ProjectsType[]>([]);
+
+    useEffect(()=>{
+        const fetchProjects = async ()=>{
+            try{
+                const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+                setProjects(res.data);
+            } catch(err) {
+                console.log(err);
+            }
+        }
+
+        fetchProjects();
+    }, []);
+
+    console.log(projects);
+    
 
     // Set current tasks
     const lastTaskIndex = currentPage * tasksPerPage;
@@ -114,13 +154,13 @@ export default function ProjectCards() {
         <div className='flex flex-col items-center w-full h-lvh border-t p-5'>
             {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
             <TasksPost tasks={currentTask}/>
-            <TaskPagination 
+            <ProjectsPagination 
                 currentPage={currentPage}
                 tasksPerPage={tasksPerPage}
                 tasksNum={tasks.length}
                 onPageChangeClick={handleChangePage}
             /></>}
-            {cardDetailMode && <TaskDetail />}
+            {cardDetailMode && <ProjectDetail />}
         </div>
     );
 }
