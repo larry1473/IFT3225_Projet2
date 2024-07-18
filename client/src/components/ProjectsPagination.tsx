@@ -9,7 +9,7 @@ type TaskPaginationPropsType = {
     onPageChangeClick: (pageNum:number)=>void;
 }
 
-export default function TaskPagination({currentPage, tasksPerPage, tasksNum, onPageChangeClick}:TaskPaginationPropsType) {
+export default function ProjectsPagination({currentPage, tasksPerPage, tasksNum, onPageChangeClick}:TaskPaginationPropsType) {
     const pageNums:number[] = [];
 
     for(let i = 1; i <= Math.ceil(tasksNum / tasksPerPage); i++){
