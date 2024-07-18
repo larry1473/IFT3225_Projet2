@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import NotFound from './pages/NotFound';
 import Home from './pages/Home';
-import TaskDetail from './components/TaskDetail';
+import TaskDetail from './components/ProjectDetail';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 
