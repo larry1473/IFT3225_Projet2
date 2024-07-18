@@ -17,6 +17,7 @@ export default function Login() {
         try {
             const response = await axios.post('http://localhost:3000/api/v1/signin', loginData);
             console.log('Data from server:', response.data);
+            navigate('/');
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -24,6 +25,7 @@ export default function Login() {
 
     const handleLoginSubmit = (e:React.SyntheticEvent)=>{
         e.preventDefault();
+        console.log(loginData);
         console.log("Login");
         fetchData();
     }
@@ -47,11 +49,11 @@ export default function Login() {
                 <form onSubmit={handleLoginSubmit} className='flex flex-col gap-3'>
                     <div className='flex flex-col'>
                         <label htmlFor="email">Email</label>
-                        <input id='email' name='email' type="text" placeholder='Type your email' className='border p-1 w-60'/>
+                        <input id='email' name='email' onChange={handleInputChange} type="text" placeholder='Type your email' className='border p-1 w-60'/>
                     </div>
                     <div className='flex flex-col'>
                         <label htmlFor="password">Password</label>
-                        <input id='password' name='password' type="password" placeholder='Type your password' className='border p-1 w-60'/>
+                        <input id='password' name='password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60'/>
                     </div>
 
                     <button className='border rounded-full p-1 my-5'>LOGIN</button>
