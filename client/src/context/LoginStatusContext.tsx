@@ -7,17 +7,18 @@ type LoginStatusProps = {
 type LoginStatusContextType = {
     hasLogedin: boolean;
     setHasLogedin: (bool : boolean)=> void;
-    // userLogedIn: string;
-    // handleUserLogedIn: (username : string) => void;
+    userLogedIn: string;
+    setUserLogedIn: (username : string) => void;
 }
 
 const LoginStatusContext = createContext<LoginStatusContextType | undefined>(undefined);
 
 export function LoginStatusProvider({children} : LoginStatusProps){
     const [hasLogedin, setHasLogedin] = useState(true);
+    const [userLogedIn, setUserLogedIn] = useState("");
 
     return (
-        <LoginStatusContext.Provider value={{hasLogedin, setHasLogedin}}>
+        <LoginStatusContext.Provider value={{hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn}}>
             {children}
         </LoginStatusContext.Provider>
     );

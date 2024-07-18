@@ -9,7 +9,7 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
-    const {hasLogedin, setHasLogedin} = useLoginStatus();
+    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn} = useLoginStatus();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -21,6 +21,7 @@ export default function Login() {
             console.log('Data from server:', response.data);
             console.log("Log in success");
             setHasLogedin(true);
+            setUserLogedIn(loginData.email);
             navigate('/');
         } catch (error) {
             console.error('Error fetching data:', error);
