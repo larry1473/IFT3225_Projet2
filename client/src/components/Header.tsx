@@ -7,7 +7,7 @@ import { useLoginStatus } from '../context/LoginStatusContext';
 
 export default function Header() {
     const {darkMode, toggleDarkMode} = useDarkMode();
-    const {hasLogedin, toggleHasLogin} = useLoginStatus();
+    const {hasLogedin, setHasLogedin} = useLoginStatus();
     
     return (
         <header className='header flex h-16 justify-between px-14'>

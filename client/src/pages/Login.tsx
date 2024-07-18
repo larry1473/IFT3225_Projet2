@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useLoginStatus } from '../context/LoginStatusContext';
 
 type LoginProps = {
     onSignupClick: ()=> void;
@@ -8,6 +9,7 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
+    const {hasLogedin, setHasLogedin} = useLoginStatus();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -18,6 +20,7 @@ export default function Login() {
             const response = await axios.post('http://localhost:3000/api/v1/signin', loginData);
             console.log('Data from server:', response.data);
             console.log("Log in success");
+            setHasLogedin(true);
             navigate('/');
         } catch (error) {
             console.error('Error fetching data:', error);

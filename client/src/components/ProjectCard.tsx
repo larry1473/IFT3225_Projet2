@@ -12,7 +12,7 @@ type ProjectCardPropsType = {
 }
 
 export default function ProjectCard({onCardClick, task}:ProjectCardPropsType) {
-    const {hasLogedin, toggleHasLogin} = useLoginStatus();
+    const {hasLogedin, setHasLogedin} = useLoginStatus();
     const navigate = useNavigate();
 
     const handleCardClick = (e:React.MouseEvent)=>{
