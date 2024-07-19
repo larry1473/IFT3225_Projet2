@@ -82,8 +82,10 @@ export default function ProjectDetail() {
         
         if (!requestExists && !teammateExists){
             setJoinRequests([...joinRequests, newRequester]);
+        } else if(requestExists || teammateExists){
+            alert("you are already on the list");
         }
-        alert("you are already on the list");
+        
         console.log(joinRequests);
         
         // update server

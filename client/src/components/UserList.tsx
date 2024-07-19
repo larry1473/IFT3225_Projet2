@@ -22,6 +22,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     const {userLogedIn} = useLoginStatus();
     const [users, setUsers] = useState(userlist);
     const [filter, setFilter] = useState("");
+    const [isProjectHost, setIsProjectHost] = useState("false");
 
     useEffect(()=>{
         setUsers(userlist);
@@ -57,7 +58,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         if(filter !== ""){
-            const filteredUsers = users.filter(user => user.username.includes(filter))
+            const filteredUsers = users.filter(userlist => userlist.username.includes(filter))
             setUsers(filteredUsers);
         } else {
             setUsers(userlist);
@@ -65,16 +66,18 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }
 
     return (
-        <div className='tasklist w-full flex flex-col items-center gap-y-3 h-lvh px-5 py-4 my-4 border-t'>
-            <h3 className='text-center'>{title}</h3>
-            {isRequest && <button onClick={handleAddRequestClick} type='submit' className='text-center border px-2 py-1'>Add my request</button>}
-            <form onSubmit={handleFilterSubmit} className='flex justify-center items-center gap-x-1 w-full'>
-                <input onChange={handleFilterChange} className='w-32 my-2' type="text" placeholder='Search by name'/>
-                <button className='border rounded-full p-1'><CiSearch /></button>
-            </form>
-            <ul className='userlist flex flex-col gap-y-2 items-start w-full'>
+        <div className='tasklist w-full h-lvh row-span-1 flex flex-col gap-y-3 px-5 py-4 border-r border-t'>
+            <div className='row-span-1 flex flex-col items-center gap-y-2'>
+                <h3 className='text-center'>{title}</h3>
+                {isRequest && <button onClick={handleAddRequestClick} type='submit' className='text-center border px-2 py-1'>Add my request</button>}
+                <form onSubmit={handleFilterSubmit} className='flex justify-center items-center gap-x-1 w-full'>
+                    <input onChange={handleFilterChange} className='w-32 my-2' type="text" placeholder='Search by name'/>
+                    <button className='border rounded-full p-1'><CiSearch /></button>
+                </form>
+            </div>
+            <ul className='userlist row-span-3 flex flex-col gap-y-2 items-start w-full border p-2'>
                 {users.map(user => (
-                    <div key={uuidv4()} className='userlist_items flex justify-between items-center w-44 border p-2'>
+                    <div key={uuidv4()} className='userlist_items flex justify-between items-center w-40 border p-2'>
                         <li className='px-2'>{user.username}</li>
                         <div className='flex gap-x-1'>
                             {!isTeam && <button onClick={handleOClick} type='submit' name={user.username} className='request_okbtn border text-center bg-green-300 w-7 rounded-full'>O</button>}
