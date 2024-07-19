@@ -225,7 +225,7 @@ class AppRoutes{
         this.routes.get('/logout',authMiddleware,this.logout.bind(this));
         //this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
         this._routes.post('/projects',authMiddleware,this.addProject.bind(this));
-        this._routes.get('/projects',authMiddleware,this.getProjects.bind(this));
+        this._routes.get('/projects',this.getProjects.bind(this));
         this._routes.delete('/projects/:id',authMiddleware,this.deleteProject.bind(this));
         this._routes.get('/projects/:id/tasks',authMiddleware,this.getTasks.bind(this));
         this._routes.post('/projects/:id',authMiddleware,this.addTask.bind(this));

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
+import bcrypt from 'bcryptjs';
 
  class AuthService{
     /**
@@ -9,20 +10,25 @@ import { User } from '../models/user';
      */
     public static generateToken(user: any):string{
         const token:string  = jwt.sign({id: user.id, email: user.email}, process.env.JWT_SECRET as string , {
-            expiresIn: '1h' // Token expires in 1 hour
+            expiresIn: '24h' // Token expires in 24 hour
         });
         return token;
         
     }
 
     public static async signIn(email: string, password: string): Promise<string>{
-        const user = await User.findOne({ email: email , password: password});
+        const user = await User.findOne({ email: email});
 
         if(!user){
             throw new Error('Invalid email or password');
         }
-        const token = this.generateToken(user);
-        return token;
+        if(await bcrypt.compare(password, user.password)){
+            const token = this.generateToken(user);
+            return token;
+
+        }
+        return 'Invalid email or password';
+        
     }
 
 

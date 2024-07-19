@@ -6,6 +6,7 @@ import AuthServices from "./AuthService";
 import { TaskModel,Task } from "../models/Task";
 import { Schema } from "mongoose";
 import { Project } from "../models/project";
+import bcrypt from 'bcryptjs';
 export class AppService{
     
     
@@ -48,9 +49,18 @@ export class AppService{
                 return  {success:false, message:"This email already exists"};
             }
             else{
-                const user = new User({name,email,password});
-                await user.save();
-                return {success:true, message:"User signed up successfully"};
+                try{
+                    const hash = await bcrypt.hash(password,10);
+                    const user = new User({name,email,password:hash});
+                    await user.save();
+                    return {success:true, message:"User signed up successfully"};
+                }catch(err){
+                    return { success: false, message: 'An error occurred during sign up' };
+                    console.error("An error occured during the signUp",err);
+                }
+                // const user = new User({name,email,password});
+                // await user.save();
+                // return {success:true, message:"User signed up successfully"};
 
             }
            
