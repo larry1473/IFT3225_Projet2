@@ -129,7 +129,7 @@ export default function ProjectCards() {
                 const res = await axios.get(`http://localhost:3000/api/v1/projects`);
                 setProjects(res.data.projects);
             } catch(err) {
-                console.log(err);
+                console.error("Fetching projects failed : ", err);
             }
         }
         fetchProjects();
@@ -152,7 +152,6 @@ export default function ProjectCards() {
 
     const handleAddClick = (project: ProjectType)=>{
         setProjects([...projects, project]);
-        // update server
     }
 
     return (

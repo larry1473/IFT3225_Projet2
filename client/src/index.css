@@ -97,3 +97,7 @@ html.dark {
 .userlist {
   overflow: auto;
 }
+
+.projectadd_input {
+  background-color: var(--color-bg-dark);
+}

@@ -1,5 +1,6 @@
 import { hostname } from 'os';
 import React, { useState } from 'react';
+import axios from 'axios';
 
 type TaskType = {
     title: string;
@@ -39,17 +40,30 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
         requestJoin: [],
         tasks:[]
     });
+
+
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
         setProjectInfo(prev=>({
             ...prev,
             [name]:value,
         }))
-    }
+    };
+
     const handleAddSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         onAddClick(projectInfo);
-    }
+        // postAddProject();
+    };
+    const postAddProject = async ()=>{
+        try{
+            const res = await axios.post("http://localhost:3000/api/v1/projects", projectInfo);
+            console.log("Project posted successfully");
+        } catch(err){
+            console.error("Add project failed : ", err);
+        }
+    };
+
     return (
         <form onSubmit={handleAddSubmit} className='flex items-center gap-4 border px-5 py-2'>
             <div className='flex flex-col'>
