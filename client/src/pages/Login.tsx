@@ -17,12 +17,20 @@ export default function Login() {
 
     const fetchLoginData = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/signin', loginData);
-            console.log('Data from server:', response.data);
-            console.log("Log in success");
-            setHasLogedin(true);
-            setUserLogedIn(loginData.email);
-            navigate('/');
+            const res = await axios.post('http://localhost:3000/api/v1/signin', loginData);
+            if(res.status === 200){
+                console.log('Data from server:', res.data);
+                const {token} = res.data;
+                console.log(token);
+                
+                localStorage.setItem('token', token);
+                setHasLogedin(true);
+                console.log("Log in successful");
+                setUserLogedIn(loginData.email);
+                navigate('/');
+            } else {
+                console.log("Log in failed");
+            }
         } catch (error) {
             console.error('Error fetching data:', error);
         }

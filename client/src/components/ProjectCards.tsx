@@ -122,8 +122,14 @@ export default function ProjectCards() {
 
     useEffect(()=>{
         const fetchProjects = async ()=>{
+            const token = localStorage.getItem('token');
+
             try{
-                const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+                const res = await axios.get(`http://localhost:3000/api/v1/projects`, {
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 setProjects(res.data);
             } catch(err) {
                 console.log(err);
