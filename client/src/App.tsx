@@ -8,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { ProjectsProvider } from './context/ProjectsContext';
 
 const queryClient = new QueryClient();
 
@@ -15,10 +16,12 @@ export default function App() {
   return (
     <DarkModeProvider>
       <LoginStatusProvider>
-        <QueryClientProvider client={queryClient}>
-          <Header />
-          <Outlet />
-        </QueryClientProvider>
+        <ProjectsProvider>
+          <QueryClientProvider client={queryClient}>
+            <Header />
+            <Outlet />
+          </QueryClientProvider>
+        </ProjectsProvider>
       </LoginStatusProvider>
     </DarkModeProvider>
   );

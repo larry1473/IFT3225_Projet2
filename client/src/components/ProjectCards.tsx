@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import TasksPost from './TasksPost';
 import TaskDetail from './ProjectDetail';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
 import ProjectsPagination from './ProjectsPagination';
 import ProjectDetail from './ProjectDetail';
+import ProjectsPost from './ProjectsPost';
 
 type ProjectCardPropValueType = {
     projectname : string;
@@ -92,6 +92,7 @@ const testData: ProjectCardPropValueType[] = [
 ]
 
 type TaskType = {
+    _id: string;
     title: string;
     description: string;
     hostId: string;
@@ -101,7 +102,8 @@ type TaskType = {
     targetDate: Date;
 }
 
-type ProjectsType = {
+type ProjectType = {
+    _id: string;
     name: string;
     hostId: string;
     gestId: string[];
@@ -111,6 +113,7 @@ type ProjectsType = {
     endDate: Date;
     requestJoin: string[];
     tasks: TaskType[];
+    __v: number;
 }
 
 export default function ProjectCards() {
@@ -118,34 +121,31 @@ export default function ProjectCards() {
     const [currentPage, setCurrentPage] = useState(1);
     const [tasksPerPage, setTasksPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
-    const [projects, setProjects] = useState<ProjectsType[]>([]);
+    const [projects, setProjects] = useState<ProjectType[]>([]);
+    // const {projects, setProjects} = useProjects();
+
 
     useEffect(()=>{
         const fetchProjects = async ()=>{
-            const token = localStorage.getItem('token');
-
             try{
-                const res = await axios.get(`http://localhost:3000/api/v1/projects`, {
-                    headers:{
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                setProjects(res.data);
+                const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+                setProjects(res.data.projects);
             } catch(err) {
                 console.log(err);
             }
         }
-
         fetchProjects();
     }, []);
 
-    console.log(projects);
     
 
     // Set current tasks
-    const lastTaskIndex = currentPage * tasksPerPage;
-    const firstTaskIndex = lastTaskIndex - tasksPerPage;
-    const currentTask:ProjectCardPropValueType[] = tasks.slice(firstTaskIndex, lastTaskIndex);
+    const lastProjectIndex = currentPage * tasksPerPage;
+    const firstProjectIndex = lastProjectIndex - tasksPerPage;
+    // const currentProjects:ProjectType[] = projects.slice(firstProjectIndex, lastProjectIndex);
+    const currentProjects: ProjectType[] = (projects && projects.length > 0) ? 
+    projects.slice(firstProjectIndex, lastProjectIndex) : [];
+    
 
     // Change page
     const handleChangePage = (pageNum:number):void => {
@@ -159,11 +159,11 @@ export default function ProjectCards() {
     return (
         <div className='flex flex-col items-center w-full h-lvh border-t p-5'>
             {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
-            <TasksPost tasks={currentTask}/>
+            <ProjectsPost projects={currentProjects}/>
             <ProjectsPagination 
                 currentPage={currentPage}
                 tasksPerPage={tasksPerPage}
-                tasksNum={tasks.length}
+                tasksNum={currentProjects.length}
                 onPageChangeClick={handleChangePage}
             /></>}
             {cardDetailMode && <ProjectDetail />}

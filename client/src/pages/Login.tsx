@@ -18,11 +18,9 @@ export default function Login() {
     const fetchLoginData = async () => {
         try {
             const res = await axios.post('http://localhost:3000/api/v1/signin', loginData);
+            console.log(res.data);
             if(res.status === 200){
-                console.log('Data from server:', res.data);
                 const {token} = res.data;
-                console.log(token);
-                
                 localStorage.setItem('token', token);
                 setHasLogedin(true);
                 console.log("Log in successful");
@@ -35,24 +33,6 @@ export default function Login() {
             console.error('Error fetching data:', error);
         }
     };
-    //     fetch('http://localhost:3000/api/v1/signin', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //         },
-    //         body: JSON.stringify(loginData),
-    //     })
-    //     .then((res) => {
-    //         if(!res.ok){
-    //             throw new Error("Network response was not ok");
-    //         }
-    //         return res.json();
-    //     })
-    //     .then((data) => {
-    //         console.log(data);
-    //     })
-    //     .catch((error) => console.error("Error fetching data: ", error));
-    // };
 
     const handleLoginSubmit = (e:React.SyntheticEvent)=>{
         e.preventDefault();
