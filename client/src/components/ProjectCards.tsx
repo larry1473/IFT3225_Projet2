@@ -5,6 +5,7 @@ import axios from 'axios';
 import ProjectsPagination from './ProjectsPagination';
 import ProjectDetail from './ProjectDetail';
 import ProjectsPost from './ProjectsPost';
+import ProjectAdd from './ProjectAdd';
 
 type ProjectCardPropValueType = {
     projectname : string;
@@ -92,34 +93,31 @@ const testData: ProjectCardPropValueType[] = [
 ]
 
 type TaskType = {
-    _id: string;
     title: string;
     description: string;
     hostId: string;
     guestId: string[];
-    endDate: Date;
-    createDate: Date;
-    targetDate: Date;
+    endDate: Date | undefined;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
 }
 
 type ProjectType = {
-    _id: string;
     name: string;
     hostId: string;
     gestId: string[];
     description: string;
-    createDate: Date;
-    targetDate: Date;
-    endDate: Date;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
+    endDate: Date | undefined;
     requestJoin: string[];
     tasks: TaskType[];
-    __v: number;
 }
 
 export default function ProjectCards() {
     const [tasks, setTasks] = useState<ProjectCardPropValueType[]>(testData);
     const [currentPage, setCurrentPage] = useState(1);
-    const [tasksPerPage, setTasksPerPage] = useState(12);
+    const [projectsPerPage, setProjectsPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
     const [projects, setProjects] = useState<ProjectType[]>([]);
     // const {projects, setProjects} = useProjects();
@@ -140,8 +138,8 @@ export default function ProjectCards() {
     
 
     // Set current tasks
-    const lastProjectIndex = currentPage * tasksPerPage;
-    const firstProjectIndex = lastProjectIndex - tasksPerPage;
+    const lastProjectIndex = currentPage * projectsPerPage;
+    const firstProjectIndex = lastProjectIndex - projectsPerPage;
     // const currentProjects:ProjectType[] = projects.slice(firstProjectIndex, lastProjectIndex);
     const currentProjects: ProjectType[] = (projects && projects.length > 0) ? 
     projects.slice(firstProjectIndex, lastProjectIndex) : [];
@@ -152,17 +150,19 @@ export default function ProjectCards() {
         setCurrentPage(pageNum);
     };
 
-    const handleCardClick = ()=>{
-        
+    const handleAddClick = (project: ProjectType)=>{
+        setProjects([...projects, project]);
+        // update server
     }
 
     return (
-        <div className='flex flex-col items-center w-full h-lvh border-t p-5'>
+        <div className='flex flex-col items-center w-full h-auto border-t p-5'>
+            <ProjectAdd onAddClick={handleAddClick}/>
             {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
             <ProjectsPost projects={currentProjects}/>
             <ProjectsPagination 
                 currentPage={currentPage}
-                tasksPerPage={tasksPerPage}
+                tasksPerPage={projectsPerPage}
                 tasksNum={currentProjects.length}
                 onPageChangeClick={handleChangePage}
             /></>}

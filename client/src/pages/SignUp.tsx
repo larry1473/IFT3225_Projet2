@@ -18,9 +18,6 @@ type userType = {
 
 export default function SignUp() {
     const navigate = useNavigate();
-    // const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState<string>('');
     const [signupData, setSignupData] = useState({
@@ -30,15 +27,6 @@ export default function SignUp() {
         confirm_password: ""
     });
 
-    // const handleNameChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    //     setName( e.target.value.trim() );
-    // }
-    // const handleEmailChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    //     setName( e.target.value.trim() );
-    // }
-    // const handlePasswordChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-    //     setName( e.target.value.trim() );
-    // }
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
         setSignupData(prev =>({

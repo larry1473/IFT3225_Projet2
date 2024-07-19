@@ -7,9 +7,9 @@ type TaskType = {
     description: string;
     hostId: string;
     guestId: string[];
-    endDate: Date;
-    createDate: Date;
-    targetDate: Date;
+    endDate: Date | undefined;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
 }
 
 type ProjectType = {
@@ -17,9 +17,9 @@ type ProjectType = {
     hostId: string;
     gestId: string[];
     description: string;
-    createDate: Date;
-    targetDate: Date;
-    endDate: Date;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
+    endDate: Date | undefined;
     requestJoin: string[];
     tasks: TaskType[];
 }
@@ -45,7 +45,7 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
     }
 
     return (
-        <div onClick={handleCardClick} className='taskcard flex flex-col items-start gap-2 border p-2 w-4/5'>
+        <div onClick={handleCardClick} className='taskcard flex flex-col items-start gap-2 border p-1 w-4/5'>
             <h3>{project.name}</h3>
             <p>{project.hostId}</p>
             <p>{project.description}</p>

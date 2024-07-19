@@ -7,9 +7,9 @@ type TaskType = {
     description: string;
     hostId: string;
     guestId: string[];
-    endDate: Date;
-    createDate: Date;
-    targetDate: Date;
+    endDate: Date | undefined;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
 }
 
 type ProjectCardPropValueType = {
@@ -17,9 +17,9 @@ type ProjectCardPropValueType = {
     hostId: string;
     gestId: string[];
     description: string;
-    createDate: Date;
-    targetDate: Date;
-    endDate: Date;
+    createDate: Date | undefined;
+    targetDate: Date | undefined;
+    endDate: Date | undefined;
     requestJoin: string[];
     tasks: TaskType[];
 }
