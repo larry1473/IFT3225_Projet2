@@ -71,6 +71,7 @@ html.dark {
 
 /* -----TaskGroup----- */
 .taskgroup {
+  overflow: auto;
 }
 
 /* -----TaskCards----- */
