@@ -48,7 +48,7 @@ export default function SignUp() {
     }
     const fetchSignupData = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/signin', signupData);
+            const response = await axios.post('http://localhost:3000/api/v1/signup', signupData);
             console.log('Data from server:', response.data);
             console.log("Sign up success");
             navigate('../connection/login');
