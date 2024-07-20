@@ -10,23 +10,26 @@ export default function ProjectSpace() {
     }
 
     return (
-        <div className='flex flex-col justify-center p-2'>
+        <div className='flex flex-col justify-center p-2 w-full'>
             <div className='grid grid-cols-3 gap-5 px-5 py-5'>
                 <TaskGroup title="To do" />
                 <TaskGroup title="Doing" />
                 <TaskGroup title="Done" />
             </div>
-            <form onSubmit={handleAddTaskSubmit} className='flex justify-center items-center gap-x-5 border p-2'>
-                <div className='flex flex-col'>
-                    <label htmlFor="">Task name</label>
-                    <input type="text" placeholder='Type a task name'/>
-                </div>
-                <div className='flex flex-col'>
-                    <label htmlFor="">Target date</label>
-                    <input type="date" />
-                </div>
-                <button className='border p-2 rounded-full'>Add task</button>
-            </form>
+
+            <form onSubmit={handleAddTaskSubmit} className='flex items-center gap-4 border px-5 py-4'>
+            <div className='flex flex-col'>
+                <label htmlFor="taskname">Name</label>
+                <input id='taskname' name="taskname" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1'/>
+            </div>
+            <div className='flex flex-col'>
+                <label htmlFor="targetdate">Target date</label>
+                <input id='targetdate' name='targetdate' type="date" placeholder='Type a project description' className='projectadd_input w-56 p-1'/>
+            </div>
+            <div className='flex'>
+                <button type='submit' className='p-2 rounded-full border text-center'>Add task</button>
+            </div>
+        </form>
         </div>
     );
 }
