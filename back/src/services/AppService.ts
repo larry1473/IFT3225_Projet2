@@ -74,11 +74,11 @@ export class AppService{
        
     }
 
-    public async signIn(email: any, password: any):Promise<{success:boolean; message:String; token?:string }> {
+    public async signIn(email: any, password: any):Promise<{success:boolean; message:String; token?:string, userName?:string }> {
         this.database = await Database.getInstance('dbName');
         try {
-            const token = await AuthServices.signIn(email,password);
-            return { success: true, message: 'User signed in successfully', token };
+            const {token,response,userName} = await AuthServices.signIn(email,password);
+            return { success: true, message: 'User signed in successfully', token , userName};
 
            
         }

@@ -59,7 +59,8 @@ class AppRoutes{
             if(result.success){
                 res.status(200).send({
                     message:result.message,
-                    token:result.token
+                    token:result.token,
+                    userName:result.userName
                 });
             }
             else if(result.message === "This email does not exist"){

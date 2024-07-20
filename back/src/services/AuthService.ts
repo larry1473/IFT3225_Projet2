@@ -16,7 +16,7 @@ import bcrypt from 'bcryptjs';
         
     }
 
-    public static async signIn(email: string, password: string): Promise<string>{
+    public static async signIn(email: string, password: string): Promise< {token?:string, response:string , userName?:string} >{
         const user = await User.findOne({ email: email});
 
         if(!user){
@@ -24,10 +24,10 @@ import bcrypt from 'bcryptjs';
         }
         if(await bcrypt.compare(password, user.password)){
             const token = this.generateToken(user);
-            return token;
+            return {token: token, response: 'success', userName: user.name};
 
         }
-        return 'Invalid email or password';
+        return {response: 'Invalid email or password'};
         
     }
 
