@@ -5,6 +5,7 @@ import ProjectDetail from './ProjectDetail';
 import ProjectsPost from './ProjectsPost';
 import ProjectAdd from './ProjectAdd';
 import { ProjectAddType, ProjectType } from '../types/TaskMasterTypes';
+import { useProjects } from '../context/ProjectsContext';
 
 
 type FilterType = {
@@ -13,39 +14,20 @@ type FilterType = {
 }
 
 type ProjectCardsPropsType = {
-    allProjects: ProjectType[];
-    onFetchProjects: () => void;
     filters: FilterType;
 }
 
-export default function ProjectCards({allProjects, onFetchProjects, filters}:ProjectCardsPropsType) {
+export default function ProjectCards({filters}:ProjectCardsPropsType) {
+    const {allProjects, setAllProjects} = useProjects();
     const [currentPage, setCurrentPage] = useState(1);
-    const [projectsPerPage, setProjectsPerPage] = useState(12);
+    const [projectsPerPage, setProjectsPerPage] = useState(9);
     const [cardDetailMode, setCardDetailMode] = useState(false);
-    const [projects, setProjects] = useState<ProjectType[]>([]);
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
-    
 
     useEffect(()=>{
-        fetchProjects();
-    }, []);
-
-    const fetchProjects = async ()=>{
-        try{
-            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
-            setProjectsFiltered(res.data.projects);
-            console.log("Fetching projects");
-            console.log(projects);
-        } catch(err) {
-            console.error("Fetching projects failed : ", err);
-        }
-    }
-
-    useEffect(()=>{
-        console.log(filters);
-        console.log(projects);
-        console.log(filters.projectname, " & ", filters.username);
-        if(!projects) return;
+        // console.log(filters);
+        console.log(allProjects);
+        if(!allProjects) return;
         console.log("pass");
         
         if(filters.projectname === '' && filters.username === ''){
@@ -71,6 +53,7 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     const firstProjectIndex = lastProjectIndex - projectsPerPage;
     const currentProjects: ProjectType[] = (projectsFiltered) ? 
             projectsFiltered.slice(firstProjectIndex, lastProjectIndex) : [];
+    console.log(currentProjects);
     
 
     // Change page
@@ -81,14 +64,12 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     // Add project
     const handleAddClick = ()=>{
         // setProjects([...projects, project]);
-        fetchProjects();
     }
 
     // Delete project
     const handleDeleteClick = (project: ProjectType)=>{
         // setProjects(projects.filter(p => p.hostName !== project.hostName));
         postDeleteProject(project);
-        fetchProjects();
     }
     const postDeleteProject = async (project: ProjectType)=>{
         const token = localStorage.getItem('token');
@@ -101,7 +82,6 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
                 }
             });
             console.log("add project response message : ", res.data.message);
-            
         } catch(err){
             console.error(err);
         }

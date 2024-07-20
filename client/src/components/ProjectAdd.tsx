@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
 import { ProjectType, ProjectAddType} from '../types/TaskMasterTypes';
+import { useProjects } from '../context/ProjectsContext';
 
 
 type ProjectAddPropsType = {
@@ -11,11 +12,12 @@ type ProjectAddPropsType = {
 }
 
 export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
+    const {allProjects, handleAddProjectClick} = useProjects();
     const {hasLogedin, userLogedIn} = useLoginStatus();
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
-        hostName: "laurie campion",
+        hostName: "",
         guestNames: [],
         description: "",
         createDate: new Date(),

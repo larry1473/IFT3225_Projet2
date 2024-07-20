@@ -2,23 +2,33 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import ProjectCards from '../components/ProjectCards';
 import { CiSearch } from "react-icons/ci";
-import { ProjectType } from '../types/TaskMasterTypes';
+import { useProjects } from '../context/ProjectsContext';
 
 export default function Home() {
-    const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
-    const [isFetch, setIsFetch] = useState(false);
+    const {allProjects, setAllProjects} = useProjects();
     const [filters, setFilters] = useState({
         projectname: "",
         username: ""
     });
-    const [filterInfo, setFilterInfo] = useState({
-        projectname: "",
-        username: ""
-    })
+
+    // get all projects
+    useEffect(()=>{
+        fetchProjects();
+    }, []);
+    const fetchProjects = async ()=>{
+        try{
+            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+            setAllProjects(res.data.projects);
+            console.log("Fetching projects");
+            console.log(allProjects);
+        } catch(err) {
+            console.error("Fetching projects failed : ", err);
+        }
+    }
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
-        setFilterInfo(prev =>({
+        setFilters(prev =>({
             ...prev,
             [name]:value
         }))
@@ -26,26 +36,6 @@ export default function Home() {
 
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        setFilters(filterInfo);
-    }
-
-    // get all projects
-    useEffect(()=>{
-        fetchProjects();
-    }, [isFetch]);
-    const fetchProjects = async ()=>{
-        try{
-            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
-            setAllProjects(res.data.projects);
-            console.log("Fetching all projects");
-            console.log(allProjects);
-        } catch(err) {
-            console.error("Fetching projects failed : ", err);
-        }
-    }
-
-    const toggleFetch = ()=>{
-        setIsFetch(prev=>!prev);
     }
     
     return (
@@ -66,7 +56,8 @@ export default function Home() {
                 </form>
             </div>
             
-            <ProjectCards allProjects={allProjects} onFetchProjects={toggleFetch} filters={filters}/>
+            {/* <ProjectCards allProjects={allProjects} onFetchProjects={toggleFetch} filters={filters}/> */}
+            <ProjectCards filters={filters}/>
         </div>
     );
 }
