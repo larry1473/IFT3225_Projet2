@@ -30,9 +30,9 @@ export default function ProjectsPagination({currentPage, tasksPerPage, tasksNum,
     }
     
     return (
-        <nav className='flex items-center gap-3'>
+        <nav className='flex justify-center items-center w-full gap-3 my-4'>
             <button onClick={handleLeftClick}><FaAngleLeft /></button>
-            <ul className='taskpagination flex items-center gap-2'>
+            <ul className='project_pagination flex items-center gap-2'>
                 {pageNums.map(number => (
                     <li key={uuidv4()} className={`page_number ${currentPage === number ? "selected" : ""} border px-2 rounded-full`}>
                         <a onClick={() => onPageChangeClick(number)} className='page_link'>

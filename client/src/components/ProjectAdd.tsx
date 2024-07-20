@@ -7,11 +7,7 @@ import { ProjectType, ProjectAddType} from '../types/TaskMasterTypes';
 import { useProjects } from '../context/ProjectsContext';
 
 
-type ProjectAddPropsType = {
-    onAddClick: ()=> void;
-}
-
-export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
+export default function ProjectAdd() {
     const {allProjects, handleAddProjectClick} = useProjects();
     const {hasLogedin, userLogedIn} = useLoginStatus();
     const navigate = useNavigate();

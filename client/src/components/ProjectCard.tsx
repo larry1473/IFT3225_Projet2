@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
 import { ProjectType } from '../types/TaskMasterTypes';
+import axios from 'axios';
 
 type ProjectCardPropsType = {
     onCardClick: (e:React.MouseEvent) => void;
     project:ProjectType;
-    onDeleteClick: (project: ProjectType) => void;
 }
 
-export default function ProjectCard({onCardClick, project, onDeleteClick}:ProjectCardPropsType) {
+export default function ProjectCard({onCardClick, project, }:ProjectCardPropsType) {
     const {hasLogedin, setHasLogedin, userLogedIn} = useLoginStatus();
     const navigate = useNavigate();
 
@@ -40,17 +40,35 @@ export default function ProjectCard({onCardClick, project, onDeleteClick}:Projec
         //     alert("This is not your project !!");
         //     return;
         // }
-        onDeleteClick(project);
+        // onDeleteClick(project);
+    }
+
+    const postDeleteProject = async (project: ProjectType)=>{
+        const token = localStorage.getItem('token');
+        const projectJson = JSON.stringify(project);
+
+        try{
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, projectJson, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
+            console.log("add project response message : ", res.data.message);
+        } catch(err){
+            console.error(err);
+        }
     }
 
     return (
-        <div className='taskcard flex flex-col items-start gap-2 border p-2 w-5/6 h-max'>
-            <h3>{project.name}</h3>
-            <p>{project.hostName}</p>
-            <p>{project.description}</p>
+        <div className='taskcard flex flex-col items-start justify-between gap-2 border p-2 w-5/6 h-48'>
+            <div className='flex flex-col'>
+                <h3 className='font-bold pb-2'>{project.name}</h3>
+                <p>{project.hostName}</p>
+                <p>{project.description.length < 50 ? project.description : project.description.slice(0, 50) + "..."}</p>
+            </div>
             <div className='flex justify-between w-full pt-3'>
-                <button onClick={handleDeleteClick} className='bg-red-300 text-right border p-1 rounded'>Delete</button>
-                <button onClick={handleDetailClick} className='bg-blue-300 text-right border p-1 rounded'>View detail</button>
+                <button onClick={handleDeleteClick} className='bg-red-300 text-right text-sm font-semibold border p-1 rounded'>Delete</button>
+                <button onClick={handleDetailClick} className='bg-blue-300 text-right text-sm font-semibold border p-1 rounded'>View detail</button>
             </div>
         </div>
     );
