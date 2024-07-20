@@ -4,9 +4,9 @@ export type ProjectType = {
     hostName: string;
     guestNames: string[];
     description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
+    createDate: Date;
+    targetDate: Date;
+    endDate: Date;
     requestJoin: string[];
     tasks: TaskType[];
 }
@@ -16,9 +16,9 @@ export type ProjectAddType = {
     hostName: string;
     guestNames: string[];
     description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
+    createDate: Date;
+    targetDate: Date;
+    endDate: Date;
     requestJoin: string[];
     tasks: TaskType[];
 }
@@ -28,16 +28,16 @@ type TaskType = {
     title: string;
     hostName: string;
     guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
+    endDate: Date;
+    createDate: Date;
+    targetDate: Date;
 }
 
 type TaskAddType = {
     title: string;
     hostName: string;
     guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
+    endDate: Date;
+    createDate: Date;
+    targetDate: Date;
 }

@@ -24,6 +24,7 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     const [cardDetailMode, setCardDetailMode] = useState(false);
     const [projects, setProjects] = useState<ProjectType[]>([]);
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
+    
 
     useEffect(()=>{
         fetchProjects();
@@ -69,7 +70,7 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     const lastProjectIndex = currentPage * projectsPerPage;
     const firstProjectIndex = lastProjectIndex - projectsPerPage;
     const currentProjects: ProjectType[] = (projectsFiltered) ? 
-    projectsFiltered.slice(firstProjectIndex, lastProjectIndex) : [];
+            projectsFiltered.slice(firstProjectIndex, lastProjectIndex) : [];
     
 
     // Change page
@@ -78,26 +79,9 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     };
 
     // Add project
-    const handleAddClick = (project: ProjectAddType)=>{
+    const handleAddClick = ()=>{
         // setProjects([...projects, project]);
-        postAddProject(project);
         fetchProjects();
-    }
-    const postAddProject = async (project: ProjectAddType)=>{
-        const token = localStorage.getItem('token');
-
-        try{
-            const res = await axios.post("http://localhost:3000/api/v1/projects", project, {
-                headers:{
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log("add project response message : ", res.data.message);
-            
-        } catch(err){
-            console.error(err);
-        }
     }
 
     // Delete project
@@ -108,9 +92,10 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
     }
     const postDeleteProject = async (project: ProjectType)=>{
         const token = localStorage.getItem('token');
+        const projectJson = JSON.stringify(project);
 
         try{
-            const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, project, {
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, projectJson, {
                 headers:{
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

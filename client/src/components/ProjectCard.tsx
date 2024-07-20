@@ -32,10 +32,10 @@ export default function ProjectCard({onCardClick, project, onDeleteClick}:Projec
 
         console.log(userLogedIn);
         
-        if(userLogedIn !== project.hostName){
-            alert("This is not your project !!");
-            return;
-        }
+        // if(userLogedIn !== project.hostName){
+        //     alert("This is not your project !!");
+        //     return;
+        // }
         // if(userLogedIn !== "test@mail.com"){
         //     alert("This is not your project !!");
         //     return;

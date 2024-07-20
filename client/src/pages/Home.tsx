@@ -6,6 +6,7 @@ import { ProjectType } from '../types/TaskMasterTypes';
 
 export default function Home() {
     const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
+    const [isFetch, setIsFetch] = useState(false);
     const [filters, setFilters] = useState({
         projectname: "",
         username: ""
@@ -31,7 +32,7 @@ export default function Home() {
     // get all projects
     useEffect(()=>{
         fetchProjects();
-    }, []);
+    }, [isFetch]);
     const fetchProjects = async ()=>{
         try{
             const res = await axios.get(`http://localhost:3000/api/v1/projects`);
@@ -41,6 +42,10 @@ export default function Home() {
         } catch(err) {
             console.error("Fetching projects failed : ", err);
         }
+    }
+
+    const toggleFetch = ()=>{
+        setIsFetch(prev=>!prev);
     }
     
     return (
@@ -61,7 +66,7 @@ export default function Home() {
                 </form>
             </div>
             
-            <ProjectCards allProjects={allProjects} onFetchProjects={fetchProjects} filters={filters}/>
+            <ProjectCards allProjects={allProjects} onFetchProjects={toggleFetch} filters={filters}/>
         </div>
     );
 }
