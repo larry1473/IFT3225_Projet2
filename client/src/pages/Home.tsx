@@ -5,14 +5,14 @@ import ProjectCards from '../components/ProjectCards';
 
 export default function Home() {
     const [filters, setFilters] = useState({
-        projectname:"",
-        username:""
+        projectname: "",
+        username: ""
     });
 
     return (
         <div className='flex flex-col items-center h-full'>
-            <Filter />
-            <ProjectCards />
+            <Filter onHandleFilter={setFilters}/>
+            <ProjectCards filters={filters}/>
         </div>
     );
 }

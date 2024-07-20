@@ -4,9 +4,8 @@ import ProjectCard from './ProjectCard';
 
 type TaskType = {
     title: string;
-    description: string;
-    hostId: string;
-    guestId: string[];
+    hostName: string;
+    guestNames: string[];
     endDate: Date | undefined;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -14,8 +13,8 @@ type TaskType = {
 
 type ProjectType = {
     name: string;
-    hostId: string;
-    gestId: string[];
+    hostName: string;
+    guestNames: string[];
     description: string;
     createDate: Date | undefined;
     targetDate: Date | undefined;

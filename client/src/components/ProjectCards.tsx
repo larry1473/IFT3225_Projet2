@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TaskDetail from './ProjectDetail';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
 import ProjectsPagination from './ProjectsPagination';
@@ -94,9 +93,8 @@ const testData: ProjectCardPropValueType[] = [
 
 type TaskType = {
     title: string;
-    description: string;
-    hostId: string;
-    guestId: string[];
+    hostName: string;
+    guestNames: string[];
     endDate: Date | undefined;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -104,8 +102,8 @@ type TaskType = {
 
 type ProjectType = {
     name: string;
-    hostId: string;
-    gestId: string[];
+    hostName: string;
+    guestNames: string[];
     description: string;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -114,12 +112,22 @@ type ProjectType = {
     tasks: TaskType[];
 }
 
-export default function ProjectCards() {
+type FilterType = {
+    projectname: string;
+    username: string;
+}
+
+type ProjectCardsPropsType = {
+    filters: FilterType
+}
+
+export default function ProjectCards({filters}:ProjectCardsPropsType) {
     const [tasks, setTasks] = useState<ProjectCardPropValueType[]>(testData);
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage, setProjectsPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
     const [projects, setProjects] = useState<ProjectType[]>([]);
+    const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
     // const {projects, setProjects} = useProjects();
 
 
@@ -155,7 +163,7 @@ export default function ProjectCards() {
     }
 
     const handleDeleteClick = (project: ProjectType)=>{
-        setProjects(projects.filter(p => p.hostId !== project.hostId));
+        setProjects(projects.filter(p => p.hostName !== project.hostName));
     }
 
     return (

@@ -6,9 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 type TaskType = {
     title: string;
-    description: string;
-    hostId: string;
-    guestId: string[];
+    hostName: string;
+    guestNames: string[];
     endDate: Date | undefined;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -16,8 +15,8 @@ type TaskType = {
 
 type ProjectType = {
     name: string;
-    hostId: string;
-    gestId: string[];
+    hostName: string;
+    guestNames: string[];
     description: string;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -35,8 +34,8 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
-        hostId: "",
-        gestId: [],
+        hostName: "",
+        guestNames: [],
         description: "",
         createDate: undefined,
         targetDate: undefined,

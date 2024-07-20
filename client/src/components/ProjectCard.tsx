@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 type TaskType = {
     title: string;
-    description: string;
-    hostId: string;
-    guestId: string[];
+    hostName: string;
+    guestNames: string[];
     endDate: Date | undefined;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -14,8 +13,8 @@ type TaskType = {
 
 type ProjectType = {
     name: string;
-    hostId: string;
-    gestId: string[];
+    hostName: string;
+    guestNames: string[];
     description: string;
     createDate: Date | undefined;
     targetDate: Date | undefined;
@@ -53,7 +52,7 @@ export default function ProjectCard({onCardClick, project, onDeleteClick}:Projec
 
         console.log(userLogedIn);
         
-        if(userLogedIn !== project.hostId){
+        if(userLogedIn !== project.hostName){
             alert("This is not your project !!");
             return;
         }
@@ -67,11 +66,11 @@ export default function ProjectCard({onCardClick, project, onDeleteClick}:Projec
     return (
         <div className='taskcard flex flex-col items-start gap-2 border p-2 w-5/6 h-min'>
             <h3>{project.name}</h3>
-            <p>{project.hostId}</p>
+            <p>{project.hostName}</p>
             <p>{project.description}</p>
             <div className='flex justify-between w-full pt-3'>
-                <button onClick={handleDeleteClick} className='text-right border p-1'>Delete</button>
-                <button onClick={handleDetailClick} className='text-right border p-1'>View detail</button>
+                <button onClick={handleDeleteClick} className='bg-red-300 text-right border p-1 rounded'>Delete</button>
+                <button onClick={handleDetailClick} className='bg-blue-300 text-right border p-1 rounded'>View detail</button>
             </div>
         </div>
     );
