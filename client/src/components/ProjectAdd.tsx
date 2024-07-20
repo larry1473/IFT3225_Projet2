@@ -61,7 +61,7 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
             endDate: new Date(),
         })
         postAddProject();
-        onAddClick();
+        // onAddClick();
     };
     const postAddProject = async ()=>{
         console.log(projectInfo);

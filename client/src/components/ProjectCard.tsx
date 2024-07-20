@@ -44,7 +44,7 @@ export default function ProjectCard({onCardClick, project, onDeleteClick}:Projec
     }
 
     return (
-        <div className='taskcard flex flex-col items-start gap-2 border p-2 w-5/6 h-min'>
+        <div className='taskcard flex flex-col items-start gap-2 border p-2 w-5/6 h-56'>
             <h3>{project.name}</h3>
             <p>{project.hostName}</p>
             <p>{project.description}</p>
