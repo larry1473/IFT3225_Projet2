@@ -6,20 +6,19 @@ enum TaskStatus {
 }
 
 interface ITask extends Document {
-   'title': string;
-   'description': string;
-   'hostId': string;
-   'guestId': string[];
-   'endDate': Date;
-   'createdDate': Date;
-   'targetDate': Date;
+   title: string;
+   description: string;
+   hostName: string;
+   guestNames: string[];
+   endDate: Date;
+   createdDate: Date;
+   targetDate: Date;
 }
 
-const TaskSchema = new Schema({
+const TaskSchema = new Schema<ITask>({
     title: { type: String, required: true },
-    description: { type: String, required: true },
-    hostId: { type: String, required: true },
-    guestId: { type: [String], required: true },
+    hostName: { type: String, required: true },
+    guestNames: { type: [String], required: true },
     endDate: { type: Date, required: true },
     createdDate: { type: Date, required: true },
     targetDate: { type: Date, required: true },
@@ -100,5 +99,5 @@ class TaskModel {
 
 }
 
-export { Task, ITask, TaskStatus, TaskModel };
+export { Task, ITask, TaskStatus, TaskModel, TaskSchema };
 

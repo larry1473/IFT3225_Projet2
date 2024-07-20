@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = require("../models/user");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class AuthService {
     /**
      * this function is used to generate a token for a user
@@ -22,18 +23,21 @@ class AuthService {
      */
     static generateToken(user) {
         const token = jsonwebtoken_1.default.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
-            expiresIn: '1h' // Token expires in 1 hour
+            expiresIn: '24h' // Token expires in 24 hour
         });
         return token;
     }
     static signIn(email, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield user_1.User.findOne({ email: email, password: password });
+            const user = yield user_1.User.findOne({ email: email });
             if (!user) {
                 throw new Error('Invalid email or password');
             }
-            const token = this.generateToken(user);
-            return token;
+            if (yield bcryptjs_1.default.compare(password, user.password)) {
+                const token = this.generateToken(user);
+                return token;
+            }
+            return 'Invalid email or password';
         });
     }
 }

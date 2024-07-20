@@ -210,6 +210,127 @@ class AppRoutes{
             res.status(500).send("Internal Server Error");
         }
     }
+    public async getGuests(req:Request,res:Response){
+        try{
+            const id = req.params.id;
+            const result = await this.appService.getGuests(id);
+            res.status(200).send({
+                message:result.message,
+                guests:result.guests
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async addGuest(req:Request,res:Response){
+        try{
+            const id = req.params.id;
+            const guestName =req.body.guestName;
+            const result = await this.appService.addGuest(id,guestName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async deleteGuest(req:Request,res:Response){
+        try{
+            const {projectId,guestName} = req.params;
+            const result = await this.appService.deleteGuest(projectId,guestName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async getTaskGuests(req:Request,res:Response){
+        try{
+            const {projectId,taskId} = req.params;
+            const result = await this.appService.getTaskGuests(projectId,taskId);
+            res.status(200).send({
+                message:result.message,
+                guests:result.task
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async addTaskGuests(req:Request,res:Response){
+        try{
+            const {projectId,taskId} = req.params;
+            const guestName = req.body.guestName;
+            const result = await this.appService.addTaskGuests(projectId,taskId,guestName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+    public async deleteTaskGuest(req:Request,res:Response){
+        try{
+            const {projectId,taskId,guestName} = req.params;
+            const result = await this.appService.deleteTaskGuest(projectId,taskId,guestName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async getRequester(req:Request,res:Response){
+        try{
+            const {projectId} = req.params;
+            const result = await this.appService.getRequester(projectId);
+            res.status(200).send({
+                message:result.message,
+                requesters:result.requester
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async addRequester(req:Request,res:Response){
+        try{
+            const {projectId} = req.params;
+            const requesterName = req.body.requesterName;
+            const result = await this.appService.addRequester(projectId,requesterName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
+    public async deleteRequester(req:Request,res:Response){
+        try{
+            const {projectId,requesterName} = req.params;
+            const result = await this.appService.deleteRequester(projectId,requesterName);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
 
     public get routes():Router{
         return this._routes;
@@ -223,14 +344,30 @@ class AppRoutes{
         this._routes.get('/signin',this.signInGet.bind(this));
         this._routes.get('/signup',this.signUpGet.bind(this));
         this.routes.get('/logout',authMiddleware,this.logout.bind(this));
-        //this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
+        //project endpoints
         this._routes.post('/projects',authMiddleware,this.addProject.bind(this));
         this._routes.get('/projects',this.getProjects.bind(this));
         this._routes.delete('/projects/:id',authMiddleware,this.deleteProject.bind(this));
+        // project tasks endpoints
         this._routes.get('/projects/:id/tasks',authMiddleware,this.getTasks.bind(this));
         this._routes.post('/projects/:id',authMiddleware,this.addTask.bind(this));
         this._routes.delete('/projects/:projectId/tasks/:taskId',authMiddleware,this.deleteTask.bind(this));
         this._routes.get('/projects/:projectId/tasks/:taskId',authMiddleware,this.getByIdTask.bind(this));
+        // project guests endpoints
+        this.routes.get('/projects/:id/guests',authMiddleware,this.getGuests.bind(this));
+        this._routes.post('/projects/:id/guests',authMiddleware,this.addGuest.bind(this));
+        this._routes.delete('/projects/:projectId/guests/:guestName',authMiddleware,this.deleteGuest.bind(this));
+        
+        // project tasks guest endpoints
+        this._routes.get('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.getTaskGuests.bind(this));
+        this._routes.post('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.addTaskGuests.bind(this));
+        this._routes.delete('/projects/:projectId/tasks/:taskId/guests/:guestName',authMiddleware,this.deleteTaskGuest.bind(this));
+
+        // project requesters endpoints
+        this._routes.get('/projects/:projectId/requesters',authMiddleware,this.getRequester.bind(this));
+        this._routes.post('/projects/:projectId/requesters',authMiddleware,this.addRequester.bind(this));
+        this._routes.delete('/projects/:projectId/requesters/:requesterName',authMiddleware,this.deleteRequester.bind(this));
+        
 
     }
 

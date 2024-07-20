@@ -1,38 +1,30 @@
-import mongoose, { Document } from 'mongoose';
-import { Task } from './Task';
+import mongoose, { Document, Schema } from 'mongoose';
+import { ITask,  TaskSchema } from './Task';
+
 interface IProject extends Document {
     name: string;
-    hostId: string;
-    gestId: string[];
+    hostName: string;
+    guestNames: string[];
     description: string;
     createDate: Date;
     targetDate: Date;
     endDate: Date;
     requestJoin: string[];
-    tasks: typeof Task[]; // Add the type for the tasks property
+    tasks: ITask[];
 }
 
-const ProjectSchema = new mongoose.Schema({
+const ProjectSchema = new Schema<IProject>({
     name: { type: String, required: true },
-    hostId: { type: String, required: true },
-    gestId: { type: [String], required: true },
+    hostName: { type: String, required: true },
+    guestNames: { type: [String], required: true },
     description: { type: String, required: true },
-    createDate: { type: Date, required: true },
-    targetDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    createDate: { type: Date, required: false },
+    targetDate: { type: Date, required: false },
+    endDate: { type: Date, required: false },
     requestJoin: { type: [String], required: true },
-    tasks: [{ 
-                title: { type: String, required: true },
-                description: { type: String, required: true },
-                hostId: { type: String, required: true },
-                guestId: { type: [String], required: true },
-                endDate: { type: Date, required: true },
-                createdDate: { type: Date, required: true },
-                targetDate: { type: Date, required: true },
-            }], // Add the tasks property
+    tasks: { type: [TaskSchema], required: true } // Correct usage of TaskSchema
 });
 
-const Project = mongoose.model<IProject>('Projects', ProjectSchema);
+const Project = mongoose.model<IProject>('Project', ProjectSchema);
 
 export { IProject, Project };
-

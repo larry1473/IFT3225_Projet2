@@ -220,6 +220,21 @@ class AppRoutes {
             }
         });
     }
+    getGuests(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.id;
+                const result = yield this.appService.getGuests(id);
+                res.status(200).send({
+                    message: result.message,
+                    guests: result.guests
+                });
+            }
+            catch (err) {
+                res.status(500).send("Internal Server Error");
+            }
+        });
+    }
     get routes() {
         return this._routes;
     }
@@ -231,12 +246,13 @@ class AppRoutes {
         this.routes.get('/logout', auth_1.default, this.logout.bind(this));
         //this._routes.post('/tasks',authMiddleware,this.addTask.bind(this));
         this._routes.post('/projects', auth_1.default, this.addProject.bind(this));
-        this._routes.get('/projects', auth_1.default, this.getProjects.bind(this));
+        this._routes.get('/projects', this.getProjects.bind(this));
         this._routes.delete('/projects/:id', auth_1.default, this.deleteProject.bind(this));
         this._routes.get('/projects/:id/tasks', auth_1.default, this.getTasks.bind(this));
         this._routes.post('/projects/:id', auth_1.default, this.addTask.bind(this));
         this._routes.delete('/projects/:projectId/tasks/:taskId', auth_1.default, this.deleteTask.bind(this));
         this._routes.get('/projects/:projectId/tasks/:taskId', auth_1.default, this.getByIdTask.bind(this));
+        this.routes.get('/projects/:id/guests', auth_1.default, this.getGuests.bind(this));
     }
 }
 exports.AppRoutes = AppRoutes;

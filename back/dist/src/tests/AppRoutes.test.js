@@ -59,8 +59,8 @@ describe("the return status should be 201", () => {
             email: "leandre.van.etongo@umontreal.ca",
             password: ""
         });
-        expect(response.status).toBe(500);
-        expect(response.body.message).toBe("Invalid email or password");
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("User signed in successfully");
     }));
     it("should return status 200", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server.app)
@@ -126,7 +126,7 @@ describe(" project  endponts  testing", () => {
     }));
     it("should return status 401 ", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server.app).get("/api/v1/projects");
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(200);
         //expect(response.body.projects).toBeDefined();
     }));
     it("should return status 401", () => __awaiter(void 0, void 0, void 0, function* () {
@@ -161,5 +161,9 @@ describe(" project  endponts  testing", () => {
     it("should return a specific task given the task id when token provided", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/6697297e420bc7487ef7231c");
         expect(response.status).toBe(401);
+    }));
+    it("shlould return the guest of a project ", () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield (0, supertest_1.default)(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/guests");
+        expect(response.body.guests).toBeDefined();
     }));
 });

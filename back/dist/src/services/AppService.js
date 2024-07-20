@@ -19,6 +19,7 @@ const validator_1 = __importDefault(require("validator"));
 const zxcvbn_1 = __importDefault(require("zxcvbn"));
 const AuthService_1 = __importDefault(require("./AuthService"));
 const project_1 = require("../models/project");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class AppService {
     constructor() {
     }
@@ -46,9 +47,19 @@ class AppService {
                     return { success: false, message: "This email already exists" };
                 }
                 else {
-                    const user = new user_1.User({ name, email, password });
-                    yield user.save();
-                    return { success: true, message: "User signed up successfully" };
+                    try {
+                        const hash = yield bcryptjs_1.default.hash(password, 10);
+                        const user = new user_1.User({ name, email, password: hash });
+                        yield user.save();
+                        return { success: true, message: "User signed up successfully" };
+                    }
+                    catch (err) {
+                        return { success: false, message: 'An error occurred during sign up' };
+                        console.error("An error occured during the signUp", err);
+                    }
+                    // const user = new User({name,email,password});
+                    // await user.save();
+                    // return {success:true, message:"User signed up successfully"};
                 }
             }
             catch (err) {
@@ -214,6 +225,25 @@ class AppService {
             catch (err) {
                 return { success: false, message: 'An error occurred during get by id task' };
                 console.error("An error occured during the getByIdTask", err);
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    getGuests(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(id);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                return { success: true, message: 'Guests retrieved successfully', guests: project.gestId };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during get guests' };
+                console.error("An error occured during the getGuests", err);
             }
             finally {
                 this.database.close();

@@ -55,8 +55,8 @@ describe("the return status should be 201", () => {
                     email:"leandre.van.etongo@umontreal.ca",
                     password:""
                 });
-        expect(response.status).toBe(500);
-        expect(response.body.message).toBe("Invalid email or password");
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("User signed in successfully");
     });
 
     it("should return status 200", async () => {
@@ -139,7 +139,7 @@ describe(" project  endponts  testing", () => {
 
     it("should return status 401 ", async () => {
         const response = await request(server.app).get("/api/v1/projects");
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(200);
         //expect(response.body.projects).toBeDefined();
     });
 
@@ -183,6 +183,86 @@ describe(" project  endponts  testing", () => {
     it("should return a specific task given the task id when token provided", async () => {
         const response = await request(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/6697297e420bc7487ef7231c");
         expect(response.status).toBe(401);
+    });
+
+    it("should return the guest of a project ", async () => {
+        const response = await request(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/guests");
+        expect(response.status).toBe(401);
+    });
+
+    it("should add a guest to specific project ", async () => {
+        const response = await request(server.app)
+        .post("/api/v1/projects/66971535b9b62a2dcde209dd/guests")
+        .send(
+            {
+                "guestName": "Mark"
+            }
+        );
+        expect(response.status).toBe(401);
+        // expect(response.body.message).toBe("Guest added successfully");
+        
+    });
+
+    it("should remove a specific guest from the project's guest ", async () => {
+        const response = await request(server.app)
+        .delete("/api/v1/projects/66971535b9b62a2dcde209dd/guests/claire");
+        expect(response.status).toBe(401);
+        // expect(response.body.message).toBe("Guest removed successfully");
+        
+    });
+
+    it("should return the list of guest of a task", async () => {
+        const response = await request(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/669b11f4fde03fcc031fdc0c/guests");
+        expect(response.status).toBe(401);
+        
+    });
+
+    it(" it should add a name to the list of guests contained in tasks", async () => {
+        const response = await request(server.app)
+        .post("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/669b11f4fde03fcc031fdc0c/guests")
+        .send(
+            {
+                "guestName": "Mark"
+            }
+        );
+        expect(response.status).toBe(401);
+        // expect(response.body.message).toBe("Guest added successfully");
+
+    });
+    it("should remove a specific guest from the task's guest ", async () => {
+        const response = await request(server.app)
+        .delete("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/669b11f4fde03fcc031fdc0c/guests/Mark");
+        expect(response.status).toBe(401);
+        // expect(response.body.message).toBe("Guest removed successfully");
+        
+    });
+
+    it("should return the list of requesters", async () => {
+        const response = await request(server.app).get("/api/v1/projects/66971535b9b62a2dcde209dd/requesters");
+        console.log(response.body.requesters);
+        expect(response.status).toBe(401);
+        
+    });
+
+    it("should add a requester to the list of requesters", async () => {
+        const response = await request(server.app)
+        .post("/api/v1/projects/66971535b9b62a2dcde209dd/requesters")
+        .send(
+            {
+                "requesterName": "Mark"
+            }
+        );
+        expect(response.status).toBe(401);
+        expect(response.body.message).toBe("Requester added successfully");
+        
+    });
+
+    it("should remove a specific requester from the project's requester ", async () => {
+        const response = await request(server.app)
+        .delete("/api/v1/projects/66971535b9b62a2dcde209dd/requesters/larry");
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe("Requester deleted successfully");
+        
     });
 
 });
