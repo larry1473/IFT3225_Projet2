@@ -3,14 +3,16 @@ import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
 import { ProjectType } from '../types/TaskMasterTypes';
 import axios from 'axios';
+import { useProjects } from '../context/ProjectsContext';
 
 type ProjectCardPropsType = {
     onCardClick: (e:React.MouseEvent) => void;
     project:ProjectType;
 }
 
-export default function ProjectCard({onCardClick, project, }:ProjectCardPropsType) {
-    const {hasLogedin, setHasLogedin, userLogedIn} = useLoginStatus();
+export default function ProjectCard({onCardClick, project}:ProjectCardPropsType) {
+    const {hasLogedin, setHasLogedin, userLogedIn, username} = useLoginStatus();
+    const {handleDeleteProjectClick} = useProjects();
     const navigate = useNavigate();
 
     const handleDetailClick = (e:React.MouseEvent)=>{
@@ -32,15 +34,13 @@ export default function ProjectCard({onCardClick, project, }:ProjectCardPropsTyp
 
         console.log(userLogedIn);
         
-        // if(userLogedIn !== project.hostName){
-        //     alert("This is not your project !!");
-        //     return;
-        // }
-        // if(userLogedIn !== "test@mail.com"){
-        //     alert("This is not your project !!");
-        //     return;
-        // }
-        // onDeleteClick(project);
+        if(username !== project.hostName){
+            alert("This is not your project !!");
+            return;
+        }
+
+        handleDeleteProjectClick(project);
+        postDeleteProject(project);
     }
 
     const postDeleteProject = async (project: ProjectType)=>{
@@ -60,7 +60,7 @@ export default function ProjectCard({onCardClick, project, }:ProjectCardPropsTyp
     }
 
     return (
-        <div className='taskcard flex flex-col items-start justify-between gap-2 border p-2 w-5/6 h-48'>
+        <div className='taskcard flex flex-col items-start justify-between gap-2 border p-2 w-5/6 h-44'>
             <div className='flex flex-col'>
                 <h3 className='font-bold pb-2'>{project.name}</h3>
                 <p>{project.hostName}</p>

@@ -9,7 +9,7 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
-    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn} = useLoginStatus();
+    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -22,9 +22,10 @@ export default function Login() {
             if(res.status === 200){
                 const {token, userName} = res.data;
                 localStorage.setItem('token', token);
-                setHasLogedin(true);
                 console.log("Log in successful");
+                setHasLogedin(true);
                 setUserLogedIn(loginData.email);
+                setUsername(userName);
                 navigate('/');
             } else {
                 console.log("Log in failed");

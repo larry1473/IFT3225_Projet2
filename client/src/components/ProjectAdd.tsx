@@ -9,7 +9,7 @@ import { useProjects } from '../context/ProjectsContext';
 
 export default function ProjectAdd() {
     const {allProjects, handleAddProjectClick} = useProjects();
-    const {hasLogedin, userLogedIn} = useLoginStatus();
+    const {hasLogedin, userLogedIn, username} = useLoginStatus();
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
@@ -55,11 +55,12 @@ export default function ProjectAdd() {
         }
         setProjectInfo({
             ...projectInfo,
+            hostName: username,
             createDate: new Date(),
             endDate: new Date(),
         })
         postAddProject();
-        // onAddClick();
+        // handleAddProjectClick();
     };
     const postAddProject = async ()=>{
         console.log(projectInfo);
