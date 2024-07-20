@@ -27,13 +27,14 @@ type ProjectType = {
 type ProjectCardPropsType = {
     onCardClick: (e:React.MouseEvent) => void;
     project:ProjectType;
+    onDeleteClick: (project: ProjectType) => void;
 }
 
-export default function ProjectCard({onCardClick, project}:ProjectCardPropsType) {
-    const {hasLogedin, setHasLogedin} = useLoginStatus();
+export default function ProjectCard({onCardClick, project, onDeleteClick}:ProjectCardPropsType) {
+    const {hasLogedin, setHasLogedin, userLogedIn} = useLoginStatus();
     const navigate = useNavigate();
 
-    const handleCardClick = (e:React.MouseEvent)=>{
+    const handleDetailClick = (e:React.MouseEvent)=>{
         console.log(e.target);
         
         if(!hasLogedin){
@@ -44,11 +45,34 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
         }
     }
 
+    const handleDeleteClick = (e:React.MouseEvent)=>{
+        if(!hasLogedin){
+            navigate(`/connection/login`);
+            return;
+        }
+
+        console.log(userLogedIn);
+        
+        if(userLogedIn !== project.hostId){
+            alert("This is not your project !!");
+            return;
+        }
+        // if(userLogedIn !== "test@mail.com"){
+        //     alert("This is not your project !!");
+        //     return;
+        // }
+        onDeleteClick(project);
+    }
+
     return (
-        <div onClick={handleCardClick} className='taskcard flex flex-col items-start gap-2 border p-1 w-4/5'>
+        <div className='taskcard flex flex-col items-start gap-2 border p-2 w-5/6 h-min'>
             <h3>{project.name}</h3>
             <p>{project.hostId}</p>
             <p>{project.description}</p>
+            <div className='flex justify-between w-full pt-3'>
+                <button onClick={handleDeleteClick} className='text-right border p-1'>Delete</button>
+                <button onClick={handleDetailClick} className='text-right border p-1'>View detail</button>
+            </div>
         </div>
     );
 }

@@ -51,7 +51,7 @@ html.dark {
 
 .filter_input {
   background-color: var(--color-bg-dark);
-  @apply w-48;
+  @apply w-44 border px-2 mx-2;
 }
 
 .filter_search_icon {
@@ -81,7 +81,6 @@ html.dark {
 
 /* -----TaskCard----- */
 .taskcard:hover {
-  cursor: pointer;
 }
 
 /* -----TaskPagination----- */
@@ -100,4 +99,10 @@ html.dark {
 
 .projectadd_input {
   background-color: var(--color-bg-dark);
+  @apply border;
+}
+
+/* -----Projects cards----- */
+.home_card_section {
+  height: 55rem;
 }

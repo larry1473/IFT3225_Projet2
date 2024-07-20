@@ -154,17 +154,23 @@ export default function ProjectCards() {
         setProjects([...projects, project]);
     }
 
+    const handleDeleteClick = (project: ProjectType)=>{
+        setProjects(projects.filter(p => p.hostId !== project.hostId));
+    }
+
     return (
-        <div className='flex flex-col items-center w-full h-auto border-t p-5'>
-            <ProjectAdd onAddClick={handleAddClick}/>
+        <div className='home_card_section flex flex-col items-center gap-y-2 w-full border-t p-5'>
             {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
-            <ProjectsPost projects={currentProjects}/>
-            <ProjectsPagination 
-                currentPage={currentPage}
-                tasksPerPage={projectsPerPage}
-                tasksNum={currentProjects.length}
-                onPageChangeClick={handleChangePage}
-            /></>}
+                <ProjectsPost projects={currentProjects} onDeleteClick={handleDeleteClick}/>
+                <ProjectsPagination 
+                    currentPage={currentPage}
+                    tasksPerPage={projectsPerPage}
+                    tasksNum={currentProjects.length}
+                    onPageChangeClick={handleChangePage}
+                />
+                <ProjectAdd onAddClick={handleAddClick}/>
+            </>}
+            
             {cardDetailMode && <ProjectDetail />}
         </div>
     );

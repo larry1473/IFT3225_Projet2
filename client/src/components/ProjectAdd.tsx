@@ -1,6 +1,8 @@
 import { hostname } from 'os';
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLoginStatus } from '../context/LoginStatusContext';
+import { useNavigate } from 'react-router-dom';
 
 type TaskType = {
     title: string;
@@ -29,6 +31,8 @@ type ProjectAddPropsType = {
 }
 
 export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
+    const {hasLogedin} = useLoginStatus();
+    const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
         hostId: "",
@@ -52,6 +56,9 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
 
     const handleAddSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
+        if(!hasLogedin){
+            navigate(`/connection/login`);
+        }
         onAddClick(projectInfo);
         // postAddProject();
     };
@@ -65,7 +72,7 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
     };
 
     return (
-        <form onSubmit={handleAddSubmit} className='flex items-center gap-4 border px-5 py-2'>
+        <form onSubmit={handleAddSubmit} className='flex items-center gap-4 border px-5 py-4'>
             <div className='flex flex-col'>
                 <label htmlFor="name">name</label>
                 <input id='name' name="name" type="text" onChange={handleInputChange} placeholder='Type a project name'  className='projectadd_input w-56 p-1'/>
@@ -74,7 +81,9 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
                 <label htmlFor="description">description</label>
                 <input id='description' name='description' type="text" onChange={handleInputChange} placeholder='Type a project description' className='projectadd_input w-56 p-1'/>
             </div>
-            <button type='submit' className='p-2 rounded-full border'>Add project</button>
+            <div className='flex'>
+                <button type='submit' className='p-2 rounded-full border text-center'>Add project</button>
+            </div>
         </form>
     );
 }

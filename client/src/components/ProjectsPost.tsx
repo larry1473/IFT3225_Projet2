@@ -12,7 +12,7 @@ type TaskType = {
     targetDate: Date | undefined;
 }
 
-type ProjectCardPropValueType = {
+type ProjectType = {
     name: string;
     hostId: string;
     gestId: string[];
@@ -24,24 +24,19 @@ type ProjectCardPropValueType = {
     tasks: TaskType[];
 }
 
-// type TaskCardPropValueType = {
-//     projectname : string;
-//     username : string;
-//     description: string;
-// }
-
 type TasksPostPropsType = {
-    projects:ProjectCardPropValueType[];
+    projects:ProjectType[];
+    onDeleteClick: (project: ProjectType) => void;
 }
 
-export default function ProjectsPost({projects}:TasksPostPropsType) {
+export default function ProjectsPost({projects, onDeleteClick}:TasksPostPropsType) {
     const handleCardClick = (e: React.MouseEvent)=>{
         console.log(e);
     }
     return (
-        <ul className='taskcards grid grid-cols-3 grid-rows-4 place-items-center gap-x-0 gap-y-2 px-5 py-5 w-lvh border m-5 p-5'>
+        <ul className='taskcards grid grid-cols-3 grid-rows-3 place-items-center gap-x-0 gap-y-2 px-5 py-5 w-lvh border m-5 p-5 w-full'>
             {projects.map(project =>(
-                <ProjectCard key={uuidv4()} onCardClick={handleCardClick} project={project}/>
+                <ProjectCard key={uuidv4()} onCardClick={handleCardClick} project={project} onDeleteClick={onDeleteClick}/>
             ))}
         </ul>
     );
