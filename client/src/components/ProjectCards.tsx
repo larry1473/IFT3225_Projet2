@@ -125,8 +125,8 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
 
     
     return (
-        <div className='home_card_section flex flex-col items-center gap-y-2 w-full border-t p-5'>
-            {!cardDetailMode && <><p className='pt-5'>{projectsFiltered ? projectsFiltered.length : 0} projects found</p>
+        <div className='home_card_section flex flex-col items-center gap-y-2 w-full border-t p-4'>
+            {!cardDetailMode && <><p className='pt-2'>{projectsFiltered ? projectsFiltered.length : 0} projects found</p>
                 <ProjectsPost projects={currentProjects} onDeleteClick={handleDeleteClick}/>
                 <ProjectsPagination 
                     currentPage={currentPage}

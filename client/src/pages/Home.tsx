@@ -28,6 +28,7 @@ export default function Home() {
         setFilters(filterInfo);
     }
 
+    // get all projects
     useEffect(()=>{
         fetchProjects();
     }, []);
@@ -44,6 +45,8 @@ export default function Home() {
     
     return (
         <div className='flex flex-col items-center h-full'>
+
+            {/* -----filter section---- */}
             <div className='flex justify-center items-center py-5'>
                 <form onSubmit={handleFilterSubmit} className='filter_form flex items-center w-full border px-5 py-2 gap-x-5 rounded-lg'>
                     <div className='flex flex-col justify-center border-r px-2'>
