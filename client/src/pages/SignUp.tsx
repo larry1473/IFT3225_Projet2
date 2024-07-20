@@ -73,8 +73,8 @@ export default function SignUp() {
             {error && <p>{error}</p>}
             <form onSubmit={handleSignupClick} className='flex flex-col gap-3'>
                 <div className='flex flex-col'>
-                    <label htmlFor="name">Name</label>
-                    <input id='name' name='name' onChange={handleInputChange} type="text" placeholder='Type your first name' className='border p-1 w-60'/>
+                    <label htmlFor="name">Username</label>
+                    <input id='name' name='name' onChange={handleInputChange} type="text" placeholder='Type your username' className='border p-1 w-60'/>
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="email">Email</label>
