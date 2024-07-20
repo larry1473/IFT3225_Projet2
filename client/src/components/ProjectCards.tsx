@@ -4,33 +4,8 @@ import ProjectsPagination from './ProjectsPagination';
 import ProjectDetail from './ProjectDetail';
 import ProjectsPost from './ProjectsPost';
 import ProjectAdd from './ProjectAdd';
+import { ProjectAddType, ProjectType } from '../types/TaskMasterTypes';
 
-type ProjectCardPropValueType = {
-    projectname : string;
-    username : string;
-    description : string;
-}
-
-type TaskType = {
-    title: string;
-    hostName: string;
-    guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-}
-
-type ProjectType = {
-    name: string;
-    hostName: string;
-    guestNames: string[];
-    description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
-    requestJoin: string[];
-    tasks: TaskType[];
-}
 
 type FilterType = {
     projectname: string;
@@ -39,10 +14,11 @@ type FilterType = {
 
 type ProjectCardsPropsType = {
     allProjects: ProjectType[];
+    onFetchProjects: () => void;
     filters: FilterType;
 }
 
-export default function ProjectCards({allProjects, filters}:ProjectCardsPropsType) {
+export default function ProjectCards({allProjects, onFetchProjects, filters}:ProjectCardsPropsType) {
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage, setProjectsPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
@@ -50,24 +26,25 @@ export default function ProjectCards({allProjects, filters}:ProjectCardsPropsTyp
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
 
     useEffect(()=>{
-        const fetchProjects = async ()=>{
-            try{
-                const res = await axios.get(`http://localhost:3000/api/v1/projects`);
-                setProjects(res.data.projects);
-                console.log("Fetching projects");
-                console.log(allProjects);
-            } catch(err) {
-                console.error("Fetching projects failed : ", err);
-            }
-        }
         fetchProjects();
     }, []);
 
+    const fetchProjects = async ()=>{
+        try{
+            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+            setProjectsFiltered(res.data.projects);
+            console.log("Fetching projects");
+            console.log(projects);
+        } catch(err) {
+            console.error("Fetching projects failed : ", err);
+        }
+    }
+
     useEffect(()=>{
         console.log(filters);
-        console.log(allProjects);
+        console.log(projects);
         console.log(filters.projectname, " & ", filters.username);
-        if(!allProjects) return;
+        if(!projects) return;
         console.log("pass");
         
         if(filters.projectname === '' && filters.username === ''){
@@ -86,14 +63,13 @@ export default function ProjectCards({allProjects, filters}:ProjectCardsPropsTyp
         
         console.log("filtered : ", projectsFiltered);
         
-    }, [filters]);   
+    }, [allProjects, filters]);   
 
     // Set current tasks
     const lastProjectIndex = currentPage * projectsPerPage;
     const firstProjectIndex = lastProjectIndex - projectsPerPage;
-    // const currentProjects:ProjectType[] = projects.slice(firstProjectIndex, lastProjectIndex);
-    const currentProjects: ProjectType[] = (projects) ? 
-    projects.slice(firstProjectIndex, lastProjectIndex) : [];
+    const currentProjects: ProjectType[] = (projectsFiltered) ? 
+    projectsFiltered.slice(firstProjectIndex, lastProjectIndex) : [];
     
 
     // Change page
@@ -101,18 +77,56 @@ export default function ProjectCards({allProjects, filters}:ProjectCardsPropsTyp
         setCurrentPage(pageNum);
     };
 
-    const handleAddClick = (project: ProjectType)=>{
-        setProjects([...projects, project]);
+    // Add project
+    const handleAddClick = (project: ProjectAddType)=>{
+        // setProjects([...projects, project]);
+        postAddProject(project);
+        fetchProjects();
+    }
+    const postAddProject = async (project: ProjectAddType)=>{
+        const token = localStorage.getItem('token');
+
+        try{
+            const res = await axios.post("http://localhost:3000/api/v1/projects", project, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("add project response message : ", res.data.message);
+            
+        } catch(err){
+            console.error(err);
+        }
     }
 
+    // Delete project
     const handleDeleteClick = (project: ProjectType)=>{
-        setProjects(projects.filter(p => p.hostName !== project.hostName));
+        // setProjects(projects.filter(p => p.hostName !== project.hostName));
+        postDeleteProject(project);
+        fetchProjects();
+    }
+    const postDeleteProject = async (project: ProjectType)=>{
+        const token = localStorage.getItem('token');
+
+        try{
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, project, {
+                headers:{
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("add project response message : ", res.data.message);
+            
+        } catch(err){
+            console.error(err);
+        }
     }
 
     
     return (
         <div className='home_card_section flex flex-col items-center gap-y-2 w-full border-t p-5'>
-            {!cardDetailMode && <><p className='pt-5'>{allProjects ? projects.length : 0} projects found</p>
+            {!cardDetailMode && <><p className='pt-5'>{projectsFiltered ? projectsFiltered.length : 0} projects found</p>
                 <ProjectsPost projects={currentProjects} onDeleteClick={handleDeleteClick}/>
                 <ProjectsPagination 
                     currentPage={currentPage}

@@ -1,27 +1,7 @@
 import React, { useState } from 'react';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
-
-type TaskType = {
-    title: string;
-    hostName: string;
-    guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-}
-
-type ProjectType = {
-    name: string;
-    hostName: string;
-    guestNames: string[];
-    description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
-    requestJoin: string[];
-    tasks: TaskType[];
-}
+import { ProjectType } from '../types/TaskMasterTypes';
 
 type ProjectCardPropsType = {
     onCardClick: (e:React.MouseEvent) => void;

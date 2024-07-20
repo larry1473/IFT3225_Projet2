@@ -1,27 +1,7 @@
 import React from 'react';
 import {v4 as uuidv4} from 'uuid';
 import ProjectCard from './ProjectCard';
-
-type TaskType = {
-    title: string;
-    hostName: string;
-    guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-}
-
-type ProjectType = {
-    name: string;
-    hostName: string;
-    guestNames: string[];
-    description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
-    requestJoin: string[];
-    tasks: TaskType[];
-}
+import { ProjectType } from '../types/TaskMasterTypes';
 
 type TasksPostPropsType = {
     projects:ProjectType[];

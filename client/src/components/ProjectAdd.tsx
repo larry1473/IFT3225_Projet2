@@ -3,30 +3,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import { useNavigate } from 'react-router-dom';
+import { ProjectType, ProjectAddType} from '../types/TaskMasterTypes';
 
-type TaskType = {
-    title: string;
-    hostName: string;
-    guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-}
-
-type ProjectType = {
-    name: string;
-    hostName: string;
-    guestNames: string[];
-    description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
-    requestJoin: string[];
-    tasks: TaskType[];
-}
 
 type ProjectAddPropsType = {
-    onAddClick: (project : ProjectType)=> void;
+    onAddClick: (project : ProjectAddType)=> void;
 }
 
 export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {

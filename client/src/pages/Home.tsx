@@ -2,27 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import ProjectCards from '../components/ProjectCards';
 import { CiSearch } from "react-icons/ci";
-
-type TaskType = {
-    title: string;
-    hostName: string;
-    guestNames: string[];
-    endDate: Date | undefined;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-}
-
-type ProjectType = {
-    name: string;
-    hostName: string;
-    guestNames: string[];
-    description: string;
-    createDate: Date | undefined;
-    targetDate: Date | undefined;
-    endDate: Date | undefined;
-    requestJoin: string[];
-    tasks: TaskType[];
-}
+import { ProjectType } from '../types/TaskMasterTypes';
 
 export default function Home() {
     const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
@@ -49,18 +29,18 @@ export default function Home() {
     }
 
     useEffect(()=>{
-        const fetchProjects = async ()=>{
-            try{
-                const res = await axios.get(`http://localhost:3000/api/v1/projects`);
-                setAllProjects(res.data.projects);
-                console.log("Fetching all projects");
-                console.log(allProjects);
-            } catch(err) {
-                console.error("Fetching projects failed : ", err);
-            }
-        }
         fetchProjects();
     }, []);
+    const fetchProjects = async ()=>{
+        try{
+            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+            setAllProjects(res.data.projects);
+            console.log("Fetching all projects");
+            console.log(allProjects);
+        } catch(err) {
+            console.error("Fetching projects failed : ", err);
+        }
+    }
     
     return (
         <div className='flex flex-col items-center h-full'>
@@ -77,7 +57,8 @@ export default function Home() {
                     <button><CiSearch className='filter_search_icon size-6'/></button>
                 </form>
             </div>
-            <ProjectCards allProjects={allProjects} filters={filters}/>
+            
+            <ProjectCards allProjects={allProjects} onFetchProjects={fetchProjects} filters={filters}/>
         </div>
     );
 }
