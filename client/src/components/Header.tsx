@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import Filter from './Filter';
 import { SiNginxproxymanager } from "react-icons/si";
 import { HiSun, HiMoon } from "react-icons/hi";
 import { useDarkMode } from '../context/DarkModeContext';

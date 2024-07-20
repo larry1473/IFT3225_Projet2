@@ -76,7 +76,7 @@ html.dark {
 
 /* -----TaskCards----- */
 .taskcards {
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 /* -----TaskCard----- */

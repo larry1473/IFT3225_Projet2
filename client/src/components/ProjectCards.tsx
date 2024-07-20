@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
 import ProjectsPagination from './ProjectsPagination';
 import ProjectDetail from './ProjectDetail';
@@ -11,85 +10,6 @@ type ProjectCardPropValueType = {
     username : string;
     description : string;
 }
-
-// test data
-const testData: ProjectCardPropValueType[] = [
-    {
-        projectname : "project1",
-        username : "user1",
-        description : "desription1",
-    },
-    {
-        projectname : "project2",
-        username : "user2",
-        description : "desription2",
-    },
-    {
-        projectname : "project3",
-        username : "user3",
-        description : "desription3",
-    },
-    {
-        projectname : "project4",
-        username : "user4",
-        description : "desription4",
-    },
-    {
-        projectname : "project5",
-        username : "user5",
-        description : "desription5",
-    },
-    {
-        projectname : "project6",
-        username : "user6",
-        description : "desription6",
-    },
-    {
-        projectname : "project7",
-        username : "user7",
-        description : "desription7",
-    },
-    {
-        projectname : "project8",
-        username : "user8",
-        description : "desription8",
-    },
-    {
-        projectname : "project9",
-        username : "user9",
-        description : "desription9",
-    },
-    {
-        projectname : "project10",
-        username : "user10",
-        description : "desription10",
-    },
-    {
-        projectname : "project6",
-        username : "user6",
-        description : "desription6",
-    },
-    {
-        projectname : "project7",
-        username : "user7",
-        description : "desription7",
-    },
-    {
-        projectname : "project8",
-        username : "user8",
-        description : "desription8",
-    },
-    {
-        projectname : "project9",
-        username : "user9",
-        description : "desription9",
-    },
-    {
-        projectname : "project10",
-        username : "user10",
-        description : "desription10",
-    },
-]
 
 type TaskType = {
     title: string;
@@ -118,24 +38,24 @@ type FilterType = {
 }
 
 type ProjectCardsPropsType = {
-    filters: FilterType
+    allProjects: ProjectType[];
+    filters: FilterType;
 }
 
-export default function ProjectCards({filters}:ProjectCardsPropsType) {
-    const [tasks, setTasks] = useState<ProjectCardPropValueType[]>(testData);
+export default function ProjectCards({allProjects, filters}:ProjectCardsPropsType) {
     const [currentPage, setCurrentPage] = useState(1);
     const [projectsPerPage, setProjectsPerPage] = useState(12);
     const [cardDetailMode, setCardDetailMode] = useState(false);
     const [projects, setProjects] = useState<ProjectType[]>([]);
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
-    // const {projects, setProjects} = useProjects();
-
 
     useEffect(()=>{
         const fetchProjects = async ()=>{
             try{
                 const res = await axios.get(`http://localhost:3000/api/v1/projects`);
                 setProjects(res.data.projects);
+                console.log("Fetching projects");
+                console.log(allProjects);
             } catch(err) {
                 console.error("Fetching projects failed : ", err);
             }
@@ -143,13 +63,36 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
         fetchProjects();
     }, []);
 
-    
+    useEffect(()=>{
+        console.log(filters);
+        console.log(allProjects);
+        console.log(filters.projectname, " & ", filters.username);
+        if(!allProjects) return;
+        console.log("pass");
+        
+        if(filters.projectname === '' && filters.username === ''){
+            console.log("1");
+            setProjectsFiltered(allProjects);
+        } else if(filters.projectname === ''){
+            console.log("2");
+            setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username));
+        } else if(filters.username === ''){
+            console.log("3");
+            setProjectsFiltered(allProjects.filter(p => p.name.indexOf(filters.projectname) !== -1));
+        } else {
+            console.log("4");
+            setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username || p.name.includes(filters.projectname)));
+        }
+        
+        console.log("filtered : ", projectsFiltered);
+        
+    }, [filters]);   
 
     // Set current tasks
     const lastProjectIndex = currentPage * projectsPerPage;
     const firstProjectIndex = lastProjectIndex - projectsPerPage;
     // const currentProjects:ProjectType[] = projects.slice(firstProjectIndex, lastProjectIndex);
-    const currentProjects: ProjectType[] = (projects && projects.length > 0) ? 
+    const currentProjects: ProjectType[] = (projects) ? 
     projects.slice(firstProjectIndex, lastProjectIndex) : [];
     
 
@@ -166,9 +109,10 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
         setProjects(projects.filter(p => p.hostName !== project.hostName));
     }
 
+    
     return (
         <div className='home_card_section flex flex-col items-center gap-y-2 w-full border-t p-5'>
-            {!cardDetailMode && <><p className='pt-5'>{tasks.length} projects found</p>
+            {!cardDetailMode && <><p className='pt-5'>{allProjects ? projects.length : 0} projects found</p>
                 <ProjectsPost projects={currentProjects} onDeleteClick={handleDeleteClick}/>
                 <ProjectsPagination 
                     currentPage={currentPage}
