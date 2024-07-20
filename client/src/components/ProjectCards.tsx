@@ -98,7 +98,6 @@ export default function ProjectCards({allProjects, onFetchProjects, filters}:Pro
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, projectJson, {
                 headers:{
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
                 }
             });
             console.log("add project response message : ", res.data.message);

@@ -76,7 +76,7 @@ export default function ProjectAdd({onAddClick}:ProjectAddPropsType) {
             const res = await axios.post("http://localhost:3000/api/v1/projects", projectJson, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
             console.log("add project response message : ", res.data.message);
