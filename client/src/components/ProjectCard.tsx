@@ -64,8 +64,8 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
                 <p>{project.description.length < 50 ? project.description : project.description.slice(0, 50) + "..."}</p>
             </div>
             <div className='flex justify-between w-full pt-3'>
-                <button onClick={handleDeleteClick} className='bg-red-300 text-right text-sm font-semibold border p-1 rounded'>Delete</button>
-                <button onClick={handleDetailClick} className='bg-blue-300 text-right text-sm font-semibold border p-1 rounded'>View detail</button>
+                <button onClick={handleDeleteClick} className='bg-red-200 text-right text-sm font-semibold p-1 rounded'>Delete</button>
+                <button onClick={handleDetailClick} className='bg-blue-200 text-right text-sm font-semibold p-1 rounded'>View detail</button>
             </div>
         </div>
     );
