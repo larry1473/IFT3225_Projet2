@@ -9,7 +9,7 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
-    const {setHasLogedin, setUserLogedIn, setUsername} = useLoginStatus();
+    const {username, setHasLogedin, setUserLogedIn, setUsername} = useLoginStatus();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -18,9 +18,9 @@ export default function Login() {
     const fetchLoginData = async () => {
         try {
             const res = await axios.post('http://localhost:3000/api/v1/signin', loginData);
-            console.log(res.data);
             if(res.status === 200){
                 const {token, userName} = res.data;
+                console.log(res.data);
                 localStorage.setItem('token', token);
                 console.log("Log in successful");
                 setHasLogedin(true);

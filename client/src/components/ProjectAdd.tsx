@@ -53,6 +53,8 @@ export default function ProjectAdd() {
         if(!hasLogedin){
             navigate(`/connection/login`);
         }
+        console.log(username);
+        
         setProjectInfo({
             ...projectInfo,
             hostName: username,
