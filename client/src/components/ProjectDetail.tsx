@@ -87,6 +87,7 @@ export default function ProjectDetail() {
             console.error("Failed to add teammate:", error);
         }
     }
+
     const handleRequestsAdd = (newRequesterName:string)=>{
         console.log("request add");
         const requestExists = joinRequests.some(reqName => reqName === newRequesterName)
@@ -129,15 +130,42 @@ export default function ProjectDetail() {
     }
 
 
-    const handleRequestsDelete = (newRequesterName:string)=>{
+    const handleRequestsDelete = (requesterName:string)=>{
         console.log("request delete");
-        setJoinRequests(prev => prev.filter(reqName => reqName !== newRequesterName));
+        setJoinRequests(prev => prev.filter(reqName => reqName !== requesterName));
         console.log(joinRequests);
         
+        setProjectSelected(prev => prev ? {
+            ...prev,
+            guestNames: teammates
+        } : prev);
+        
         // update server
+        if(projectSelected){
+            console.log("delete teammate...");
+            
+            postDeleteRequester(requesterName);
+        }
     }
     
-    
+    const postDeleteRequester = async (requesterName : string )=>{
+        const token = localStorage.getItem('token');
+        
+        try {
+            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/guests/${requesterName}`, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            console.log("Requester deleted successfully");
+            fetchProjects();
+        } catch (error) {
+            console.error("Failed to add teammate:", error);
+        }
+    }
 
     // add fetch data for teammates and joinRequests
     
