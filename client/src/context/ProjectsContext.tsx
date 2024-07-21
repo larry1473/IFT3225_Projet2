@@ -1,5 +1,6 @@
 import { createContext, useState, ReactNode, useEffect, useContext, Dispatch, SetStateAction } from 'react';
 import { ProjectType } from '../types/TaskMasterTypes';
+import axios from 'axios';
 
 type ProjectContextType = {
     allProjects: ProjectType[];
@@ -20,8 +21,25 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         setAllProjects(prev => [...prev, project]);
     }
     const handleDeleteProjectClick = (project: ProjectType)=>{
+        console.log(project);
+        console.log(allProjects);
+
         const projects = allProjects.filter(p => p._id !== project._id);
         setAllProjects(projects);
+    }
+
+    useEffect(()=>{
+        fetchProjects();
+    }, []);
+    const fetchProjects = async ()=>{
+        try{
+            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
+            setAllProjects(res.data.projects);
+            console.log("Fetching projects");
+            console.log(allProjects);
+        } catch(err) {
+            console.error("Fetching projects failed : ", err);
+        }
     }
 
     return (

@@ -11,7 +11,7 @@ type ProjectCardPropsType = {
 }
 
 export default function ProjectCard({onCardClick, project}:ProjectCardPropsType) {
-    const {hasLogedin, setHasLogedin, userLogedIn, username} = useLoginStatus();
+    const {hasLogedin, username} = useLoginStatus();
     const {handleDeleteProjectClick} = useProjects();
     const navigate = useNavigate();
 
@@ -31,8 +31,6 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             navigate(`/connection/login`);
             return;
         }
-
-        console.log(userLogedIn);
         
         if(username !== project.hostName){
             alert("This is not your project !!");
@@ -45,15 +43,14 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
 
     const postDeleteProject = async (project: ProjectType)=>{
         const token = localStorage.getItem('token');
-        const projectJson = JSON.stringify(project);
 
         try{
-            const res = await axios.post(`http://localhost:3000/api/v1/projects/${project._id}`, projectJson, {
+            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${project._id}`, {
                 headers:{
                     'Authorization': `Bearer ${token}`,
                 }
             });
-            console.log("add project response message : ", res.data.message);
+            console.log("Delete project response message : ", res.data.message);
         } catch(err){
             console.error(err);
         }

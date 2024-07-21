@@ -11,21 +11,6 @@ export default function Home() {
         username: ""
     });
 
-    // get all projects
-    useEffect(()=>{
-        fetchProjects();
-    }, []);
-    const fetchProjects = async ()=>{
-        try{
-            const res = await axios.get(`http://localhost:3000/api/v1/projects`);
-            setAllProjects(res.data.projects);
-            console.log("Fetching projects");
-            console.log(allProjects);
-        } catch(err) {
-            console.error("Fetching projects failed : ", err);
-        }
-    }
-
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
         setFilters(prev =>({
