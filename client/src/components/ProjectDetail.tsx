@@ -33,7 +33,6 @@ export default function ProjectDetail() {
     }
     const postAddTeammate = async (guestName : string )=>{
         const token = localStorage.getItem('token');
-        console.log("project id : ", projectid);
         
         try {
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/guests/`, 
@@ -52,13 +51,41 @@ export default function ProjectDetail() {
         }
     }
 
-    const handleTeammatesDelete = (newTeammateName:string)=>{
+    const handleTeammatesDelete = (teammateName:string)=>{
         console.log("team delete");
         if(teammates)
-            setTeammates(prev => prev.filter(teammateName => teammateName !== newTeammateName));
+            setTeammates(prev => prev.filter(teammateName => teammateName !== teammateName));
         console.log(teammates);
+
+        setProjectSelected(prev => prev ? {
+            ...prev,
+            guestNames: teammates
+        } : prev);
         
         // update server
+        if(projectSelected){
+            console.log("delete teammate...");
+            
+            postDeleteTeammate(teammateName);
+        }
+    }
+    const postDeleteTeammate = async (guestName : string )=>{
+        const token = localStorage.getItem('token');
+        
+        try {
+            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/guests/${guestName}`, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            console.log("Teammate deleted successfully");
+            fetchProjects();
+        } catch (error) {
+            console.error("Failed to add teammate:", error);
+        }
     }
     const handleRequestsAdd = (newRequesterName:string)=>{
         console.log("request add");
