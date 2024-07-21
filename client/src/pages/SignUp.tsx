@@ -67,8 +67,8 @@ export default function SignUp() {
         navigate('../connection/login');
     }
     return (
-        <div className='flex justify-center py-24 h-full'>
-        <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-full'>
+        <div className='flex justify-center items-start py-24 h-lvh'>
+        <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-4/6'>
             <h1 className='text-xl'>CREATE NEW ACCOUNT</h1>
             {error && <p>{error}</p>}
             <form onSubmit={handleSignupClick} className='flex flex-col gap-3'>
