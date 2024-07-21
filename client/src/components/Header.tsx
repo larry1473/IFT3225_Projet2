@@ -12,9 +12,9 @@ export default function Header() {
     const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
     const handleLogoutClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         console.log(e.target);
-        sessionStorage.removeItem('isLogedIn');
-        sessionStorage.removeItem('userMail');
-        sessionStorage.removeItem('username');
+        // sessionStorage.removeItem('isLogedIn');
+        // sessionStorage.removeItem('userMail');
+        // sessionStorage.removeItem('username');
         setHasLogedin(false);
         setUserLogedIn("");
         setUsername("");

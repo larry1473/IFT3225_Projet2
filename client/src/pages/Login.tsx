@@ -23,9 +23,9 @@ export default function Login() {
                 const {token, userName} = res.data;
                 localStorage.setItem('token', token);
                 console.log("Log in successful");
-                sessionStorage.setItem('isLogedIn', 'true');
-                sessionStorage.setItem('userEmail', loginData.email);
-                sessionStorage.setItem('username', userName);
+                // sessionStorage.setItem('isLogedIn', 'true');
+                // sessionStorage.setItem('userEmail', loginData.email);
+                // sessionStorage.setItem('username', userName);
                 setHasLogedin(true);
                 setUserLogedIn(loginData.email);
                 setUsername(userName);
