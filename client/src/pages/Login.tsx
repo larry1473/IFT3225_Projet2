@@ -59,7 +59,7 @@ export default function Login() {
 
     return (
         <div className='flex justify-center items-start py-24 h-lvh'>
-            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-4/6'>
+            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-max'>
                 <h1 className='text-xl'>LOG IN</h1>
                 <form onSubmit={handleLoginSubmit} className='flex flex-col gap-3'>
                     <div className='flex flex-col'>
