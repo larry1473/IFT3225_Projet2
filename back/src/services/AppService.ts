@@ -9,6 +9,7 @@ import { Project } from "../models/project";
 import bcrypt from 'bcryptjs';
 import { ITask } from '../models/Task'; // Add import statement
 export class AppService{
+   
     
     
     
@@ -430,6 +431,30 @@ export class AppService{
         }  
         catch(err){
             return { success: false, message: 'An error occurred during delete requester' };
+        }
+        finally{
+            this.database.close();
+        }
+    }
+
+    public async changeDate(projectId: string, taskId: string, date: any):Promise<{ success: boolean; message: String; }>{
+        this.database = await Database.getInstance('dbName');
+        console.log("in change date", date);
+        try {
+            const project = await Project.findById(projectId);
+            if (!project) {
+                return { success: false, message: 'Project not found' };
+            }
+            const task = project.tasks.find((task: any) => task._id.toString() === taskId);
+            if (!task) {
+                return { success: false, message: 'Task not found' };
+            }
+            task.endDate = date;
+            await project.save();
+            return { success: true, message: 'Date changed successfully' };
+        }
+        catch(err){
+            return { success: false, message: 'An error occurred during change date' };
         }
         finally{
             this.database.close();

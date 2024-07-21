@@ -333,6 +333,20 @@ class AppRoutes{
         }
     }
 
+    public async changeDate(req:Request,res:Response){
+        try{
+            const {projectId,taskId} = req.params;
+            const date = req.body.endDate;
+            const result = await this.appService.changeDate(projectId,taskId,date);
+            res.status(200).send({
+                message:result.message
+            });
+        }
+        catch(err){
+            res.status(500).send("Internal Server Error");
+        }
+    }
+
     public get routes():Router{
         return this._routes;
     }
@@ -363,6 +377,7 @@ class AppRoutes{
         this._routes.get('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.getTaskGuests.bind(this));
         this._routes.post('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.addTaskGuests.bind(this));
         this._routes.delete('/projects/:projectId/tasks/:taskId/guests/:guestName',authMiddleware,this.deleteTaskGuest.bind(this));
+        this._routes.post('/projects/:projectId/tasks/:taskId',authMiddleware,this.changeDate.bind(this));
 
         // project requesters endpoints
         this._routes.get('/projects/:projectId/requesters',authMiddleware,this.getRequester.bind(this));
