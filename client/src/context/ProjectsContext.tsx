@@ -5,7 +5,6 @@ import axios from 'axios';
 type ProjectContextType = {
     allProjects: ProjectType[];
     setAllProjects: Dispatch<SetStateAction<ProjectType[]>>;
-    handleAddProjectClick: () => void;
     handleDeleteProjectClick: (project: ProjectType) => void;
     fetchProjects(): Promise<void>;
 }
@@ -18,10 +17,6 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
 export function ProjectProvider({children} : ProjectProviderPropsType){
     const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
-    const [addNum, setAddNum] = useState(0);
-    const handleAddProjectClick = ()=>{
-        setAddNum(prev => prev + 1);
-    }
     const handleDeleteProjectClick = (project: ProjectType)=>{
         console.log(project);
         console.log(allProjects);
@@ -51,7 +46,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
     }
 
     return (
-        <ProjectContext.Provider value={{allProjects, setAllProjects, handleAddProjectClick, handleDeleteProjectClick, fetchProjects}}>
+        <ProjectContext.Provider value={{allProjects, setAllProjects, handleDeleteProjectClick, fetchProjects}}>
             {children}
         </ProjectContext.Provider>
     )
