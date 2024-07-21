@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import TaskCard from './TaskCard';
+import { useProjects } from '../context/ProjectsContext';
+
 
 type TaskGroupProps = {
     title:string;
 };
 
 export default function TaskGroup({title}:TaskGroupProps) {
-    const [tasksTodo, setTaskTodo] = useState([]);
-    const [tasksDoing, setTaskDoing] = useState([]);
-    const [tasksDone, setTaskDone] = useState([]);
+    const {projectSelected, setProjectSelected} = useProjects();
 
     return (
-        <div className='taskgroup col-span-1 flex flex-col items-center gap-y-4 px-1 py-2 border min-h-20 h-lvh'>
-            <h3>{title}</h3>
-            <ul>
+        <div className='taskgroup col-span-1 flex flex-col items-center gap-y-4 px-5 py-5 border w-full h-lvh'>
+            <h3 className='font-bold'>{title}</h3>
+            <ul className='w-full'>
                 <TaskCard 
-                    isTodo={title === "To do"? true : false} 
                     isDoing={title === "Doing"? true : false} 
-                    isDone={title === "Done"? true : false}/>
+                    isDone={title === "Done"? true : false}
+                />
             </ul>
         </div>
     );

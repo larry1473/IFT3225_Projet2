@@ -66,7 +66,7 @@ export default function ProjectAdd() {
             ...projectInfo,
             hostName: "name3333",
             createDate: new Date(),
-            endDate: new Date(),
+            endDate: projectInfo.targetDate,
         })
 
         const projectJson = JSON.stringify(projectInfo);

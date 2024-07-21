@@ -23,7 +23,7 @@ export type ProjectAddType = {
     tasks: TaskType[];
 }
 
-type TaskType = {
+export type TaskType = {
     _id: string;
     title: string;
     hostName: string;
@@ -33,7 +33,7 @@ type TaskType = {
     targetDate: Date;
 }
 
-type TaskAddType = {
+export type TaskAddType = {
     title: string;
     hostName: string;
     guestNames: string[];
