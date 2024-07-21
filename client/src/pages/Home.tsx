@@ -21,6 +21,7 @@ export default function Home() {
 
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
+        console.log(filters);
     }
     
     return (

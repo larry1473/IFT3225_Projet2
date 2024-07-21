@@ -35,10 +35,10 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
             setProjectsFiltered(allProjects);
         } else if(filters.projectname === ''){
             console.log("2");
-            setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username));
+            setProjectsFiltered(allProjects.filter(p => p.hostName.includes(filters.username)));
         } else if(filters.username === ''){
             console.log("3");
-            setProjectsFiltered(allProjects.filter(p => p.name.indexOf(filters.projectname) !== -1));
+            setProjectsFiltered(allProjects.filter(p => p.name.includes(filters.projectname)));
         } else {
             console.log("4");
             setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username || p.name.includes(filters.projectname)));

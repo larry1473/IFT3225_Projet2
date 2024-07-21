@@ -10,6 +10,10 @@
   --color-page-text: #f5f5f5;
 }
 
+* {
+  transition: all 0.5s ease-in;
+}
+
 html.dark {
   --color-bg-dark: #1a1c35;
   --color-text: #fdfffd;
