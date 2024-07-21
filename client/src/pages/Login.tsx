@@ -22,10 +22,10 @@ export default function Login() {
                 const {token, userName} = res.data;
                 console.log(res.data);
                 localStorage.setItem('token', token);
-                console.log("Log in successful");
-                setHasLogedin(true);
-                setUserLogedIn(loginData.email);
                 setUsername(userName);
+                setUserLogedIn(loginData.email);
+                setHasLogedin(true);
+                console.log("Log in successful");
                 navigate('/');
             } else {
                 console.log("Log in failed");

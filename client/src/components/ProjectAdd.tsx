@@ -1,4 +1,3 @@
-import { hostname } from 'os';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useLoginStatus } from '../context/LoginStatusContext';
@@ -53,21 +52,22 @@ export default function ProjectAdd() {
         if(!hasLogedin){
             navigate(`/connection/login`);
         }
-        console.log(username);
         
-        setProjectInfo({
-            ...projectInfo,
-            hostName: username,
-            createDate: new Date(),
-            endDate: new Date(),
-        })
         postAddProject();
     };
     const postAddProject = async ()=>{
         console.log(projectInfo);
-        
         const token = localStorage.getItem('token');
-        console.log(token);
+
+        console.log(username);
+        console.log(localStorage.getItem('username'));
+        
+        setProjectInfo({
+            ...projectInfo,
+            hostName: "name3333",
+            createDate: new Date(),
+            endDate: new Date(),
+        })
 
         const projectJson = JSON.stringify(projectInfo);
         console.log(projectJson);
@@ -80,6 +80,7 @@ export default function ProjectAdd() {
                 }
             });
             console.log("add project response message : ", res.data.message);
+            console.log("add project response username : ", res.data.userName);
             fetchProjects();
         } catch(err){
             console.error("Add project failed : ", err);

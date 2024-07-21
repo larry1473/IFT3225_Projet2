@@ -253,6 +253,8 @@ export class AppService{
 
     public async addGuest(id: string, guestName: string) :Promise<{ success: boolean; message: String; }>{
         this.database = await Database.getInstance('dbName');
+        console.log(id, " : ", guestName);
+        
         try {
             const project = await Project.findById(id);
             if (!project) {

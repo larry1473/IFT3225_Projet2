@@ -8,7 +8,7 @@ type ProjectContextType = {
     handleDeleteProjectClick: (project: ProjectType) => void;
     fetchProjects(): Promise<void>;
     projectSelected: ProjectType | undefined;
-    setProjectSelected: (project: ProjectType) => void;
+    setProjectSelected: Dispatch<SetStateAction<ProjectType | undefined>>;
 }
 
 type ProjectProviderPropsType = {

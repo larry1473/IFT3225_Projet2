@@ -3,19 +3,15 @@ import {v4 as uuidv4} from 'uuid';
 import { CiSearch } from "react-icons/ci";
 import { useLoginStatus } from '../context/LoginStatusContext';
 
-type UserNameType = {
-    username: string;
-}
-
 type UserListType = {
     title: string;
     isTeam: boolean;
     isRequest: boolean;
-    userlist: UserNameType[];
-    onTeammatesAdd: (user: UserNameType)=> void;
-    onTeammatesDelete: (user: UserNameType)=> void;
-    onRequetsAdd: (user: UserNameType)=> void;
-    onRequetsDelete: (user: UserNameType)=> void;
+    userlist: string[];
+    onTeammatesAdd: (user: string)=> void;
+    onTeammatesDelete: (user: string)=> void;
+    onRequetsAdd: (user: string)=> void;
+    onRequetsDelete: (user: string)=> void;
 }
 
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequetsAdd, onRequetsDelete}:UserListType) {
@@ -33,8 +29,8 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
         console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
-        onRequetsDelete({username: userSelectedName});
-        onTeammatesAdd({username: userSelectedName});
+        onRequetsDelete(userSelectedName);
+        onTeammatesAdd(userSelectedName);
     }
     const handleXClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
@@ -42,15 +38,15 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
         console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
         if(isTeam){
-            onTeammatesDelete({username: userSelectedName});
+            onTeammatesDelete(userSelectedName);
         }
         else if(isRequest){
-            onRequetsDelete({username: userSelectedName});
+            onRequetsDelete(userSelectedName);
         }
     }
     const handleAddRequestClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
-        onRequetsAdd({username: userLogedIn});
+        onRequetsAdd(userLogedIn);
     }
     const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFilter(e.target.value);
@@ -58,7 +54,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         if(filter !== ""){
-            const filteredUsers = users.filter(userlist => userlist.username.includes(filter))
+            const filteredUsers = users.filter(username => username.includes(filter))
             setUsers(filteredUsers);
         } else {
             setUsers(userlist);
@@ -76,12 +72,12 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
                 </form>
             </div>
             <ul className='userlist row-span-3 flex flex-col gap-y-2 items-start w-full border p-2'>
-                {users.map(user => (
+                {users.map(username => (
                     <div key={uuidv4()} className='userlist_items flex justify-between items-center w-40 border p-2'>
-                        <li className='px-2'>{user.username}</li>
+                        <li className='px-2'>{username}</li>
                         <div className='flex gap-x-1'>
-                            {!isTeam && <button onClick={handleOClick} type='submit' name={user.username} className='request_okbtn border text-center bg-green-300 w-7 rounded-full'>O</button>}
-                            <button onClick={handleXClick} type='submit' name={user.username} className='request_xbtn border bg-red-300 w-7 rounded-full'>X</button>
+                            {!isTeam && <button onClick={handleOClick} type='submit' name={username} className='request_okbtn border text-center bg-green-300 w-7 rounded-full'>O</button>}
+                            <button onClick={handleXClick} type='submit' name={username} className='request_xbtn border bg-red-300 w-7 rounded-full'>X</button>
                         </div>
                     </div> 
                 ))}

@@ -1,87 +1,72 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskSpace from './TaskSpace';
 import UserList from './UserList';
 import { useProjects } from '../context/ProjectsContext';
-
-type UserNameType = {
-    username: string;
-}
-
-const teamUsers:UserNameType[] = [
-    {username: "teammate1"},
-    {username: "teammate2"},
-    {username: "teammate3"},
-    {username: "teammate4"},
-    {username: "teammate5"},
-    {username: "teammate6"},
-    {username: "teammate7"},
-    {username: "teammate8"},
-    {username: "teammate9"},
-    {username: "teammate10"},
-    {username: "teammate11"},
-    {username: "teammate12"},
-    {username: "teammate13"},
-    {username: "teammate14"},
-    {username: "teammate15"},
-    {username: "teammate16"},
-    {username: "teammate17"},
-    {username: "teammate18"},
-    {username: "teammate19"},
-    {username: "teammate20"},
-]
-
-const requestUsers:UserNameType[] = [
-    {username: "user1"},
-    {username: "user2"},
-    {username: "user3"},
-    {username: "user4"},
-    {username: "user5"},
-    {username: "user6"},
-    {username: "user7"},
-    {username: "user8"},
-    {username: "user9"},
-    {username: "user10"},
-    {username: "user11"},
-    {username: "user12"},
-    {username: "user13"},
-    {username: "user14"},
-    {username: "user15"},
-    {username: "user16"},
-    {username: "user17"},
-    {username: "user18"},
-    {username: "user19"},
-    {username: "user20"},
-]
+import { ProjectType, ProjectAddType } from '../types/TaskMasterTypes';
+import axios from 'axios';
 
 export default function ProjectDetail() {
-    const {taskid} = useParams();
-    console.log(taskid);
-    const {allProjects, setAllProjects} = useProjects();
-    const [teammates, setTeammates] = useState(teamUsers);
-    const [joinRequests, setJoinRequests] = useState(requestUsers);
+    const {projectid} = useParams();
+    console.log(projectid);
+    const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
+    const [teammates, setTeammates] = useState<string[]>(projectSelected?.guestNames || []);
+    const [joinRequests, setJoinRequests] = useState<string[]>(projectSelected?.requestJoin || []);
 
-    const handleTeammatesAdd = (newTeammate:UserNameType)=>{
+    const handleTeammatesAdd = (newTeammateName:string)=>{
         console.log("team add");
-        setTeammates([...teammates, newTeammate]);
+
+        setTeammates([...teammates, newTeammateName]);
         console.log(teammates);
-        
+
+        setProjectSelected(prev => prev ? {
+            ...prev,
+            guestNames: teammates
+        } : prev);
+
         // update server
+        if(projectSelected){
+            console.log("adding teammate...");
+            
+            postAddTeammate(newTeammateName);
+        }
     }
-    const handleTeammatesDelete = (newTeammate:UserNameType)=>{
+    const postAddTeammate = async (guestName : string )=>{
+        const token = localStorage.getItem('token');
+        console.log("project id : ", projectid);
+        
+        try {
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/guests/`, 
+                {guestName}, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            console.log("Teammate added successfully");
+            fetchProjects();
+        } catch (error) {
+            console.error("Failed to add teammate:", error);
+        }
+    }
+
+    const handleTeammatesDelete = (newTeammateName:string)=>{
         console.log("team delete");
-        setTeammates(prev => prev.filter(t => t.username !== newTeammate.username));
+        if(teammates)
+            setTeammates(prev => prev.filter(teammateName => teammateName !== newTeammateName));
         console.log(teammates);
         
         // update server
     }
-    const handleRequestsAdd = (newRequester:UserNameType)=>{
+    const handleRequestsAdd = (newRequesterName:string)=>{
         console.log("request add");
-        const requestExists = joinRequests.some(req => req.username === newRequester.username)
-        const teammateExists = joinRequests.some(req => req.username === newRequester.username)
+        const requestExists = joinRequests.some(reqName => reqName === newRequesterName)
+        const teammateExists = joinRequests.some(reqName => reqName === newRequesterName)
         
         if (!requestExists && !teammateExists){
-            setJoinRequests([...joinRequests, newRequester]);
+            setJoinRequests([...joinRequests, newRequesterName]);
         } else if(requestExists || teammateExists){
             alert("you are already on the list");
         }
@@ -90,9 +75,9 @@ export default function ProjectDetail() {
         
         // update server
     }
-    const handleRequestsDelete = (newRequester:UserNameType)=>{
+    const handleRequestsDelete = (newRequesterName:string)=>{
         console.log("request delete");
-        setJoinRequests(prev => prev.filter(t => t.username !== newRequester.username));
+        setJoinRequests(prev => prev.filter(reqName => reqName !== newRequesterName));
         console.log(joinRequests);
         
         // update server

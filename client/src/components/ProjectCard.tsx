@@ -12,7 +12,7 @@ type ProjectCardPropsType = {
 
 export default function ProjectCard({onCardClick, project}:ProjectCardPropsType) {
     const {hasLogedin, username} = useLoginStatus();
-    const {handleDeleteProjectClick} = useProjects();
+    const {handleDeleteProjectClick, projectSelected, setProjectSelected} = useProjects();
     const navigate = useNavigate();
 
     const handleDetailClick = (e:React.MouseEvent)=>{
@@ -22,7 +22,9 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             navigate(`/connection/login`);
             return;
         } else {
-            navigate(`../taskcards/${project.name}`);
+            setProjectSelected(project);
+            console.log(projectSelected);
+            navigate(`../taskcards/${project._id}`);
         }
     }
 
