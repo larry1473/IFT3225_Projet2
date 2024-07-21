@@ -1,5 +1,4 @@
 import { createContext, useState, ReactNode, useEffect, useContext } from 'react';
-import axios from 'axios';
 
 type LoginStatusProps = {
     children: ReactNode;
@@ -21,18 +20,6 @@ export function LoginStatusProvider({children} : LoginStatusProps){
     const [userLogedIn, setUserLogedIn] = useState("");
     const [username, setUsername] = useState("");
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        const storedUserEmail = localStorage.getItem('userEmail');
-        const storedUsername = localStorage.getItem('username');
-
-        if (storedToken && storedUserEmail && storedUsername) {
-            setHasLogedin(true);
-            setUserLogedIn(storedUserEmail);
-            setUsername(storedUsername);
-        }
-    }, []);
-    
 
     return (
         <LoginStatusContext.Provider value={{hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, username, setUsername}}>

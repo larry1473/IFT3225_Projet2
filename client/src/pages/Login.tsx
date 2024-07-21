@@ -23,12 +23,10 @@ export default function Login() {
                 const {token, userName} = res.data;
                 localStorage.setItem('token', token);
                 console.log("Log in successful");
-                // sessionStorage.setItem('isLogedIn', 'true');
-                // sessionStorage.setItem('userEmail', loginData.email);
-                // sessionStorage.setItem('username', userName);
                 setHasLogedin(true);
                 setUserLogedIn(loginData.email);
                 setUsername(userName);
+                navigate('/');
             } else {
                 console.log("Log in failed");
             }
@@ -42,7 +40,6 @@ export default function Login() {
         console.log(loginData);
         console.log("Login");
         fetchLoginData();
-        navigate('/');
     }
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
