@@ -10,10 +10,14 @@ export default function Home() {
         projectname: "",
         username: ""
     });
+    const [filtersInfo, setFiltersInfo] = useState({
+        projectname: "",
+        username: ""
+    });
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = e.target;
-        setFilters(prev =>({
+        setFiltersInfo(prev =>({
             ...prev,
             [name]:value
         }))
@@ -22,6 +26,7 @@ export default function Home() {
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         console.log(filters);
+        setFilters(filtersInfo);
     }
     
     return (

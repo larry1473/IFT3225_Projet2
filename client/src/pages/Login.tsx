@@ -9,7 +9,7 @@ type LoginProps = {
 
 export default function Login() {
     const navigate = useNavigate();
-    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
+    const {setHasLogedin, setUserLogedIn, setUsername} = useLoginStatus();
     const [loginData, setLoginData] = useState({
         email: "",
         password: ""
@@ -23,10 +23,12 @@ export default function Login() {
                 const {token, userName} = res.data;
                 localStorage.setItem('token', token);
                 console.log("Log in successful");
+                sessionStorage.setItem('isLogedIn', 'true');
+                sessionStorage.setItem('userEmail', loginData.email);
+                sessionStorage.setItem('username', userName);
                 setHasLogedin(true);
                 setUserLogedIn(loginData.email);
                 setUsername(userName);
-                navigate('/');
             } else {
                 console.log("Log in failed");
             }
@@ -40,6 +42,7 @@ export default function Login() {
         console.log(loginData);
         console.log("Login");
         fetchLoginData();
+        navigate('/');
     }
 
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -55,8 +58,8 @@ export default function Login() {
     }
 
     return (
-        <div className='flex justify-center py-24 h-full'>
-            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-10 h-5/6'>
+        <div className='flex justify-center items-start py-24 h-lvh'>
+            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-4/6'>
                 <h1 className='text-xl'>LOG IN</h1>
                 <form onSubmit={handleLoginSubmit} className='flex flex-col gap-3'>
                     <div className='flex flex-col'>

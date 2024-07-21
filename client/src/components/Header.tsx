@@ -9,11 +9,15 @@ import axios from 'axios';
 export default function Header() {
     const navigate = useNavigate();
     const {darkMode, toggleDarkMode} = useDarkMode();
-    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn} = useLoginStatus();
+    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
     const handleLogoutClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         console.log(e.target);
+        sessionStorage.removeItem('isLogedIn');
+        sessionStorage.removeItem('userMail');
+        sessionStorage.removeItem('username');
         setHasLogedin(false);
         setUserLogedIn("");
+        setUsername("");
         fetchLogout();
     }
     const fetchLogout = async ()=>{
