@@ -25,10 +25,7 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
 
     useEffect(()=>{
-        // console.log(filters);
-        console.log(allProjects);
         if(!allProjects) return;
-        console.log("pass");
         
         if(filters.projectname === '' && filters.username === ''){
             console.log("1");
@@ -43,9 +40,6 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
             console.log("4");
             setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username || p.name.includes(filters.projectname)));
         }
-        
-        console.log("filtered : ", projectsFiltered);
-        
     }, [allProjects, filters]);   
 
     // Set current tasks

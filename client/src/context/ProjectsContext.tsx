@@ -7,6 +7,8 @@ type ProjectContextType = {
     setAllProjects: Dispatch<SetStateAction<ProjectType[]>>;
     handleDeleteProjectClick: (project: ProjectType) => void;
     fetchProjects(): Promise<void>;
+    projectSelected: ProjectType | undefined;
+    setProjectSelected: (project: ProjectType) => void;
 }
 
 type ProjectProviderPropsType = {
@@ -17,6 +19,8 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
 export function ProjectProvider({children} : ProjectProviderPropsType){
     const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
+    const [projectSelected, setProjectSelected] = useState<ProjectType>();
+    
     const handleDeleteProjectClick = (project: ProjectType)=>{
         console.log(project);
         console.log(allProjects);
@@ -24,10 +28,6 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         const projects = allProjects.filter(p => p._id !== project._id);
         setAllProjects(projects);
     }
-
-    // useEffect(()=>{
-    //     fet
-    // }, [addNum]);
 
     useEffect(()=>{
         console.log("Fetching all projects...");
@@ -46,7 +46,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
     }
 
     return (
-        <ProjectContext.Provider value={{allProjects, setAllProjects, handleDeleteProjectClick, fetchProjects}}>
+        <ProjectContext.Provider value={{allProjects, setAllProjects, handleDeleteProjectClick, fetchProjects, projectSelected, setProjectSelected}}>
             {children}
         </ProjectContext.Provider>
     )

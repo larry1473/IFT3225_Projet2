@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskSpace from './TaskSpace';
-import TaskList from './UserList';
 import UserList from './UserList';
+import { useProjects } from '../context/ProjectsContext';
 
 type UserNameType = {
     username: string;
@@ -57,7 +57,7 @@ const requestUsers:UserNameType[] = [
 export default function ProjectDetail() {
     const {taskid} = useParams();
     console.log(taskid);
-
+    const {allProjects, setAllProjects} = useProjects();
     const [teammates, setTeammates] = useState(teamUsers);
     const [joinRequests, setJoinRequests] = useState(requestUsers);
 
