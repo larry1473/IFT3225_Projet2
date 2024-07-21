@@ -5,8 +5,9 @@ import axios from 'axios';
 type ProjectContextType = {
     allProjects: ProjectType[];
     setAllProjects: Dispatch<SetStateAction<ProjectType[]>>;
-    handleAddProjectClick: (project: ProjectType) => void;
+    handleAddProjectClick: () => void;
     handleDeleteProjectClick: (project: ProjectType) => void;
+    fetchProjects(): Promise<void>;
 }
 
 type ProjectProviderPropsType = {
@@ -17,8 +18,9 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
 export function ProjectProvider({children} : ProjectProviderPropsType){
     const [allProjects, setAllProjects] = useState<ProjectType[]>([]);
-    const handleAddProjectClick = (project: ProjectType)=>{
-        setAllProjects(prev => [...prev, project]);
+    const [addNum, setAddNum] = useState(0);
+    const handleAddProjectClick = ()=>{
+        setAddNum(prev => prev + 1);
     }
     const handleDeleteProjectClick = (project: ProjectType)=>{
         console.log(project);
@@ -28,7 +30,13 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         setAllProjects(projects);
     }
 
+    // useEffect(()=>{
+    //     fet
+    // }, [addNum]);
+
     useEffect(()=>{
+        console.log("Fetching all projects...");
+        
         fetchProjects();
     }, []);
     const fetchProjects = async ()=>{
@@ -43,7 +51,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
     }
 
     return (
-        <ProjectContext.Provider value={{allProjects, setAllProjects, handleAddProjectClick, handleDeleteProjectClick}}>
+        <ProjectContext.Provider value={{allProjects, setAllProjects, handleAddProjectClick, handleDeleteProjectClick, fetchProjects}}>
             {children}
         </ProjectContext.Provider>
     )

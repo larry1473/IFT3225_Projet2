@@ -119,7 +119,7 @@ export class AppService{
       
     }
 
-    public async addProject(project: any):Promise<{ success: boolean; message: String; }>{
+    public async addProject(project: any):Promise<{ success: boolean; message: String;}>{
        this.database = await Database.getInstance('dbName');
        try{
               await project.save();

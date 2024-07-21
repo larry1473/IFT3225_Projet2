@@ -8,8 +8,8 @@ import { useProjects } from '../context/ProjectsContext';
 
 
 export default function ProjectAdd() {
-    const {allProjects, handleAddProjectClick} = useProjects();
-    const {hasLogedin, userLogedIn, username} = useLoginStatus();
+    const {fetchProjects} = useProjects();
+    const {hasLogedin, username} = useLoginStatus();
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
@@ -60,7 +60,6 @@ export default function ProjectAdd() {
             endDate: new Date(),
         })
         postAddProject();
-        // handleAddProjectClick();
     };
     const postAddProject = async ()=>{
         console.log(projectInfo);
@@ -79,6 +78,7 @@ export default function ProjectAdd() {
                 }
             });
             console.log("add project response message : ", res.data.message);
+            fetchProjects();
         } catch(err){
             console.error("Add project failed : ", err);
         }
