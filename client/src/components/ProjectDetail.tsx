@@ -91,17 +91,44 @@ export default function ProjectDetail() {
         console.log("request add");
         const requestExists = joinRequests.some(reqName => reqName === newRequesterName)
         const teammateExists = joinRequests.some(reqName => reqName === newRequesterName)
-        
-        if (!requestExists && !teammateExists){
-            setJoinRequests([...joinRequests, newRequesterName]);
-        } else if(requestExists || teammateExists){
+        if(requestExists || teammateExists){
             alert("you are already on the list");
+            return;
+        } else if (!requestExists && !teammateExists){
+            setJoinRequests([...joinRequests, newRequesterName]);
+            setProjectSelected(prev => prev ? {
+                ...prev,
+                guestNames: teammates
+            } : prev);
+
+            if(projectSelected){
+                console.log("adding join request...");
+                // update server
+                postAddRequest(newRequesterName);
+            }
         }
-        
-        console.log(joinRequests);
-        
-        // update server
     }
+    const postAddRequest = async (requesterName : string )=>{
+        const token = localStorage.getItem('token');
+        
+        try {
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/requesters/`, 
+                {requesterName}, 
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            console.log("Requester added successfully");
+            fetchProjects();
+        } catch (error) {
+            console.error("Failed to add teammate:", error);
+        }
+    }
+
+
     const handleRequestsDelete = (newRequesterName:string)=>{
         console.log("request delete");
         setJoinRequests(prev => prev.filter(reqName => reqName !== newRequesterName));
