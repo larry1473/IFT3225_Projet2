@@ -13,10 +13,9 @@ export default function ProjectSpace() {
     const {fetchProjects} = useProjects();
     const [taskInfo, setTaskInfo] = useState({
         title: "",
-        description:"",
         hostName: username,
-        guestNames: [],
-        createDate: new Date(),
+        guestNames: ["Jane Smith", "Bob Johnson"],
+        createdDate: new Date(),
         targetDate: new Date(),
         endDate: new Date(),
     })
@@ -24,15 +23,29 @@ export default function ProjectSpace() {
     const [tasksDoing, setTaskDoing] = useState<TaskType[]>(makeTasksDoingList(projectSelected?.tasks || []));
     const [tasksDone, setTaskDone] = useState<TaskType[]>(makeTasksDoneList(projectSelected?.tasks || []));
 
-    const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        const {name, value} = e.target;
+    const handleTitleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setTaskInfo(prev=>({
             ...prev,
-            [name]:value,
+            title:e.target.value,
+        }))
+    }
+    const handleTargetDateChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const newTargetDate = new Date(e.target.value);
+
+        // if(newTargetDate < projectInfo.createDate){
+        //     alert("Target date cannot be earlier than create date");
+        //     return;
+        // }
+
+        setTaskInfo(prev=>({
+            ...prev,
+            targetDate:new Date(e.target.value),
         }))
     }
 
     const handleAddTaskSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
+        console.log("Add task");
+        
         e.preventDefault();
         console.log(taskInfo);
         
@@ -42,15 +55,14 @@ export default function ProjectSpace() {
             endDate:new Date(taskInfo.targetDate)
         }))
 
-        if(projectSelected){
-            postAddTask();
-        }
+        postAddTask();
     }
 
     const postAddTask = async ()=>{
         const token = localStorage.getItem('token');
         const taskJson = JSON.stringify(taskInfo);
-
+        console.log(taskJson);
+        
         try{
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}`, taskJson, {
                 headers: {
@@ -59,7 +71,6 @@ export default function ProjectSpace() {
                 }
             });
             console.log("add project response message : ", res.data.message);
-            console.log("add project response username : ", res.data.userName);
             fetchProjects();
         } catch (err){
             console.error(err);
@@ -72,20 +83,20 @@ export default function ProjectSpace() {
             
             {/* Project info */}
             <div className='flex flex-col items-start justify-center h-max'>
-                <p>{projectSelected?.name}</p>
-                <p>{projectSelected?.hostName}</p>
-                <p>{projectSelected?.description}</p>
+                <p>Name : {projectSelected?.name}</p>
+                <p>Owner : {projectSelected?.hostName}</p>
+                <p>Description : {projectSelected?.description}</p>
             </div>
             
             {/* Add task */}
             <form onSubmit={handleAddTaskSubmit} className='flex justify-center items-center gap-4 border px-5 py-4'>
                 <div className='flex flex-col'>
                     <label htmlFor="title">Name</label>
-                    <input onChange={handleInputChange} id='title' name="title" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1'/>
+                    <input onChange={handleTitleChange} id='title' name="title" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1'/>
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="targetDate">Target date</label>
-                    <input onChange={handleInputChange} id='targetDate' name='targetDate' type="date" placeholder='Type a project description' className='projectadd_input w-56 p-1'/>
+                    <input onChange={handleTargetDateChange} id='targetDate' name='targetDate' type="date" placeholder='Type a project description' className='projectadd_input w-56 p-1'/>
                 </div>
                 <div className='flex'>
                     <button type='submit' className='p-2 rounded-full border text-center'>Add task</button>
@@ -93,8 +104,8 @@ export default function ProjectSpace() {
             </form>
             
             <div className='grid grid-cols-2 gap-5 px-5 py-5'>
-                <TaskGroup title="Doing" />
-                <TaskGroup title="Done" />
+                <TaskGroup title="Doing" tasklist={tasksDoing}/>
+                <TaskGroup title="Done" tasklist={tasksDone}/>
             </div>
         </div>
     );

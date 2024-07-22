@@ -64,7 +64,7 @@ export default function ProjectAdd() {
         
         setProjectInfo({
             ...projectInfo,
-            hostName: "name3333",
+            hostName: username,
             createDate: new Date(),
             endDate: projectInfo.targetDate,
         })
