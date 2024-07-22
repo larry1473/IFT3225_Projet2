@@ -437,7 +437,7 @@ export class AppService{
 
 
 
-    public async changeDate(projectId: string, taskId: string, date: any):Promise<{ success: boolean; message: String; }>{
+    public async changeDate(projectId: string, taskId: string, date: any):Promise<{ success: boolean; message: String; project? : any}>{
         this.database = await Database.getInstance('dbName');
         console.log("in change date", date);
         try {
@@ -451,7 +451,7 @@ export class AppService{
             }
             task.endDate = date;
             await project.save();
-            return { success: true, message: 'Date changed successfully' };
+            return { success: true, message: 'Date changed successfully', project : project };
         }
         catch(err){
             return { success: false, message: 'An error occurred during change date' };

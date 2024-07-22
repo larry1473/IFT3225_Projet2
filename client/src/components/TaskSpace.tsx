@@ -75,12 +75,10 @@ export default function ProjectSpace() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(res.data);
-            
             console.log("add project response message : ", res.data.message);
             const projectUpdated = res.data.project;
             console.log(projectUpdated);
-            setProjectSelected(projectSelected);
+            setProjectSelected(projectUpdated);
             console.log(projectSelected);
             
             // setProjectSelected(prev=>prev ? {

@@ -20,7 +20,6 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const handleJoinClick = (e:React.MouseEvent)=>{
         console.log("Join task");
         postAddTaskGuest(username);
-        
     }
     const postAddTaskGuest = async(guestname:string)=>{
         const token = localStorage.getItem('token');
@@ -44,8 +43,32 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     }
 
     // create endDate & move to Done
-    const handleDoneClick = ()=>{
+    const handleDoneClick = (e:React.MouseEvent)=>{
+        console.log("Task finished");
+        console.log(task._id);
         
+        updateTaskEndDate();
+    }
+    const updateTaskEndDate = async ()=>{
+        const token = localStorage.getItem('token');
+        const enddate = {endDate : new Date()}
+        const endDateJson = JSON.stringify(enddate);
+        console.log(endDateJson);
+        
+        try{
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/tasks/${task._id}`, endDateJson,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("finish task response message : ", res.data.message);
+            console.log(res.data);
+            setProjectSelected(res.data.project);
+            fetchProjects();
+        } catch (err){
+            console.error(err);
+        }
     }
 
     // delete a task guest

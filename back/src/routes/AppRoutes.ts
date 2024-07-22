@@ -340,7 +340,8 @@ class AppRoutes{
             const date = req.body.endDate;
             const result = await this.appService.changeDate(projectId,taskId,date);
             res.status(200).send({
-                message:result.message
+                message:result.message,
+                project:result.project
             });
         }
         catch(err){
