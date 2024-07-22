@@ -19,15 +19,17 @@ export default function ProjectSpace() {
         targetDate: new Date(),
         endDate: new Date(),
     })
-    const [tasksDoing, setTaskDoing] = useState<TaskType[]>(projectSelected?.tasks || []);
-    const [tasksDone, setTaskDone] = useState<TaskType[]>(projectSelected?.tasks || []);
+    const [tasksDoing, setTaskDoing] = useState<TaskType[]>(projectSelected?.tasks.filter(t => new Date(t.endDate) > new Date()) || []);
+    const [tasksDone, setTaskDone] = useState<TaskType[]>(projectSelected?.tasks.filter(t => new Date(t.endDate) <= new Date()) || []);
 
     // test
-    // useEffect(()=>{
-    //     console.log(tasksDoing);
-    //     console.log(tasksDone);
+    useEffect(()=>{
+        if(projectSelected){
+            setTaskDoing(projectSelected?.tasks.filter(t => new Date(t.endDate) > new Date()));
+            setTaskDone(projectSelected?.tasks.filter(t => new Date(t.endDate) <= new Date()));
+        }
         
-    // }, []);
+    }, [projectSelected]);
 
     const handleTitleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setTaskInfo(prev=>({
@@ -118,7 +120,7 @@ export default function ProjectSpace() {
                 </div>
             </form>
             
-            <div className='grid grid-cols-2 gap-5 px-5 py-5'>
+            <div className='flex gap-5 px-5 py-5'>
                 <TaskGroup title="Doing" tasklist={tasksDoing}/>
                 <TaskGroup title="Done" tasklist={tasksDone}/>
             </div>
