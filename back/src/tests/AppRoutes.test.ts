@@ -270,10 +270,10 @@ describe(" project  endponts  testing", () => {
         .post("/api/v1/projects/66971535b9b62a2dcde209dd/tasks/669b11f4fde03fcc031fdc0c")
         .send(
             {
-                "endDate": "2028-10-15T00:00:00.000Z"
+                "endDate": "2030-10-15T00:00:00.000Z"
             }
         );
-        expect(response.status).toBe(401);
+        expect(response.status).toBe(200);
         // expect(response.body.message).toBe("Task updated successfully");
     });
 

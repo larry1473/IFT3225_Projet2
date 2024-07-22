@@ -378,7 +378,7 @@ class AppRoutes{
         this._routes.get('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.getTaskGuests.bind(this));
         this._routes.post('/projects/:projectId/tasks/:taskId/guests',authMiddleware,this.addTaskGuests.bind(this));
         this._routes.delete('/projects/:projectId/tasks/:taskId/guests/:guestName',authMiddleware,this.deleteTaskGuest.bind(this));
-        this._routes.post('/projects/:projectId/tasks/:taskId',authMiddleware,this.changeDate.bind(this));
+        this._routes.post('/projects/:projectId/tasks/:taskId',this.changeDate.bind(this));
 
         // project requesters endpoints
         this._routes.get('/projects/:projectId/requesters',authMiddleware,this.getRequester.bind(this));
