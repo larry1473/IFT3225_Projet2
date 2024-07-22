@@ -120,7 +120,8 @@ class AppRoutes{
             const taskSchema = new Task(req.body);
             const result = await this.appService.addTask(taskSchema,req.params.id);
             res.status(200).send({
-                message:result.message
+                message:result.message,
+                project:result.project
             });
            
         }

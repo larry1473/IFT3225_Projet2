@@ -9,7 +9,6 @@ import { Project } from "../models/project";
 import bcrypt from 'bcryptjs';
 import { ITask } from '../models/Task'; // Add import statement
 export class AppService{
-   
     
     
     
@@ -95,7 +94,7 @@ export class AppService{
        
     }
 
-    public async addTask(task:any,id:string ):Promise<{success:boolean; message:String}>{
+    public async addTask(task:any,id:string ):Promise<{success:boolean; message:String; project ? :any}>{
         this.database = await Database.getInstance('dbName');
         try {
            
@@ -108,7 +107,7 @@ export class AppService{
                 await project.save();
             }
             console.log("Task added successfully");
-            return { success: true, message: 'Task added successfully' };
+            return { success: true, message: 'Task added successfully', project: project };
         }
         catch (err) {
             return { success: false, message: 'An error occurred during add task' };
@@ -254,8 +253,6 @@ export class AppService{
 
     public async addGuest(id: string, guestName: string) :Promise<{ success: boolean; message: String; }>{
         this.database = await Database.getInstance('dbName');
-        console.log(id, " : ", guestName);
-        
         try {
             const project = await Project.findById(id);
             if (!project) {
@@ -431,30 +428,6 @@ export class AppService{
         }  
         catch(err){
             return { success: false, message: 'An error occurred during delete requester' };
-        }
-        finally{
-            this.database.close();
-        }
-    }
-
-    public async changeDate(projectId: string, taskId: string, date: any):Promise<{ success: boolean; message: String; }>{
-        this.database = await Database.getInstance('dbName');
-        console.log("in change date", date);
-        try {
-            const project = await Project.findById(projectId);
-            if (!project) {
-                return { success: false, message: 'Project not found' };
-            }
-            const task = project.tasks.find((task: any) => task._id.toString() === taskId);
-            if (!task) {
-                return { success: false, message: 'Task not found' };
-            }
-            task.endDate = date;
-            await project.save();
-            return { success: true, message: 'Date changed successfully' };
-        }
-        catch(err){
-            return { success: false, message: 'An error occurred during change date' };
         }
         finally{
             this.database.close();

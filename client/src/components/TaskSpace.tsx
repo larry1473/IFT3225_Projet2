@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TaskGroup from './TaskGroup';
 import { useProjects } from '../context/ProjectsContext';
 import {TaskType, TaskAddType} from '../types/TaskMasterTypes';
@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 export default function ProjectSpace() {
     const {projectid} = useParams();
     const {username} = useLoginStatus();
-    const {fetchProjects} = useProjects();
+    const {fetchProjects, projectSelected, setProjectSelected} = useProjects();
     const [taskInfo, setTaskInfo] = useState({
         title: "",
         hostName: username,
@@ -19,9 +19,15 @@ export default function ProjectSpace() {
         targetDate: new Date(),
         endDate: new Date(),
     })
-    const {projectSelected, setProjectSelected} = useProjects();
-    const [tasksDoing, setTaskDoing] = useState<TaskType[]>(makeTasksDoingList(projectSelected?.tasks || []));
-    const [tasksDone, setTaskDone] = useState<TaskType[]>(makeTasksDoneList(projectSelected?.tasks || []));
+    const [tasksDoing, setTaskDoing] = useState<TaskType[]>(projectSelected?.tasks || []);
+    const [tasksDone, setTaskDone] = useState<TaskType[]>(projectSelected?.tasks || []);
+
+    // test
+    // useEffect(()=>{
+    //     console.log(tasksDoing);
+    //     console.log(tasksDone);
+        
+    // }, []);
 
     const handleTitleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setTaskInfo(prev=>({
@@ -43,23 +49,20 @@ export default function ProjectSpace() {
         }))
     }
 
+    // add a task
     const handleAddTaskSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         console.log("Add task");
-        
         e.preventDefault();
         console.log(taskInfo);
-        
+        postAddTask();
+    }
+    const postAddTask = async ()=>{
+        const token = localStorage.getItem('token');
         setTaskInfo(prev=>({
             ...prev,
             hostName:"name3333",
             endDate:new Date(taskInfo.targetDate)
         }))
-
-        postAddTask();
-    }
-
-    const postAddTask = async ()=>{
-        const token = localStorage.getItem('token');
         const taskJson = JSON.stringify(taskInfo);
         console.log(taskJson);
         
@@ -70,7 +73,19 @@ export default function ProjectSpace() {
                     'Content-Type': 'application/json'
                 }
             });
+            console.log(res.data);
+            
             console.log("add project response message : ", res.data.message);
+            const projectUpdated = res.data.project;
+            console.log(projectUpdated);
+            setProjectSelected(projectSelected);
+            console.log(projectSelected);
+            
+            // setProjectSelected(prev=>prev ? {
+            //     ...prev,
+            //     tasks: projectUpdated.tasks
+            // } : prev);
+
             fetchProjects();
         } catch (err){
             console.error(err);
@@ -109,17 +124,4 @@ export default function ProjectSpace() {
             </div>
         </div>
     );
-}
-
-function makeTasksDoingList (tasks: TaskType[]){
-    const now = new Date();
-    const doingList = tasks.filter(t => t.endDate > now);
-
-    return doingList;
-}
-function makeTasksDoneList (tasks: TaskType[]){
-    const now = new Date();
-    const doingList = tasks.filter(t => t.endDate <= now);
-
-    return doingList;
 }
