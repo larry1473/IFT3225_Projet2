@@ -73,7 +73,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
             </div>
             <ul className='userlist row-span-3 flex flex-col gap-y-2 items-start w-full border p-2'>
                 {users.map(username => (
-                    <div key={uuidv4()} className='userlist_items flex justify-between items-center w-40 border p-2'>
+                    <div key={uuidv4()} className='userlist_items flex flex-col justify-between items-center xl:flex-row w-min border p-2'>
                         <li className='px-2'>{username}</li>
                         <div className='flex gap-x-1'>
                             {!isTeam && <button onClick={handleOClick} type='submit' name={username} className='request_okbtn border text-center bg-green-300 w-7 rounded-full'>O</button>}
