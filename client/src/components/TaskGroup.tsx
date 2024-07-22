@@ -14,13 +14,10 @@ export default function TaskGroup({title, tasklist}:TaskGroupProps) {
     console.log(tasklist);
     
     return (
-        <div className='flex flex-col items-center gap-y-4 px-5 py-5 border w-1/2 h-lvh'>
+        <div className='flex flex-col items-center gap-y-4 px-5 py-5 border w-full h-lvh xl:w-1/2'>
             <h3 className='font-bold'>{title}</h3>
+            <h3 className='font-sm'>{tasklist.length} tasks</h3>
             <ul className='taskgroup flex flex-col gap-y-2 w-full'>
-                {/* <TaskCard 
-                    title={title}
-                    task={{}}
-                /> */}
                 {tasklist.map(t => (
                     <TaskCard title={title} task={t} />
                 ))}

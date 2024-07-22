@@ -120,7 +120,7 @@ export default function ProjectSpace() {
                 </div>
             </form>
             
-            <div className='flex gap-5 px-5 py-5'>
+            <div className='flex flex-col md:flex-row  gap-5 px-5 py-5'>
                 <TaskGroup title="Doing" tasklist={tasksDoing}/>
                 <TaskGroup title="Done" tasklist={tasksDone}/>
             </div>
