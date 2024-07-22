@@ -191,7 +191,8 @@ class AppRoutes{
            
             const result = await this.appService.deleteTask(projectId,taskId);
             res.status(200).send({
-                message:result.message
+                message:result.message,
+                project:result.project
             });
         }
         catch(err){

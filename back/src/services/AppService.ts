@@ -188,7 +188,7 @@ export class AppService{
         }
     }
 
-    public async deleteTask  (projectId: string, taskId: string):Promise<{ success: boolean; message: String; }>{
+    public async deleteTask  (projectId: string, taskId: string):Promise<{ success: boolean; message: String; project? :any }>{
         this.database = await Database.getInstance('dbName');
         try {
             const project = await Project.findById(projectId);
@@ -201,7 +201,7 @@ export class AppService{
             }
             project.tasks.splice(taskIndex, 1);
             await project.save();
-            return { success: true, message: 'Task deleted successfully' };
+            return { success: true, message: 'Task deleted successfully', project: project };
         }
         catch(err){
             return { success: false, message: 'An error occurred during delete task' };

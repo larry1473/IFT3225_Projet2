@@ -45,7 +45,6 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // create endDate & move to Done
     const handleDoneClick = (e:React.MouseEvent)=>{
         console.log("Task finished");
-        console.log(task._id);
         
         updateTaskEndDate();
     }
@@ -72,8 +71,27 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     }
 
     // delete a task guest
-    const handleDeleteClick = ()=>{
+    const handleDeleteClick = (e:React.MouseEvent)=>{
+        console.log("delete task");
+        deleteTask();
+    }
+    const deleteTask = async()=>{
+        const token = localStorage.getItem('token');
 
+        try{
+            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/tasks/${task._id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("delete task response message : ", res.data.message);
+            console.log(res.data);
+            setProjectSelected(res.data.project);
+            fetchProjects();
+        } catch(err){
+            console.error(err);
+        }
     }
 
     return (
