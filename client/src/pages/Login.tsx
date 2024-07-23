@@ -19,10 +19,10 @@ export default function Login() {
         try {
             const res = await axios.post('http://localhost:3000/api/v1/signin', loginData);
             if(res.status === 200){
-                const {token, userName} = res.data;
+                const {token, username} = res.data;
                 console.log(res.data);
                 localStorage.setItem('token', token);
-                localStorage.setItem('username', userName);
+                localStorage.setItem('username', username);
                 setUsername(res.data.userName);
                 setUserLogedIn(loginData.email);
                 setHasLogedin(true);
