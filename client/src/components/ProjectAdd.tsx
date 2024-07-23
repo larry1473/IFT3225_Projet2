@@ -58,13 +58,12 @@ export default function ProjectAdd() {
     const postAddProject = async ()=>{
         console.log(projectInfo);
         const token = localStorage.getItem('token');
-
+        const username = localStorage.getItem('username');
         console.log(username);
-        console.log(localStorage.getItem('username'));
+        
         
         setProjectInfo({
             ...projectInfo,
-            hostName: username,
             createDate: new Date(),
             endDate: projectInfo.targetDate,
         })

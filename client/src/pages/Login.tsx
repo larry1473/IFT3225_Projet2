@@ -22,7 +22,7 @@ export default function Login() {
                 const {token, username} = res.data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('username', username);
-                setUsername(res.data.userName);
+                setUsername(res.data.username);
                 setUserLogedIn(loginData.email);
                 setHasLogedin(true);
                 console.log("Log in successful");
