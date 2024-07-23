@@ -25,6 +25,8 @@ export default function Header() {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
             console.log('Data from server:', response.data);
             console.log("Log out success");
             navigate('../connection/login');

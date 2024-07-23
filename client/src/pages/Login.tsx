@@ -23,7 +23,7 @@ export default function Login() {
                 console.log(res.data);
                 localStorage.setItem('token', token);
                 localStorage.setItem('username', userName);
-                setUsername(userName);
+                setUsername(res.data.userName);
                 setUserLogedIn(loginData.email);
                 setHasLogedin(true);
                 console.log("Log in successful");
@@ -39,7 +39,6 @@ export default function Login() {
     const handleLoginSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         console.log(loginData);
-        console.log("Login");
         fetchLoginData();
     }
 
