@@ -55,7 +55,7 @@ html.dark {
 
 .filter_input {
   background-color: var(--color-bg-dark);
-  @apply w-44 border px-2 mx-2;
+  @apply w-48 border px-2 mx-2;
 }
 
 .filter_search_icon {

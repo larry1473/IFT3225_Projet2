@@ -33,8 +33,9 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             navigate(`/connection/login`);
             return;
         }
+        const myUsername = localStorage.getItem('username');
         
-        if(username !== project.hostName){
+        if(myUsername !== project.hostName){
             alert("This is not your project !!");
             return;
         }

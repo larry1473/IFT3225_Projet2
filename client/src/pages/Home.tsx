@@ -35,12 +35,12 @@ export default function Home() {
             {/* -----filter section---- */}
             <div className='flex justify-center items-center py-5'>
                 <form onSubmit={handleFilterSubmit} className='filter_form flex items-center w-full border px-5 py-2 gap-x-5 rounded-lg'>
-                    <div className='flex flex-col justify-center border-r px-2'>
-                        <label htmlFor="projectname">Project name</label>
+                    <div className='flex flex-col justify-center items-start gap-1 border-r px-2'>
+                        <label htmlFor="projectname" className='mx-2'>Project name</label>
                         <input id='projectname' name='projectname' onChange={handleInputChange} type="text" placeholder='Type a project name' className='filter_input'/>
                     </div>
                     <div className='flex flex-col justify-center border-r px-2'>
-                        <label htmlFor="username_input">Username</label>
+                        <label htmlFor="username_input" className='mx-2'>Username</label>
                         <input id='username_input' type="text" onChange={handleInputChange} placeholder='Type a username' className='filter_input'/>
                     </div>
                     <button><CiSearch className='filter_search_icon size-6'/></button>

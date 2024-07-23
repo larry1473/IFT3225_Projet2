@@ -47,7 +47,6 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
     const firstProjectIndex = lastProjectIndex - projectsPerPage;
     const currentProjects: ProjectType[] = (projectsFiltered) ? 
             projectsFiltered.slice(firstProjectIndex, lastProjectIndex) : [];
-    console.log(currentProjects);
     
 
     // Change page
