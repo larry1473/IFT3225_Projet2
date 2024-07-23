@@ -22,6 +22,7 @@ export default function Login() {
                 const {token, userName} = res.data;
                 console.log(res.data);
                 localStorage.setItem('token', token);
+                localStorage.setItem('username', userName);
                 setUsername(userName);
                 setUserLogedIn(loginData.email);
                 setHasLogedin(true);

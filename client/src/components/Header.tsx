@@ -18,8 +18,13 @@ export default function Header() {
         fetchLogout();
     }
     const fetchLogout = async ()=>{
+        const token = localStorage.getItem('token');
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/logout');
+            const response = await axios.get('http://localhost:3000/api/v1/logout', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             console.log('Data from server:', response.data);
             console.log("Log out success");
             navigate('../connection/login');
