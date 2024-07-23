@@ -18,6 +18,7 @@ const Database_1 = __importDefault(require("./Database"));
 const validator_1 = __importDefault(require("validator"));
 const zxcvbn_1 = __importDefault(require("zxcvbn"));
 const AuthService_1 = __importDefault(require("./AuthService"));
+const Task_1 = require("../models/Task");
 const project_1 = require("../models/project");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class AppService {
@@ -75,8 +76,8 @@ class AppService {
         return __awaiter(this, void 0, void 0, function* () {
             this.database = yield Database_1.default.getInstance('dbName');
             try {
-                const token = yield AuthService_1.default.signIn(email, password);
-                return { success: true, message: 'User signed in successfully', token };
+                const { token, response, userName } = yield AuthService_1.default.signIn(email, password);
+                return { success: true, message: 'User signed in successfully', token, userName };
             }
             catch (err) {
                 const error = err;
@@ -101,7 +102,7 @@ class AppService {
                     yield project.save();
                 }
                 console.log("Task added successfully");
-                return { success: true, message: 'Task added successfully' };
+                return { success: true, message: 'Task added successfully', project: project };
             }
             catch (err) {
                 return { success: false, message: 'An error occurred during add task' };
@@ -197,7 +198,7 @@ class AppService {
                 }
                 project.tasks.splice(taskIndex, 1);
                 yield project.save();
-                return { success: true, message: 'Task deleted successfully' };
+                return { success: true, message: 'Task deleted successfully', project: project };
             }
             catch (err) {
                 return { success: false, message: 'An error occurred during delete task' };
@@ -239,11 +240,219 @@ class AppService {
                 if (!project) {
                     return { success: false, message: 'Project not found' };
                 }
-                return { success: true, message: 'Guests retrieved successfully', guests: project.gestId };
+                return { success: true, message: 'Guests retrieved successfully', guests: project.guestNames };
             }
             catch (err) {
                 return { success: false, message: 'An error occurred during get guests' };
-                console.error("An error occured during the getGuests", err);
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    addGuest(id, guestName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(id);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                project.guestNames.push(guestName);
+                const msg = yield project.save();
+                return { success: true, message: 'Guest added successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during add guest' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    deleteGuest(projectId, guestName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                console.log(guestName);
+                console.log(project.guestNames);
+                const guestIndex = project.guestNames.findIndex((guest) => guest.toLowerCase() === guestName.toLowerCase());
+                if (guestIndex === -1) {
+                    return { success: false, message: 'Guest not found' };
+                }
+                project.guestNames.splice(guestIndex, 1);
+                yield project.save();
+                return { success: true, message: 'Guest deleted successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during delete guest' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    getTaskGuests(projectId, taskId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(" in getTaskGuests");
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                const task = project.tasks.find((task) => task._id.toString() === taskId);
+                console.log(task);
+                if (!task) {
+                    return { success: false, message: 'Task not found' };
+                }
+                return { success: true, message: 'Task guests retrieved successfully', task: new Task_1.Task(task).guestNames };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during get task guests' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    addTaskGuests(projectId, taskId, guestName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                const task = project.tasks.find((task) => task._id.toString() === taskId);
+                if (!task) {
+                    return { success: false, message: 'Task not found' };
+                }
+                task.guestNames.push(guestName);
+                yield project.save();
+                return { success: true, message: 'Guest added successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during add task guest' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    deleteTaskGuest(projectId, taskId, guestName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                const task = project.tasks.find((task) => task._id.toString() === taskId);
+                if (!task) {
+                    return { success: false, message: 'Task not found' };
+                }
+                const guestIndex = task.guestNames.findIndex((guest) => guest.toLowerCase() === guestName.toLowerCase());
+                if (guestIndex === -1) {
+                    return { success: false, message: 'Guest not found' };
+                }
+                task.guestNames.splice(guestIndex, 1);
+                yield project.save();
+                return { success: true, message: 'Guest deleted successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during delete task guest' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    getRequester(projectId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                return { success: true, message: 'Requester retrieved successfully', requester: project.requestJoin };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during get requester' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    addRequester(projectId, requesterName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                project.requestJoin.push(requesterName);
+                yield project.save();
+                return { success: true, message: 'Requester added successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during add requester' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    deleteRequester(projectId, requesterName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                const requesterIndex = project.requestJoin.findIndex((requester) => requester.toLowerCase() === requesterName.toLowerCase());
+                if (requesterIndex === -1) {
+                    return { success: false, message: 'Requester not found' };
+                }
+                project.requestJoin.splice(requesterIndex, 1);
+                yield project.save();
+                return { success: true, message: 'Requester deleted successfully' };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during delete requester' };
+            }
+            finally {
+                this.database.close();
+            }
+        });
+    }
+    changeDate(projectId, taskId, date) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.database = yield Database_1.default.getInstance('dbName');
+            console.log("in change date", date);
+            try {
+                const project = yield project_1.Project.findById(projectId);
+                if (!project) {
+                    return { success: false, message: 'Project not found' };
+                }
+                const task = project.tasks.find((task) => task._id.toString() === taskId);
+                if (!task) {
+                    return { success: false, message: 'Task not found' };
+                }
+                task.endDate = date;
+                yield project.save();
+                return { success: true, message: 'Date changed successfully', project: project };
+            }
+            catch (err) {
+                return { success: false, message: 'An error occurred during change date' };
             }
             finally {
                 this.database.close();

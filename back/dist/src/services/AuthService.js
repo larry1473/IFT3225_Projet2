@@ -35,9 +35,9 @@ class AuthService {
             }
             if (yield bcryptjs_1.default.compare(password, user.password)) {
                 const token = this.generateToken(user);
-                return token;
+                return { token: token, response: 'success', userName: user.name };
             }
-            return 'Invalid email or password';
+            return { response: 'Invalid email or password' };
         });
     }
 }

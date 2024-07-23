@@ -32,7 +32,8 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
         console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
-        
+
+
         onTeammatesAdd(userSelectedName);
         // onRequestDelete(userSelectedName);
     }
@@ -56,7 +57,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
             alert("This is your project!");
             return;
         } else{
-            onTeammatesAdd(myName);
+            onRequestAdd(myName);
         }
     }
     const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -82,9 +83,9 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
                     <button className='border rounded-full p-1'><CiSearch /></button>
                 </form>
             </div>
-            <ul className='userlist row-span-3 flex flex-col gap-y-2 items-start w-full border p-2'>
+            <ul className='userlist row-span-3 flex flex-col gap-y-2 items-center w-full border p-2'>
                 {users.map(username => (
-                    <div key={uuidv4()} className='userlist_items flex flex-col justify-between items-center xl:flex-row w-min border p-2'>
+                    <div key={uuidv4()} className='userlist_items flex flex-col justify-between items-center lg:flex-row w-min border p-2'>
                         <li className='px-2'>{username}</li>
                         <div className='flex gap-x-1'>
                             {!isTeam && <button onClick={handleOClick} type='submit' name={username} className='request_okbtn border text-center bg-green-300 w-7 rounded-full'>O</button>}

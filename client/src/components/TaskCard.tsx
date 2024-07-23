@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TaskType } from '../types/TaskMasterTypes';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
@@ -15,13 +15,18 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const {projectid} = useParams();
     const {username} = useLoginStatus();
     const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
-
+    
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
         console.log("Join task");
-        postAddTaskGuest(username);
+        postAddTaskGuest(localStorage.getItem('username') || username);
     }
     const postAddTaskGuest = async(guestname:string)=>{
+        if(task.guestNames.includes(guestname)){
+            alert("You are already on the list!");
+            return;
+        }
+        
         const token = localStorage.getItem('token');
 
         try{

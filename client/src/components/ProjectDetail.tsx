@@ -16,35 +16,53 @@ export default function ProjectDetail() {
     const handleTeammatesAdd = (newTeammateName:string)=>{
         console.log("team add");
 
+        if(teammates.includes(newTeammateName)){
+            alert("You are already on the list");
+            return;
+        }
+
         setTeammates([...teammates, newTeammateName]);
         console.log(teammates);
-
-        setProjectSelected(prev => prev ? {
-            ...prev,
-            guestNames: teammates
-        } : prev);
 
         // update server
         if(projectSelected){
             console.log("adding teammate...");
             
-            postAddTeammate(newTeammateName);
+            postAddTeammateAndDeleteRequest(newTeammateName);
+            // postDeleteRequester(newTeammateName);
+            setProjectSelected(prev => prev ? {
+                ...prev,
+                guestNames: teammates
+            } : prev);
         }
     }
-    const postAddTeammate = async (guestName : string )=>{
+    const postAddTeammateAndDeleteRequest = async (guestName : string )=>{
         const token = localStorage.getItem('token');
+
+        const addTeammate = axios.post(`http://localhost:3000/api/v1/projects/${projectid}/guests/`,
+            { guestName },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        console.log(guestName);
+        
+        const deleteRequest = axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/requesters/${guestName}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );        
         
         try {
-            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/guests/`, 
-                {guestName}, 
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-            console.log("Teammate added successfully");
+            const [addRes, deleteRes] = await Promise.all([addTeammate, deleteRequest]);
+            console.log("Teammate added successfully", addRes.data);
+            console.log("Requester deleted successfully", deleteRes.data);
             fetchProjects();
         } catch (error) {
             console.error("Failed to add teammate:", error);
@@ -90,23 +108,21 @@ export default function ProjectDetail() {
 
     const handleRequestsAdd = (newRequesterName:string)=>{
         console.log("request add");
-        const requestExists = joinRequests.some(reqName => reqName === newRequesterName)
-        const teammateExists = joinRequests.some(reqName => reqName === newRequesterName)
-        if(requestExists || teammateExists){
-            alert("you are already on the list");
+        if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName)){
+            alert("You are already on the list");
             return;
-        } else if (!requestExists && !teammateExists){
-            setJoinRequests([...joinRequests, newRequesterName]);
-            setProjectSelected(prev => prev ? {
-                ...prev,
-                guestNames: teammates
-            } : prev);
+        }
 
-            if(projectSelected){
-                console.log("adding join request...");
-                // update server
-                postAddRequest(newRequesterName);
-            }
+        setJoinRequests([...joinRequests, newRequesterName]);
+        setProjectSelected(prev => prev ? {
+            ...prev,
+            guestNames: teammates
+        } : prev);
+
+        if(projectSelected){
+            console.log("adding join request...");
+            // update server
+            postAddRequest(newRequesterName);
         }
     }
     const postAddRequest = async (requesterName : string )=>{
@@ -160,7 +176,7 @@ export default function ProjectDetail() {
                     }
                 }
             );
-            console.log("Requester deleted successfully");
+            console.log("Delete request : ", res.data.message);
             fetchProjects();
         } catch (error) {
             console.error("Failed to add teammate:", error);

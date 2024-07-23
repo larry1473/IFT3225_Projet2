@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskModel = exports.TaskStatus = exports.Task = void 0;
+exports.TaskSchema = exports.TaskModel = exports.TaskStatus = exports.Task = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 var TaskStatus;
 (function (TaskStatus) {
@@ -32,13 +32,13 @@ var TaskStatus;
 })(TaskStatus || (exports.TaskStatus = TaskStatus = {}));
 const TaskSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
-    description: { type: String, required: true },
-    hostId: { type: String, required: true },
-    guestId: { type: [String], required: true },
+    hostName: { type: String, required: true },
+    guestNames: { type: [String], required: true },
     endDate: { type: Date, required: true },
     createdDate: { type: Date, required: true },
     targetDate: { type: Date, required: true },
 });
+exports.TaskSchema = TaskSchema;
 const Task = mongoose_1.default.model("Tasks", TaskSchema);
 exports.Task = Task;
 class TaskModel {

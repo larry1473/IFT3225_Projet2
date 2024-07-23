@@ -11,7 +11,6 @@ type TaskGroupProps = {
 
 export default function TaskGroup({title, tasklist}:TaskGroupProps) {
     const {projectSelected, setProjectSelected} = useProjects();
-    console.log(tasklist);
     
     return (
         <div className='flex flex-col items-center gap-y-4 px-5 py-5 border w-full h-lvh xl:w-1/2'>
