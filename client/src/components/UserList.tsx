@@ -11,11 +11,11 @@ type UserListType = {
     userlist: string[];
     onTeammatesAdd: (user: string)=> void;
     onTeammatesDelete: (user: string)=> void;
-    onRequetsAdd: (user: string)=> void;
-    onRequetsDelete: (user: string)=> void;
+    onRequestAdd: (user: string)=> void;
+    onRequestDelete: (user: string)=> void;
 }
 
-export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequetsAdd, onRequetsDelete}:UserListType) {
+export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequestAdd, onRequestDelete}:UserListType) {
     const {userLogedIn, username} = useLoginStatus();
     const {projectSelected} = useProjects()
     const [users, setUsers] = useState(userlist);
@@ -32,8 +32,9 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
         console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
-        onRequetsDelete(userSelectedName);
+        
         onTeammatesAdd(userSelectedName);
+        // onRequestDelete(userSelectedName);
     }
     const handleXClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
@@ -45,7 +46,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
             onTeammatesDelete(userSelectedName);
         }
         else if(isRequest){
-            onRequetsDelete(userSelectedName);
+            onRequestDelete(userSelectedName);
         }
     }
     const handleAddRequestClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
@@ -55,7 +56,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
             alert("This is your project!");
             return;
         } else{
-            onRequetsAdd(myName);
+            onTeammatesAdd(myName);
         }
     }
     const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{

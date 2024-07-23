@@ -177,8 +177,8 @@ export default function ProjectDetail() {
                     userlist={teammates}
                     onTeammatesAdd={handleTeammatesAdd}
                     onTeammatesDelete={handleTeammatesDelete}
-                    onRequetsAdd={handleRequestsAdd}
-                    onRequetsDelete={handleRequestsDelete}
+                    onRequestAdd={handleRequestsAdd}
+                    onRequestDelete={handleRequestsDelete}
                 />
                 <UserList 
                     title="Join Requests" 
@@ -187,8 +187,8 @@ export default function ProjectDetail() {
                     userlist={joinRequests}
                     onTeammatesAdd={handleTeammatesAdd}
                     onTeammatesDelete={handleTeammatesDelete}
-                    onRequetsAdd={handleRequestsAdd}
-                    onRequetsDelete={handleRequestsDelete}
+                    onRequestAdd={handleRequestsAdd}
+                    onRequestDelete={handleRequestsDelete}
                 />
             </div>
             <div className='col-span-3'>
