@@ -62,7 +62,7 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
                 <ProjectsPagination 
                     currentPage={currentPage}
                     tasksPerPage={projectsPerPage}
-                    tasksNum={currentProjects.length}
+                    tasksNum={projectsFiltered.length}
                     onPageChangeClick={handleChangePage}
                 />
                 <ProjectAdd />

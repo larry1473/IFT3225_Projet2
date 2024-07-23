@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {v4 as uuidv4} from 'uuid';
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
@@ -11,7 +11,11 @@ type TaskPaginationPropsType = {
 
 export default function ProjectsPagination({currentPage, tasksPerPage, tasksNum, onPageChangeClick}:TaskPaginationPropsType) {
     const pageNums:number[] = [];
-
+    useEffect(()=>{
+        console.log(tasksNum);
+        console.log(tasksPerPage);
+        console.log(currentPage);
+    }, []);
     for(let i = 1; i <= Math.ceil(tasksNum / tasksPerPage); i++){
         pageNums.push(i);
     }
