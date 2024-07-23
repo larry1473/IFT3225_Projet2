@@ -25,7 +25,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         console.log(project);
         console.log(allProjects);
 
-        const projects = allProjects.filter(p => p._id !== project._id);
+        const projects = allProjects ? allProjects.filter(p => p._id !== project._id):[];
         setAllProjects(projects);
     }
 

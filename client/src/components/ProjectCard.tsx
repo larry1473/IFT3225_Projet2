@@ -34,6 +34,8 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             return;
         }
         const myUsername = localStorage.getItem('username');
+        console.log(username);
+        
         
         if(myUsername !== project.hostName){
             alert("This is not your project !!");
