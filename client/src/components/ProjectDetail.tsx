@@ -81,7 +81,7 @@ export default function ProjectDetail() {
                     }
                 }
             );
-            console.log("Teammate deleted successfully");
+            console.log("Delete teammate : ", res.data.message);
             fetchProjects();
         } catch (error) {
             console.error("Failed to add teammate:", error);
@@ -152,7 +152,7 @@ export default function ProjectDetail() {
         const token = localStorage.getItem('token');
         
         try {
-            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/guests/${requesterName}`, 
+            const res = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/requesters/${requesterName}`, 
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -166,8 +166,6 @@ export default function ProjectDetail() {
             console.error("Failed to add teammate:", error);
         }
     }
-
-    // add fetch data for teammates and joinRequests
     
     return (
         <div className='grid grid-cols-4 gap-y-4'>

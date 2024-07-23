@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {v4 as uuidv4} from 'uuid';
 import { CiSearch } from "react-icons/ci";
 import { useLoginStatus } from '../context/LoginStatusContext';
+import { useProjects } from '../context/ProjectsContext';
 
 type UserListType = {
     title: string;
@@ -15,10 +16,12 @@ type UserListType = {
 }
 
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequetsAdd, onRequetsDelete}:UserListType) {
-    const {userLogedIn} = useLoginStatus();
+    const {userLogedIn, username} = useLoginStatus();
+    const {projectSelected} = useProjects()
     const [users, setUsers] = useState(userlist);
     const [filter, setFilter] = useState("");
     const [isProjectHost, setIsProjectHost] = useState("false");
+    
 
     useEffect(()=>{
         setUsers(userlist);
@@ -37,6 +40,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
         console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
+        
         if(isTeam){
             onTeammatesDelete(userSelectedName);
         }
@@ -46,7 +50,13 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }
     const handleAddRequestClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
-        onRequetsAdd(userLogedIn);
+        const myName = localStorage.getItem('username') || username;
+        if(projectSelected?.hostName === myName){
+            alert("This is your project!");
+            return;
+        } else{
+            onRequetsAdd(myName);
+        }
     }
     const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFilter(e.target.value);
