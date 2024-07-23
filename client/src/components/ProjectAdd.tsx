@@ -12,7 +12,7 @@ export default function ProjectAdd() {
     const navigate = useNavigate();
     const [projectInfo, setProjectInfo] = useState({
         name: "",
-        hostName: "",
+        hostName: username,
         guestNames: [],
         description: "",
         createDate: new Date(),

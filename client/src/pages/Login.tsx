@@ -20,7 +20,6 @@ export default function Login() {
             const res = await axios.post('http://localhost:3000/api/v1/signin', loginData);
             if(res.status === 200){
                 const {token, username} = res.data;
-                console.log(res.data);
                 localStorage.setItem('token', token);
                 localStorage.setItem('username', username);
                 setUsername(res.data.userName);

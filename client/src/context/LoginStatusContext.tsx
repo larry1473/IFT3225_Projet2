@@ -16,7 +16,7 @@ type LoginStatusContextType = {
 const LoginStatusContext = createContext<LoginStatusContextType | undefined>(undefined);
 
 export function LoginStatusProvider({children} : LoginStatusProps){
-    const [hasLogedin, setHasLogedin] = useState(false);
+    const [hasLogedin, setHasLogedin] = useState(localStorage.getItem("username") ? true : false);
     const [userLogedIn, setUserLogedIn] = useState("");
     const [username, setUsername] = useState("");
 
