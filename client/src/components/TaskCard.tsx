@@ -54,10 +54,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // create endDate & move to Done
     const handleDoneClick = (e:React.MouseEvent)=>{
         console.log("Task finished");
-        if(username !== task.hostName){
-            alert("You are not in this team!");
-            return;
-        }
+        // if(username !== task.hostName){
+        //     alert("You are not in this team!");
+        //     return;
+        // }
         updateTaskEndDate();
     }
     const updateTaskEndDate = async ()=>{
@@ -85,10 +85,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // delete a task guest
     const handleDeleteClick = (e:React.MouseEvent)=>{
         console.log("delete task");
-        if(username !== task.hostName){
-            alert("This is not your task!");
-            return;
-        }
+        // if(username !== task.hostName){
+        //     alert("This is not your task!");
+        //     return;
+        // }
         deleteTask();
     }
     const deleteTask = async()=>{
