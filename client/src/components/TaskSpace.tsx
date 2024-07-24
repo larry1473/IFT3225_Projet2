@@ -14,7 +14,7 @@ export default function ProjectSpace() {
     const [taskInfo, setTaskInfo] = useState({
         title: "",
         hostName: username,
-        guestNames: ["Jane Smith", "Bob Johnson"],
+        guestNames: [],
         createdDate: new Date(),
         targetDate: new Date(),
         endDate: new Date(),

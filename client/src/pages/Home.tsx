@@ -40,8 +40,8 @@ export default function Home() {
                         <input id='projectname' name='projectname' onChange={handleInputChange} type="text" placeholder='Type a project name' className='filter_input'/>
                     </div>
                     <div className='flex flex-col justify-center border-r px-2'>
-                        <label htmlFor="username_input" className='mx-2'>Username</label>
-                        <input id='username_input' type="text" onChange={handleInputChange} placeholder='Type a username' className='filter_input'/>
+                        <label htmlFor="username" className='mx-2'>Username</label>
+                        <input id='username' name="username" type="text" onChange={handleInputChange} placeholder='Type a username' className='filter_input'/>
                     </div>
                     <button><CiSearch className='filter_search_icon size-6'/></button>
                 </form>

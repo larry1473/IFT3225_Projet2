@@ -26,20 +26,18 @@ export default function ProjectCards({filters}:ProjectCardsPropsType) {
 
     useEffect(()=>{
         if(!allProjects) return;
+        console.log("filters : ",filters);
+
+        const { projectname, username } = filters;
+        const projectnameLower = projectname.toLowerCase();
+        const usernameLower = username.toLowerCase();
         
-        if(filters.projectname === '' && filters.username === ''){
-            console.log("1");
-            setProjectsFiltered(allProjects);
-        } else if(filters.projectname === ''){
-            console.log("2");
-            setProjectsFiltered(allProjects.filter(p => p.hostName.includes(filters.username)));
-        } else if(filters.username === ''){
-            console.log("3");
-            setProjectsFiltered(allProjects.filter(p => p.name.includes(filters.projectname)));
-        } else {
-            console.log("4");
-            setProjectsFiltered(allProjects.filter(p => p.hostName === filters.username || p.name.includes(filters.projectname)));
-        }
+        const filteredProjects = allProjects.filter(p => 
+        (projectname === '' || p.name.toLowerCase().includes(projectnameLower)) && 
+        (username === '' || p.hostName.toLowerCase().includes(usernameLower))
+    );
+
+    setProjectsFiltered(filteredProjects);
     }, [allProjects, filters]);   
 
     // Set current tasks

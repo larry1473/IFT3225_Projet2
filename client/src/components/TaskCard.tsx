@@ -19,8 +19,8 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
         console.log("Join task");
-        if(username !== task.hostName){
-            alert("You are not in this team!");
+        if(username === task.hostName){
+            alert("This is  your project!");
             return;
         }
         postAddTaskGuest(localStorage.getItem('username') || username);
@@ -34,7 +34,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
         const token = localStorage.getItem('token');
 
         try{
-            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/tasks/${task._id}/guests`, guestname,{
+            const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/tasks/${task._id}/guests`, {guestName : guestname},{
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
