@@ -19,7 +19,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
-        console.log("Join task");
+        // console.log("Join task");
         if(username === task.hostName){
             alert("This is  your project!");
             return;
@@ -41,7 +41,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("add project response message : ", res.data.message);
+            // console.log("add project response message : ", res.data.message);
             setProjectSelected(prev => prev?{
                 ...prev,
                 guestNames:[...prev.guestNames, guestname]
@@ -54,11 +54,11 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
 
     // create endDate & move to Done
     const handleDoneClick = (e:React.MouseEvent)=>{
-        console.log("Task finished");
-        // if(username !== task.hostName){
-        //     alert("You are not in this team!");
-        //     return;
-        // }
+        // console.log("Task finished");
+        if(username !== task.hostName){
+            alert("You are not in this team!");
+            return;
+        }
         updateTaskEndDate();
     }
     const updateTaskEndDate = async ()=>{
@@ -74,8 +74,8 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("finish task response message : ", res.data.message);
-            console.log(res.data);
+            // console.log("finish task response message : ", res.data.message);
+            // console.log(res.data);
             setProjectSelected(res.data.project);
             fetchProjects();
         } catch (err){
@@ -86,10 +86,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // delete a task guest
     const handleDeleteClick = (e:React.MouseEvent)=>{
         console.log("delete task");
-        // if(username !== task.hostName){
-        //     alert("This is not your task!");
-        //     return;
-        // }
+        if(username !== task.hostName){
+            alert("This is not your task!");
+            return;
+        }
         deleteTask();
     }
     const deleteTask = async()=>{
@@ -102,8 +102,8 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("delete task response message : ", res.data.message);
-            console.log(res.data);
+            // console.log("delete task response message : ", res.data.message);
+            // console.log(res.data);
             setProjectSelected(res.data.project);
             fetchProjects();
         } catch(err){

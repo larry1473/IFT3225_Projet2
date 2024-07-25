@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
 import TaskCard from './TaskCard';
-import { useProjects } from '../context/ProjectsContext';
 import { TaskType } from '../types/TaskMasterTypes';
 
 
@@ -10,7 +8,6 @@ type TaskGroupProps = {
 };
 
 export default function TaskGroup({title, tasklist}:TaskGroupProps) {
-    const {projectSelected, setProjectSelected} = useProjects();
     
     return (
         <div className='flex flex-col items-center gap-y-4 px-5 py-5 border w-full h-lvh xl:w-1/2'>

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import ProjectsPagination from './ProjectsPagination';
 import ProjectDetail from './ProjectDetail';
 import ProjectsPost from './ProjectsPost';
 import ProjectAdd from './ProjectAdd';
-import { ProjectAddType, ProjectType } from '../types/TaskMasterTypes';
+import { ProjectType } from '../types/TaskMasterTypes';
 import { useProjects } from '../context/ProjectsContext';
 
 

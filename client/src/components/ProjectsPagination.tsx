@@ -11,11 +11,7 @@ type TaskPaginationPropsType = {
 
 export default function ProjectsPagination({currentPage, tasksPerPage, tasksNum, onPageChangeClick}:TaskPaginationPropsType) {
     const pageNums:number[] = [];
-    useEffect(()=>{
-        console.log(tasksNum);
-        console.log(tasksPerPage);
-        console.log(currentPage);
-    }, []);
+
     for(let i = 1; i <= Math.ceil(tasksNum / tasksPerPage); i++){
         pageNums.push(i);
     }

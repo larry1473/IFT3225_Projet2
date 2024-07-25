@@ -2,10 +2,8 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import ProjectCards from '../components/ProjectCards';
 import { CiSearch } from "react-icons/ci";
-import { useProjects } from '../context/ProjectsContext';
 
 export default function Home() {
-    const {allProjects, setAllProjects} = useProjects();
     const [filters, setFilters] = useState({
         projectname: "",
         username: ""
@@ -47,7 +45,6 @@ export default function Home() {
                 </form>
             </div>
             
-            {/* <ProjectCards allProjects={allProjects} onFetchProjects={toggleFetch} filters={filters}/> */}
             <ProjectCards filters={filters}/>
         </div>
     );

@@ -30,7 +30,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
     }
 
     useEffect(()=>{
-        console.log("Fetching all projects...");
+        // console.log("Fetching all projects...");
         
         fetchProjects();
     }, []);
@@ -38,8 +38,7 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         try{
             const res = await axios.get(`http://localhost:3000/api/v1/projects`);
             setAllProjects(res.data.projects);
-            console.log("Fetching projects");
-            console.log(allProjects);
+            // console.log("Fetching projects");
         } catch(err) {
             console.error("Fetching projects failed : ", err);
         }

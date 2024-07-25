@@ -13,8 +13,12 @@ export default function ProjectDetail() {
     const [teammates, setTeammates] = useState<string[]>(projectSelected?.guestNames || []);
     const [joinRequests, setJoinRequests] = useState<string[]>(projectSelected?.requestJoin || []);
 
+    useEffect(()=>{
+        fetchProjects();
+    }, [])
+
     const handleTeammatesAdd = (newTeammateName:string)=>{
-        console.log("team add");
+        // console.log("team add");
 
         if(teammates.includes(newTeammateName)){
             alert("You are already on the list");
@@ -24,12 +28,10 @@ export default function ProjectDetail() {
 
         // update server
         if(projectSelected){
-            console.log("adding teammate...");
+            // console.log("adding teammate...");
             setTeammates([...teammates, newTeammateName]);
-            console.log(teammates);
             
             postAddTeammateAndDeleteRequest(newTeammateName);
-            // postDeleteRequester(newTeammateName);
             setProjectSelected(prev => prev ? {
                 ...prev,
                 guestNames: teammates
@@ -72,10 +74,9 @@ export default function ProjectDetail() {
     }
 
     const handleTeammatesDelete = (teammateName:string)=>{
-        console.log("team delete");
+        // console.log("team delete");
         if(teammates)
             setTeammates(prev => prev.filter(teammateName => teammateName !== teammateName));
-        console.log(teammates);
 
         setProjectSelected(prev => prev ? {
             ...prev,
@@ -84,7 +85,7 @@ export default function ProjectDetail() {
         
         // update server
         if(projectSelected){
-            console.log("delete teammate...");
+            // console.log("delete teammate...");
             
             postDeleteTeammate(teammateName);
         }
@@ -109,7 +110,7 @@ export default function ProjectDetail() {
     }
 
     const handleRequestsAdd = (newRequesterName:string)=>{
-        console.log("request add");
+        // console.log("request add");
         if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName)){
             alert("You are already on the list");
             return;
@@ -149,9 +150,8 @@ export default function ProjectDetail() {
 
 
     const handleRequestsDelete = (requesterName:string)=>{
-        console.log("request delete");
+        // console.log("request delete");
         setJoinRequests(prev => prev.filter(reqName => reqName !== requesterName));
-        console.log(joinRequests);
         
         setProjectSelected(prev => prev ? {
             ...prev,
@@ -160,7 +160,7 @@ export default function ProjectDetail() {
         
         // update server
         if(projectSelected){
-            console.log("delete teammate...");
+            // console.log("delete teammate...");
             
             postDeleteRequester(requesterName);
         }

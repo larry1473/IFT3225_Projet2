@@ -40,10 +40,10 @@ export default function ProjectSpace() {
     const handleTargetDateChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const newTargetDate = new Date(e.target.value);
 
-        // if(newTargetDate < projectInfo.createDate){
-        //     alert("Target date cannot be earlier than create date");
-        //     return;
-        // }
+        if(newTargetDate < taskInfo.createdDate){
+            alert("Target date cannot be earlier than create date");
+            return;
+        }
 
         setTaskInfo(prev=>({
             ...prev,
@@ -53,9 +53,8 @@ export default function ProjectSpace() {
 
     // add a task
     const handleAddTaskSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
-        console.log("Add task");
+        // console.log("Add task");
         e.preventDefault();
-        console.log(taskInfo);
         postAddTask();
     }
     const postAddTask = async ()=>{
@@ -66,7 +65,6 @@ export default function ProjectSpace() {
             endDate:new Date(taskInfo.targetDate)
         }))
         const taskJson = JSON.stringify(taskInfo);
-        console.log(taskJson);
         
         try{
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}`, taskJson, {
@@ -75,16 +73,9 @@ export default function ProjectSpace() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("add project response message : ", res.data.message);
+            // console.log("add project response message : ", res.data.message);
             const projectUpdated = res.data.project;
-            console.log(projectUpdated);
             setProjectSelected(projectUpdated);
-            console.log(projectSelected);
-            
-            // setProjectSelected(prev=>prev ? {
-            //     ...prev,
-            //     tasks: projectUpdated.tasks
-            // } : prev);
 
             fetchProjects();
         } catch (err){

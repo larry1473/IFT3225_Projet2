@@ -56,11 +56,8 @@ export default function ProjectAdd() {
         postAddProject();
     };
     const postAddProject = async ()=>{
-        console.log(projectInfo);
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
-        console.log(username);
-        
         
         setProjectInfo({
             ...projectInfo,
@@ -69,7 +66,6 @@ export default function ProjectAdd() {
         })
 
         const projectJson = JSON.stringify(projectInfo);
-        console.log(projectJson);
         
         try{
             const res = await axios.post("http://localhost:3000/api/v1/projects", projectJson, {
@@ -78,8 +74,8 @@ export default function ProjectAdd() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log("add project response message : ", res.data.message);
-            console.log("add project response username : ", res.data.userName);
+            // console.log("add project response message : ", res.data.message);
+            // console.log("add project response username : ", res.data.userName);
             fetchProjects();
         } catch(err){
             console.error("Add project failed : ", err);
