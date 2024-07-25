@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { TaskType } from '../types/TaskMasterTypes';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
@@ -14,8 +15,12 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const {projectid} = useParams();
     const {username} = useLoginStatus();
     const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
-    // const [currentTask, setCurrentTask] = useState(projectSelected? projectSelected?.tasks.filter(t=> t._id === task._id): task);
+    const [currTaskGuestnames, setCurrTaskGuestnames] = useState(task.guestNames); 
     
+    useEffect(()=>{
+        console.log(projectSelected);
+    }, [])
+
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
         // console.log("Join task");
@@ -26,11 +31,6 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
         postAddTaskGuest(localStorage.getItem('username') || username);
     }
     const postAddTaskGuest = async(guestname:string)=>{
-        if(task.guestNames.includes(guestname)){
-            alert("You are already on the list!");
-            return;
-        }
-        
         const token = localStorage.getItem('token');
 
         try{
@@ -41,9 +41,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                 }
             });
             // console.log("add project response message : ", res.data.message);
+            setCurrTaskGuestnames(prev => [...prev, guestname]);
             setProjectSelected(prev => prev?{
                 ...prev,
-                guestNames:[...prev.guestNames, guestname]
+                tasks: prev.tasks.map(t => t._id === task._id ? {...t,  guestNames: currTaskGuestnames} : t)
             }: prev)
             fetchProjects();
         } catch(err){
@@ -54,7 +55,8 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // create endDate & move to Done
     const handleDoneClick = (e:React.MouseEvent)=>{
         // console.log("Task finished");
-        if(username !== task.hostName){
+        const isInTeam = currTaskGuestnames.includes(localStorage.getItem('username') || username);
+        if(username !== task.hostName || !isInTeam){
             alert("You are not in this team!");
             return;
         }
@@ -64,7 +66,6 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
         const token = localStorage.getItem('token');
         const enddate = {endDate : new Date()}
         const endDateJson = JSON.stringify(enddate);
-        console.log(endDateJson);
         
         try{
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}/tasks/${task._id}`, endDateJson,{
@@ -116,7 +117,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                 <p className='font-bold'>Name : {task.title}</p>
                 <p>Host : {task.hostName}</p>
                 <p>Target date : {task.targetDate.toString().slice(0, 10)}</p>
-                <p>{task.guestNames.length} teammates</p>
+                <p>{currTaskGuestnames.length} teammates</p>
             </div>
             {(title === "Doing") && <div className='flex gap-y-2 justify-between py-2'>
                             <button onClick={handleJoinClick} className='join_btn bg-green-100 p-1 w-14 h-max rounded'>Join</button>
