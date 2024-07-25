@@ -15,6 +15,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const {projectid} = useParams();
     const {username} = useLoginStatus();
     const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
+    // const [currentTask, setCurrentTask] = useState(projectSelected? projectSelected?.tasks.filter(t=> t._id === task._id): task);
     
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
