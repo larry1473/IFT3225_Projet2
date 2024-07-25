@@ -68,8 +68,8 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
         if(filter !== ""){
             console.log(users);
             
-            users.filter(username => console.log(username.includes(filter)))
-            const filteredUsers = users.filter(username => username.includes(filter))
+            userlist.filter(username => console.log(username.includes(filter)))
+            const filteredUsers = userlist.filter(username => username.includes(filter))
             console.log(filteredUsers);
             
             setUsers(filteredUsers);
