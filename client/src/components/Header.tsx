@@ -4,12 +4,14 @@ import { HiSun, HiMoon } from "react-icons/hi";
 import { useDarkMode } from '../context/DarkModeContext';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import axios from 'axios';
+import { useProjects } from '../context/ProjectsContext';
 
 
 export default function Header() {
     const navigate = useNavigate();
     const {darkMode, toggleDarkMode} = useDarkMode();
     const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
+    const {fetchProjects} = useProjects();
     const handleLogoutClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         console.log(e.target);
         setHasLogedin(false);
@@ -34,10 +36,14 @@ export default function Header() {
             console.error('Error fetching data:', error);
         }
     }
+
+    const handleLogoClick = ()=>{
+        fetchProjects();
+    }
     
     return (
         <header className='header flex h-16 justify-between px-14'>
-            <Link to='/' className='flex justify-center items-center gap-x-1'>
+            <Link onClick={handleLogoClick} to='/' className='flex justify-center items-center gap-x-1'>
                 <SiNginxproxymanager className='logo size-8'/>
                 <p className='logo_title text-2xl'>TaskMaster</p>
             </Link>
