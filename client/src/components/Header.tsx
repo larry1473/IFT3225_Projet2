@@ -10,7 +10,7 @@ import { useProjects } from '../context/ProjectsContext';
 export default function Header() {
     const navigate = useNavigate();
     const {darkMode, toggleDarkMode} = useDarkMode();
-    const {hasLogedin, setHasLogedin, userLogedIn, setUserLogedIn, setUsername} = useLoginStatus();
+    const {hasLogedin, setHasLogedin, setUserLogedIn, setUsername} = useLoginStatus();
     const {fetchProjects} = useProjects();
     const handleLogoutClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         console.log(e.target);

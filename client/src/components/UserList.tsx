@@ -16,7 +16,7 @@ type UserListType = {
 }
 
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequestAdd, onRequestDelete}:UserListType) {
-    const {userLogedIn, username} = useLoginStatus();
+    const {username} = useLoginStatus();
     const {projectSelected, fetchProjects} = useProjects()
     const [users, setUsers] = useState(userlist);
     const [filter, setFilter] = useState("");
@@ -27,6 +27,10 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }, [userlist]);
 
     const handleOClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
+        if(projectSelected?.hostName !== username){
+            alert("You can't accept this request!");
+            return;
+        }
         e.preventDefault();
 
         console.log(e.currentTarget.name);
@@ -34,7 +38,6 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
 
         onTeammatesAdd(userSelectedName);
-        // onRequestDelete(userSelectedName);
     }
     const handleXClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();

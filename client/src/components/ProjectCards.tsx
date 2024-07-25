@@ -19,7 +19,7 @@ type ProjectCardsPropsType = {
 export default function ProjectCards({filters}:ProjectCardsPropsType) {
     const {allProjects, setAllProjects} = useProjects();
     const [currentPage, setCurrentPage] = useState(1);
-    const [projectsPerPage, setProjectsPerPage] = useState(9);
+    const [projectsPerPage, setProjectsPerPage] = useState(15);
     const [cardDetailMode, setCardDetailMode] = useState(false);
     const [projectsFiltered, setProjectsFiltered] = useState<ProjectType[]>([]);
 
