@@ -27,16 +27,13 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }, [userlist]);
 
     const handleOClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
-        if(projectSelected?.hostName !== username){
-            alert("You can't accept this request!");
-            return;
-        }
+        // if(projectSelected?.hostName !== username){
+        //     alert("You can't accept this request!");
+        //     return;
+        // }
         e.preventDefault();
 
-        console.log(e.currentTarget.name);
         const userSelectedName = e.currentTarget.name;
-
-
         onTeammatesAdd(userSelectedName);
     }
     const handleXClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
@@ -67,9 +64,17 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }
     const handleFilterSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
+        
         if(filter !== ""){
+            console.log(users);
+            
+            users.filter(username => console.log(username.includes(filter)))
             const filteredUsers = users.filter(username => username.includes(filter))
+            console.log(filteredUsers);
+            
             setUsers(filteredUsers);
+            console.log(users);
+            
         } else {
             setUsers(userlist);
         }
