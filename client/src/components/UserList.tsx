@@ -81,7 +81,7 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }
 
     return (
-        <div className='tasklist w-full h-lvh row-span-1 flex flex-col gap-y-3 px-5 py-4 border-r border-t'>
+        <div className='tasklist col-span-1 w-full h-lvh row-span-1 flex flex-col gap-y-3 px-5 py-4 border-r border-t'>
             <div className='row-span-1 flex flex-col items-center gap-y-2'>
                 <h3 className='text-center'>{title}</h3>
                 {isRequest && <button onClick={handleAddRequestClick} type='submit' className='text-center border px-2 py-1'>Add my request</button>}
