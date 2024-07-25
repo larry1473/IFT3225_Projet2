@@ -61,7 +61,6 @@ export default function ProjectSpace() {
         const token = localStorage.getItem('token');
         setTaskInfo(prev=>({
             ...prev,
-            hostName:"name3333",
             endDate:new Date(taskInfo.targetDate)
         }))
         const taskJson = JSON.stringify(taskInfo);
