@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskSpace from './TaskSpace';
 import UserList from './UserList';
 import { useProjects } from '../context/ProjectsContext';
-import { ProjectType, ProjectAddType } from '../types/TaskMasterTypes';
 import axios from 'axios';
 
 export default function ProjectDetail() {
     const {projectid} = useParams();
-    console.log(projectid);
     const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
     const [teammates, setTeammates] = useState<string[]>(projectSelected?.guestNames || []);
     const [joinRequests, setJoinRequests] = useState<string[]>(projectSelected?.requestJoin || []);
@@ -52,7 +50,7 @@ export default function ProjectDetail() {
                     }
                 }
             );
-            console.log("Add teammate : ", addRes.data);
+            // console.log("Add teammate : ", addRes.data);
 
             const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
             await delay(1000);
@@ -64,7 +62,7 @@ export default function ProjectDetail() {
                     'Content-Type': 'application/json'
                 }
             })
-            console.log("Delete requester : ", deleteRes.data);
+            // console.log("Delete requester : ", deleteRes.data);
               
 
             fetchProjects();
@@ -86,7 +84,6 @@ export default function ProjectDetail() {
         // update server
         if(projectSelected){
             // console.log("delete teammate...");
-            
             postDeleteTeammate(teammateName);
         }
     }
@@ -161,7 +158,6 @@ export default function ProjectDetail() {
         // update server
         if(projectSelected){
             // console.log("delete teammate...");
-            
             postDeleteRequester(requesterName);
         }
     }

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { TaskType } from '../types/TaskMasterTypes';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';

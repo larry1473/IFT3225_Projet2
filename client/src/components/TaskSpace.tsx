@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TaskGroup from './TaskGroup';
 import { useProjects } from '../context/ProjectsContext';
-import {TaskType, TaskAddType} from '../types/TaskMasterTypes';
+import {TaskType} from '../types/TaskMasterTypes';
 import { useLoginStatus } from '../context/LoginStatusContext';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
