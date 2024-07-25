@@ -27,10 +27,10 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }, [userlist]);
 
     const handleOClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
-        // if(projectSelected?.hostName !== username){
-        //     alert("You can't accept this request!");
-        //     return;
-        // }
+        if(projectSelected?.hostName !== username){
+            alert("You can't accept this request!");
+            return;
+        }
         e.preventDefault();
 
         const userSelectedName = e.currentTarget.name;
