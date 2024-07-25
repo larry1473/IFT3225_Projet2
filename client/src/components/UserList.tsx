@@ -17,10 +17,14 @@ type UserListType = {
 
 export default function UserList({title, isTeam, isRequest, userlist, onTeammatesAdd, onTeammatesDelete, onRequestAdd, onRequestDelete}:UserListType) {
     const {username} = useLoginStatus();
-    const {projectSelected, fetchProjects} = useProjects()
+    const {projectSelected} = useProjects()
     const [users, setUsers] = useState(userlist);
     const [filter, setFilter] = useState("");
-    const [isProjectHost, setIsProjectHost] = useState("false");
+
+    useEffect(()=>{
+        console.log(users);
+        console.log(userlist);
+    }, [])
 
     useEffect(()=>{
         setUsers(userlist);

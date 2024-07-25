@@ -7,13 +7,26 @@ import axios from 'axios';
 
 export default function ProjectDetail() {
     const {projectid} = useParams();
-    const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
+    const {allProjects, projectSelected, setProjectSelected, fetchProjects} = useProjects();
     const [teammates, setTeammates] = useState<string[]>(projectSelected?.guestNames || []);
     const [joinRequests, setJoinRequests] = useState<string[]>(projectSelected?.requestJoin || []);
 
     useEffect(()=>{
         fetchProjects();
-    }, [])
+        
+        const project = localStorage.getItem('projectSelected');
+        if (project){
+            console.log(JSON.parse(project));
+            setProjectSelected(JSON.parse(project));
+        }
+    }, []);
+
+    useEffect(()=>{
+        if(projectSelected){
+            setTeammates(projectSelected.guestNames);
+            setJoinRequests(projectSelected.requestJoin);
+        }
+    }, [projectSelected]);
 
     const handleTeammatesAdd = (newTeammateName:string)=>{
         // console.log("team add");

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useFetcher, useNavigate } from 'react-router-dom';
-import { signUp } from '../apis/user-api';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 type SignUpPropsType = {

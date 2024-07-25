@@ -31,7 +31,6 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
 
     useEffect(()=>{
         // console.log("Fetching all projects...");
-        
         fetchProjects();
     }, []);
     const fetchProjects = async ()=>{

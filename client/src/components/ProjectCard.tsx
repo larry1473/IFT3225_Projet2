@@ -23,6 +23,8 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             return;
         } else {
             setProjectSelected(project);
+            localStorage.setItem('projectSelected', JSON.stringify(project));
+            
             navigate(`../taskcards/${project._id}`);
         }
     }
