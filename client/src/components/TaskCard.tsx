@@ -120,13 +120,13 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                 <p>{task.guestNames.length} teammates</p>
             </div>
             {(title === "Doing") && <div className='flex gap-y-2 justify-between py-2'>
-                            <button onClick={handleJoinClick} className='bg-green-100 p-1 w-14 h-max rounded'>Join</button>
-                            <button onClick={handleDoneClick} className='bg-blue-100 p-1 w-14 h-max rounded'>Done</button>
-                            <button onClick={handleDeleteClick} className='bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
+                            <button onClick={handleJoinClick} className='join_btn bg-green-100 p-1 w-14 h-max rounded'>Join</button>
+                            <button onClick={handleDoneClick} className='done_btn bg-blue-100 p-1 w-14 h-max rounded'>Done</button>
+                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
                         </div>
             }
             {(title === "Done") && <div className='flex justify-center items-center'>
-                            <button onClick={handleDeleteClick} className='bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
+                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
                         </div>
             }
         </li>
