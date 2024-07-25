@@ -43,6 +43,10 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
         const userSelectedName = e.currentTarget.name;
         
         if(isTeam){
+            if(projectSelected?.hostName !== username){
+                alert("You can't delete a teammate!");
+                return;
+            }
             onTeammatesDelete(userSelectedName);
         }
         else if(isRequest){
