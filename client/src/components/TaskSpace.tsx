@@ -95,7 +95,7 @@ export default function ProjectSpace() {
             </div>
             
             {/* Add task */}
-            <form onSubmit={handleAddTaskSubmit} className='flex justify-center items-center gap-4 border px-5 py-4'>
+            <form onSubmit={handleAddTaskSubmit} className='flex flex-col sm:flex-row xl:flex-row justify-center items-center gap-4 border px-5 py-4'>
                 <div className='flex flex-col'>
                     <label htmlFor="title">Name</label>
                     <input onChange={handleTitleChange} id='title' name="title" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1'/>

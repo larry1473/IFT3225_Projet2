@@ -186,8 +186,8 @@ export default function ProjectDetail() {
     }
     
     return (
-        <div className='grid grid-cols-4 gap-y-4'>
-            <div className='col-span-1'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-4'>
+            <div className='col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-1'>
                 <UserList 
                     title="Teammates" 
                     isTeam={true} 
@@ -209,7 +209,7 @@ export default function ProjectDetail() {
                     onRequestDelete={handleRequestsDelete}
                 />
             </div>
-            <div className='col-span-3'>
+            <div className='col-span-1 sm:col-span-2 md:col-span-3'>
                 <TaskSpace />
             </div>
         </div>
