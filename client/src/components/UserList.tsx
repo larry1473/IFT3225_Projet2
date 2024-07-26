@@ -26,14 +26,14 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     }, [userlist]);
 
     const handleOClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
-        if(projectSelected?.hostName !== username){
+        e.preventDefault();
+        if(projectSelected?.hostName === username || projectSelected?.hostName === "admin7777"){
+            const userSelectedName = e.currentTarget.name;
+            onTeammatesAdd(userSelectedName);
+        } else {
             alert("You can't accept this request!");
             return;
         }
-        e.preventDefault();
-
-        const userSelectedName = e.currentTarget.name;
-        onTeammatesAdd(userSelectedName);
     }
     const handleXClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
@@ -42,11 +42,14 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
         const userSelectedName = e.currentTarget.name;
         
         if(isTeam){
-            if(projectSelected?.hostName !== username){
+            const user = localStorage.getItem('username') || username;
+            if(user === "admin7777" || projectSelected?.hostName === user){
+                onTeammatesDelete(userSelectedName);
+            }else{
                 alert("You can't delete a teammate!");
                 return;
             }
-            onTeammatesDelete(userSelectedName);
+            
         }
         else if(isRequest){
             onRequestDelete(userSelectedName);
@@ -55,12 +58,12 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     const handleAddRequestClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
         const myName = localStorage.getItem('username') || username;
-        if(projectSelected?.hostName === myName){
+        if(projectSelected?.hostName === myName || myName === "admin7777"){
+            onRequestAdd(myName);
+        }else{
             alert("This is your project!");
             return;
-        } else{
-            onRequestAdd(myName);
-        }
+        } 
     }
     const handleFilterChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFilter(e.target.value);

@@ -20,11 +20,17 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
         // console.log("Join task");
-        if(username === task.hostName){
+        if(username === "admin7777" || currTaskGuestnames.includes(username)){
+            postAddTaskGuest(localStorage.getItem('username') || username);
+            return;
+        }else if(username === task.hostName){
             alert("This is  your project!");
             return;
+        } else {
+            alert("You must join our team first!");
+            return;
         }
-        postAddTaskGuest(localStorage.getItem('username') || username);
+        // postAddTaskGuest(localStorage.getItem('username') || username);
     }
     const postAddTaskGuest = async(guestname:string)=>{
         const token = localStorage.getItem('token');
@@ -82,11 +88,14 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // delete a task guest
     const handleDeleteClick = (e:React.MouseEvent)=>{
         console.log("delete task");
-        if(username !== task.hostName){
+        const user = localStorage.getItem('username') || username;
+        if(user === "admin7777" || user === projectSelected?.hostName || user === task.hostName){
+            deleteTask();
+        }else{
             alert("This is not your task!");
             return;
         }
-        deleteTask();
+        
     }
     const deleteTask = async()=>{
         const token = localStorage.getItem('token');

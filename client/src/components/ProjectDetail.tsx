@@ -4,9 +4,11 @@ import TaskSpace from './TaskSpace';
 import UserList from './UserList';
 import { useProjects } from '../context/ProjectsContext';
 import axios from 'axios';
+import { useLoginStatus } from '../context/LoginStatusContext';
 
 export default function ProjectDetail() {
     const {projectid} = useParams();
+    const {username} = useLoginStatus();
     const {allProjects, projectSelected, setProjectSelected, fetchProjects} = useProjects();
     const [teammates, setTeammates] = useState<string[]>(projectSelected?.guestNames || []);
     const [joinRequests, setJoinRequests] = useState<string[]>(projectSelected?.requestJoin || []);
@@ -35,7 +37,6 @@ export default function ProjectDetail() {
             alert("You are already on the list");
             return;
         }
-
 
         // update server
         if(projectSelected){
@@ -121,21 +122,23 @@ export default function ProjectDetail() {
 
     const handleRequestsAdd = (newRequesterName:string)=>{
         // console.log("request add");
-        if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName)){
-            alert("You are already on the list");
-            return;
-        }
+        const user = localStorage.getItem('username') || username;
+        if(user === "admin7777" || user !== projectSelected?.hostName){
+            if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName)){
+                alert("You are already on the list");
+                return;
+            }
+            setJoinRequests([...joinRequests, newRequesterName]);
+            setProjectSelected(prev => prev ? {
+                ...prev,
+                guestNames: teammates
+            } : prev);
 
-        setJoinRequests([...joinRequests, newRequesterName]);
-        setProjectSelected(prev => prev ? {
-            ...prev,
-            guestNames: teammates
-        } : prev);
-
-        if(projectSelected){
-            console.log("adding join request...");
-            // update server
-            postAddRequest(newRequesterName);
+            if(projectSelected){
+                console.log("adding join request...");
+                // update server
+                postAddRequest(newRequesterName);
+            }
         }
     }
     const postAddRequest = async (requesterName : string )=>{

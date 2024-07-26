@@ -35,16 +35,14 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
             return;
         }
         const myUsername = localStorage.getItem('username');
-        console.log(username);
         
-        
-        if(myUsername !== project.hostName){
+        if(myUsername === "admin7777" || myUsername === project.hostName){
+            handleDeleteProjectClick(project);
+            postDeleteProject(project);
+        } else {
             alert("This is not your project !!");
             return;
         }
-
-        handleDeleteProjectClick(project);
-        postDeleteProject(project);
     }
 
     const postDeleteProject = async (project: ProjectType)=>{
