@@ -63,15 +63,15 @@ export default function ProjectCard({onCardClick, project}:ProjectCardPropsType)
     }
 
     return (
-        <div className='taskcard flex flex-col items-start justify-between gap-2 border p-2 w-5/6 h-44 rounded-md'>
+        <div className='taskcard flex flex-col items-start justify-between gap-2 border p-2 w-5/6 h-44 rounded-md' role="article" aria-labelledby={`taskcard-${project._id}`}>
             <div className='flex flex-col gap-y-1'>
                 <h3 className='font-bold pb-1'>{project.name}</h3>
                 <p>{project.hostName}</p>
                 <p>{project.description.length < 50 ? project.description : project.description.slice(0, 50) + "..."}</p>
             </div>
             <div className='flex justify-between w-full pt-3'>
-                <button onClick={handleDeleteClick} className='delete_btn bg-red-100 text-right text-sm font-semibold p-1 rounded'>Delete</button>
-                <button onClick={handleDetailClick} className='detail_btn bg-blue-100 text-right text-sm font-semibold p-1 rounded'>View detail</button>
+                <button onClick={handleDeleteClick} className='delete_btn bg-red-100 text-right text-sm font-semibold p-1 rounded' aria-label={`Delete ${project.name}`}>Delete</button>
+                <button onClick={handleDetailClick} className='detail_btn bg-blue-100 text-right text-sm font-semibold p-1 rounded' aria-label={`View details of ${project.name}`}>View detail</button>
             </div>
         </div>
     );

@@ -80,7 +80,7 @@ export default function ProjectSpace() {
 
 
     return (
-        <div className='flex flex-col justify-center p-2 w-full'>
+        <div className='flex flex-col justify-center p-2 w-full' role="region" aria-labelledby="project-info-heading">
             
             {/* Project info */}
             <div className='flex flex-col items-start justify-center h-max'>
@@ -90,23 +90,23 @@ export default function ProjectSpace() {
             </div>
             
             {/* Add task */}
-            <form onSubmit={handleAddTaskSubmit} className='flex flex-col sm:flex-row xl:flex-row justify-center items-center gap-4 border px-5 py-4'>
+            <form onSubmit={handleAddTaskSubmit} className='flex flex-col sm:flex-row xl:flex-row justify-center items-center gap-4 border px-5 py-4' role="form" aria-labelledby="add-task-heading">
                 <div className='flex flex-col'>
                     <label htmlFor="title">Name</label>
-                    <input onChange={handleTitleChange} id='title' name="title" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1'/>
+                    <input onChange={handleTitleChange} id='title' name="title" type="text" placeholder='Type a task name'  className='projectadd_input w-56 p-1' aria-required="true"/>
                 </div>
                 <div className='flex flex-col'>
                     <label htmlFor="targetDate">Target date</label>
-                    <input onChange={handleTargetDateChange} id='targetDate' name='targetDate' type="date" placeholder='Type a project description' className='projectadd_input w-56 p-1'/>
+                    <input onChange={handleTargetDateChange} id='targetDate' name='targetDate' type="date" placeholder='Type a project description' className='projectadd_input w-56 p-1' aria-required="true"/>
                 </div>
                 <div className='flex'>
-                    <button type='submit' className='p-2 rounded-full border text-center'>Add task</button>
+                    <button type='submit' className='p-2 rounded-full border text-center' aria-label="Add task">Add task</button>
                 </div>
             </form>
             
             <div className='flex flex-col md:flex-row  gap-5 px-5 py-5'>
-                <TaskGroup title="Doing" tasklist={tasksDoing}/>
-                <TaskGroup title="Done" tasklist={tasksDone}/>
+                <TaskGroup title="Doing" tasklist={tasksDoing} aria-labelledby="doing-tasks-heading"/>
+                <TaskGroup title="Done" tasklist={tasksDone} aria-labelledby="done-tasks-heading"/>
             </div>
         </div>
     );

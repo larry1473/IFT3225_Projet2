@@ -66,33 +66,36 @@ export default function SignUp() {
     }
     return (
         <div className='flex justify-center items-start py-24 h-lvh'>
-        <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-max'>
-            <h1 className='text-xl'>CREATE NEW ACCOUNT</h1>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSignupClick} className='flex flex-col gap-3'>
-                <div className='flex flex-col'>
-                    <label htmlFor="name">Username</label>
-                    <input id='name' name='name' onChange={handleInputChange} type="text" placeholder='Type your username' className='border p-1 w-60'/>
-                </div>
-                <div className='flex flex-col'>
-                    <label htmlFor="email">Email</label>
-                    <input id='email' name='email' onChange={handleInputChange} type="text" placeholder='Type your email' className='border p-1 w-60'/>
-                </div>
-                <div className='flex flex-col'>
-                    <label htmlFor="password">Password</label>
-                    <input id='password' name='password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60'/>
-                </div>
-                <div className='flex flex-col'>
-                    <label htmlFor="confirm_password">Confirm password</label>
-                    <input id='confirm_password' name='confirm_password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60'/>
-                </div>
+            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-max' role="form" aria-labelledby="form-heading">
+                <h1 className='text-xl'>CREATE NEW ACCOUNT</h1>
+                {error && <p role="alert" aria-live="assertive">{error}</p>}
+                <form onSubmit={handleSignupClick} className='flex flex-col gap-3'>
+                    <div className='flex flex-col'>
+                        <label htmlFor="name">Username</label>
+                        <small>Ex : name555</small>
+                        <input id='name' name='name' onChange={handleInputChange} type="text" placeholder='Type your username' className='border p-1 w-60' aria-required="true"/>
+                    </div>
+                    <div className='flex flex-col'>
+                        <label htmlFor="email">Email</label>
+                        <small>Ex : test2222@gmail.com</small>
+                        <input id='email' name='email' onChange={handleInputChange} type="text" placeholder='Type your email' className='border p-1 w-60' aria-required="true"/>
+                    </div>
+                    <div className='flex flex-col'>
+                        <label htmlFor="password">Password</label>
+                        <small>Ex : password1234!@</small>
+                        <input id='password' name='password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60' aria-required="true"/>
+                    </div>
+                    <div className='flex flex-col'>
+                        <label htmlFor="confirm_password">Confirm password</label>
+                        <input id='confirm_password' name='confirm_password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60' aria-required="true"/>
+                    </div>
 
-                <div className='flex justify-between'>
-                    <button onClick={handleCancelClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24'>CANCEL</button>
-                    <button className='border rounded-full p-1 my-6 px-3 py-1 w-24'>SIGN UP</button>
-                </div>
-            </form>
-        </div>
+                    <div className='flex justify-between'>
+                        <button onClick={handleCancelClick} className='border rounded-full p-1 my-6 px-3 py-1 w-24' aria-label="Cancel account creation">CANCEL</button>
+                        <button className='border rounded-full p-1 my-6 px-3 py-1 w-24' aria-label="Submit the form">SIGN UP</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

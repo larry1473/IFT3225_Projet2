@@ -52,10 +52,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const handleDoneClick = (e:React.MouseEvent)=>{
         // console.log("Task finished");
         const isInTeam = currTaskGuestnames.includes(localStorage.getItem('username') || username);
-        // if(username !== task.hostName || !isInTeam){
-        //     alert("You are not in this team!");
-        //     return;
-        // }
+        if(username !== task.hostName || !isInTeam){
+            alert("You are not in this team!");
+            return;
+        }
         updateTaskEndDate();
     }
     const updateTaskEndDate = async ()=>{
@@ -82,10 +82,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // delete a task guest
     const handleDeleteClick = (e:React.MouseEvent)=>{
         console.log("delete task");
-        // if(username !== task.hostName){
-        //     alert("This is not your task!");
-        //     return;
-        // }
+        if(username !== task.hostName){
+            alert("This is not your task!");
+            return;
+        }
         deleteTask();
     }
     const deleteTask = async()=>{
@@ -108,7 +108,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     }
 
     return (
-        <li className='flex flex-col justify-between border gap-x-2 px-5 py-2 w-full rounded-md'>
+        <li className='flex flex-col justify-between border gap-x-2 px-5 py-2 w-full rounded-md' role="listitem" aria-labelledby={`task-${task._id}`}>
             <div className='flex flex-col gap-y-2'>
                 <p className='font-bold'>Name : {task.title}</p>
                 <p>Host : {task.hostName}</p>
@@ -116,13 +116,13 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
                 <p>{currTaskGuestnames.length} teammates</p>
             </div>
             {(title === "Doing") && <div className='flex gap-y-2 justify-between py-2'>
-                            <button onClick={handleJoinClick} className='join_btn bg-green-100 p-1 w-14 h-max rounded'>Join</button>
-                            <button onClick={handleDoneClick} className='done_btn bg-blue-100 p-1 w-14 h-max rounded'>Done</button>
-                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
+                            <button onClick={handleJoinClick} className='join_btn bg-green-100 p-1 w-14 h-max rounded' aria-label={`Join ${task.title}`}>Join</button>
+                            <button onClick={handleDoneClick} className='done_btn bg-blue-100 p-1 w-14 h-max rounded' aria-label={`Mark ${task.title} as done`}>Done</button>
+                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded' aria-label={`Delete ${task.title}`}>Delete</button>
                         </div>
             }
             {(title === "Done") && <div className='flex justify-center items-center'>
-                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded'>Delete</button>
+                            <button onClick={handleDeleteClick} className='delete_btn bg-red-100 p-1 w-14 h-max rounded' aria-label={`Delete ${task.title}`}>Delete</button>
                         </div>
             }
         </li>

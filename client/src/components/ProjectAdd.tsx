@@ -83,21 +83,21 @@ export default function ProjectAdd() {
     };
 
     return (
-        <form onSubmit={handleAddSubmit} className='flex items-center gap-4 border px-5 py-4'>
+        <form onSubmit={handleAddSubmit} className='flex items-center gap-4 border px-5 py-4' aria-labelledby="add-project-form-heading">
             <div className='flex flex-col'>
                 <label htmlFor="name">name</label>
-                <input id='name' name="name" type="text" onChange={handleInputChange} placeholder='Type a project name'  className='projectadd_input p-1'/>
+                <input id='name' name="name" type="text" onChange={handleInputChange} placeholder='Type a project name'  className='projectadd_input p-1' aria-required="true" aria-describedby="name-description"/>
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="description">description</label>
-                <input id='description' name='description' type="text" onChange={handleInputChange} placeholder='Type a project description' className='projectadd_input p-1'/>
+                <input id='description' name='description' type="text" onChange={handleInputChange} placeholder='Type a project description' className='projectadd_input p-1' aria-required="true" aria-describedby="description-description"/>
             </div>
             <div className='flex flex-col'>
                 <label htmlFor="targetDate">Target date</label>
-                <input id='targetDate' name='targetDate' type="date" onChange={handleTargetDateChange} className='projectadd_input p-1'/>
+                <input id='targetDate' name='targetDate' type="date" onChange={handleTargetDateChange} className='projectadd_input p-1' aria-required="true" aria-describedby="targetDate-description"/>
             </div>
             <div className='flex'>
-                <button type='submit' className='p-2 rounded-full border text-center'>Add project</button>
+                <button type='submit' className='p-2 rounded-full border text-center' aria-label="Add project">Add project</button>
             </div>
         </form>
     );

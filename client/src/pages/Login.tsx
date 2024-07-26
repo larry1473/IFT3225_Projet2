@@ -55,23 +55,23 @@ export default function Login() {
 
     return (
         <div className='flex justify-center items-start py-24 h-lvh'>
-            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-max'>
+            <div className='login_form flex flex-col items-center justify-center gap-3 border px-20 py-2 h-max' role="form" aria-labelledby="login-form-heading">
                 <h1 className='text-xl'>LOG IN</h1>
                 <form onSubmit={handleLoginSubmit} className='flex flex-col gap-3'>
                     <div className='flex flex-col'>
                         <label htmlFor="email">Email</label>
-                        <input id='email' name='email' onChange={handleInputChange} type="text" placeholder='Type your email' className='border p-1 w-60'/>
+                        <input id='email' name='email' onChange={handleInputChange} type="text" placeholder='Type your email' className='border p-1 w-60' aria-required="true"/>
                     </div>
                     <div className='flex flex-col'>
                         <label htmlFor="password">Password</label>
-                        <input id='password' name='password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60'/>
+                        <input id='password' name='password' onChange={handleInputChange} type="password" placeholder='Type your password' className='border p-1 w-60' aria-required="true"/>
                     </div>
 
-                    <button className='border rounded-full p-1 my-5'>LOGIN</button>
+                    <button className='border rounded-full p-1 my-5' aria-label="Log in to your account">LOGIN</button>
                     <small className='text-center'><a href="">forgot email or password?</a></small>
 
                     <small className='text-center'>Or create new account?</small>
-                    <button onClick={handleSignupClick} className='border text-center rounded-full p-1 my-6'>SIGN UP</button>
+                    <button onClick={handleSignupClick} className='border text-center rounded-full p-1 my-6' aria-label="Create a new account">SIGN UP</button>
                 </form>
             </div>
         </div>

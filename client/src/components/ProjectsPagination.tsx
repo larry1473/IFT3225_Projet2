@@ -30,18 +30,18 @@ export default function ProjectsPagination({currentPage, tasksPerPage, tasksNum,
     }
     
     return (
-        <nav className='flex justify-center items-center w-full gap-3 my-4'>
-            <button onClick={handleLeftClick}><FaAngleLeft /></button>
-            <ul className='project_pagination flex items-center gap-2'>
+        <nav className='flex justify-center items-center w-full gap-3 my-4' aria-label="Pagination navigation">
+            <button onClick={handleLeftClick} aria-label="Previous page"><FaAngleLeft /></button>
+            <ul className='project_pagination flex items-center gap-2' role="list">
                 {pageNums.map(number => (
-                    <li key={uuidv4()} className={`page_number ${currentPage === number ? "selected" : ""} border px-2 rounded-full`}>
+                    <li key={uuidv4()} className={`page_number ${currentPage === number ? "selected" : ""} border px-2 rounded-full`} role="listitem">
                         <a onClick={() => onPageChangeClick(number)} className='page_link'>
                             {number}
                         </a>
                     </li>
                 ))}
             </ul>
-            <button onClick={handleRightClick}><FaAngleRight /></button>
+            <button onClick={handleRightClick} aria-label="Next page"><FaAngleRight /></button>
         </nav>
     );
 }

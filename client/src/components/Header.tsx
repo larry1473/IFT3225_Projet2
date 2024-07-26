@@ -42,7 +42,7 @@ export default function Header() {
     }
     
     return (
-        <header className='header flex h-16 justify-between px-14'>
+        <header className='header flex h-16 justify-between px-14' role="banner">
             <Link onClick={handleLogoClick} to='/' className='flex justify-center items-center gap-x-1'>
                 <SiNginxproxymanager className='logo size-8'/>
                 <p className='logo_title text-2xl'>TaskMaster</p>
