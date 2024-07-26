@@ -1,5 +1,6 @@
 import TaskCard from './TaskCard';
 import { TaskType } from '../types/TaskMasterTypes';
+import {v4 as uuidv4} from 'uuid';
 
 
 type TaskGroupProps = {
@@ -15,7 +16,7 @@ export default function TaskGroup({title, tasklist}:TaskGroupProps) {
             <h3 className='font-sm'>{tasklist.length} tasks</h3>
             <ul className='taskgroup flex flex-col gap-y-2 w-full'>
                 {tasklist.map(t => (
-                    <TaskCard title={title} task={t} />
+                    <TaskCard key={uuidv4()} title={title} task={t} />
                 ))}
             </ul>
         </div>

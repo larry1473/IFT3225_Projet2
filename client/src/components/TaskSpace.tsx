@@ -13,7 +13,7 @@ export default function ProjectSpace() {
     const {fetchProjects, projectSelected, setProjectSelected} = useProjects();
     const [taskInfo, setTaskInfo] = useState({
         title: "",
-        hostName: username,
+        hostName: localStorage.getItem("username") || username,
         guestNames: [],
         createdDate: new Date(),
         targetDate: new Date(),
@@ -25,10 +25,11 @@ export default function ProjectSpace() {
     // test
     useEffect(()=>{
         if(projectSelected){
-            setTaskDoing(projectSelected?.tasks.filter(t => new Date(t.endDate) > new Date()));
-            setTaskDone(projectSelected?.tasks.filter(t => new Date(t.endDate) <= new Date()));
+            const now = new Date();
+            now.setHours(now.getMinutes() - 5);
+            setTaskDoing(projectSelected?.tasks.filter(t => new Date(t.endDate) > now));
+            setTaskDone(projectSelected?.tasks.filter(t => new Date(t.endDate) <= now));
         }
-        
     }, [projectSelected]);
 
     const handleTitleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -38,13 +39,6 @@ export default function ProjectSpace() {
         }))
     }
     const handleTargetDateChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        const newTargetDate = new Date(e.target.value);
-
-        if(newTargetDate < taskInfo.createdDate){
-            alert("Target date cannot be earlier than create date");
-            return;
-        }
-
         setTaskInfo(prev=>({
             ...prev,
             targetDate:new Date(e.target.value),
@@ -54,16 +48,18 @@ export default function ProjectSpace() {
     // add a task
     const handleAddTaskSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
         // console.log("Add task");
-        e.preventDefault();
+        e.preventDefault();;
         postAddTask();
     }
     const postAddTask = async ()=>{
         const token = localStorage.getItem('token');
+        
         setTaskInfo(prev=>({
             ...prev,
             endDate:new Date(taskInfo.targetDate)
         }))
         const taskJson = JSON.stringify(taskInfo);
+        
         
         try{
             const res = await axios.post(`http://localhost:3000/api/v1/projects/${projectid}`, taskJson, {
@@ -73,7 +69,7 @@ export default function ProjectSpace() {
                 }
             });
             // console.log("add project response message : ", res.data.message);
-            const projectUpdated = res.data.project;
+            const projectUpdated = res.data.project;            
             setProjectSelected(projectUpdated);
 
             fetchProjects();

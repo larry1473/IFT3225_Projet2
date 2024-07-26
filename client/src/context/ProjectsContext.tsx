@@ -22,9 +22,6 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
     const [projectSelected, setProjectSelected] = useState<ProjectType>();
     
     const handleDeleteProjectClick = (project: ProjectType)=>{
-        console.log(project);
-        console.log(allProjects);
-
         const projects = allProjects ? allProjects.filter(p => p._id !== project._id):[];
         setAllProjects(projects);
     }
@@ -33,6 +30,11 @@ export function ProjectProvider({children} : ProjectProviderPropsType){
         // console.log("Fetching all projects...");
         fetchProjects();
     }, []);
+    // useEffect(()=>{
+    //     const projectUpdated = allProjects.filter(p=>p._id === projectSelected?._id);
+
+
+    // }, [allProjects]);
     const fetchProjects = async ()=>{
         try{
             const res = await axios.get(`http://localhost:3000/api/v1/projects`);

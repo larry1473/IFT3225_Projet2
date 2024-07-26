@@ -15,11 +15,7 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const {projectid} = useParams();
     const {username} = useLoginStatus();
     const {projectSelected, setProjectSelected, fetchProjects} = useProjects();
-    const [currTaskGuestnames, setCurrTaskGuestnames] = useState(task.guestNames); 
-    
-    useEffect(()=>{
-        console.log(projectSelected);
-    }, [])
+    const [currTaskGuestnames, setCurrTaskGuestnames] = useState(task.guestNames);
 
     // add a task guest
     const handleJoinClick = (e:React.MouseEvent)=>{
@@ -56,10 +52,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     const handleDoneClick = (e:React.MouseEvent)=>{
         // console.log("Task finished");
         const isInTeam = currTaskGuestnames.includes(localStorage.getItem('username') || username);
-        if(username !== task.hostName || !isInTeam){
-            alert("You are not in this team!");
-            return;
-        }
+        // if(username !== task.hostName || !isInTeam){
+        //     alert("You are not in this team!");
+        //     return;
+        // }
         updateTaskEndDate();
     }
     const updateTaskEndDate = async ()=>{
@@ -86,10 +82,10 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // delete a task guest
     const handleDeleteClick = (e:React.MouseEvent)=>{
         console.log("delete task");
-        if(username !== task.hostName){
-            alert("This is not your task!");
-            return;
-        }
+        // if(username !== task.hostName){
+        //     alert("This is not your task!");
+        //     return;
+        // }
         deleteTask();
     }
     const deleteTask = async()=>{

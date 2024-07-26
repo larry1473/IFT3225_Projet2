@@ -22,11 +22,6 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
     const [filter, setFilter] = useState("");
 
     useEffect(()=>{
-        console.log(users);
-        console.log(userlist);
-    }, [])
-
-    useEffect(()=>{
         setUsers(userlist);
     }, [userlist]);
 
