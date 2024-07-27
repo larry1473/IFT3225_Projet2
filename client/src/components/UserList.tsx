@@ -27,7 +27,8 @@ export default function UserList({title, isTeam, isRequest, userlist, onTeammate
 
     const handleOClick = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault();
-        if(projectSelected?.hostName === username || projectSelected?.hostName === "admin7777"){
+        const user = localStorage.getItem('username') || username;
+        if(user === username || user === "admin7777"){
             const userSelectedName = e.currentTarget.name;
             onTeammatesAdd(userSelectedName);
         } else {
