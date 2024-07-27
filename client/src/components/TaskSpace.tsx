@@ -26,7 +26,9 @@ export default function ProjectSpace() {
     useEffect(()=>{
         if(projectSelected){
             const now = new Date();
-            now.setHours(now.getMinutes() - 5);
+            now.setHours(now.getMinutes() - 10);
+            console.log(now);
+            
             setTaskDoing(projectSelected?.tasks.filter(t => new Date(t.endDate) > now));
             setTaskDone(projectSelected?.tasks.filter(t => new Date(t.endDate) <= now));
         }

@@ -43,12 +43,12 @@ export default function ProjectDetail() {
             // console.log("adding teammate...");
             setTeammates([...teammates, newTeammateName]);
             
-            postAddTeammateAndDeleteRequest(newTeammateName);
-            setProjectSelected(prev => prev ? {
-                ...prev,
-                guestNames: teammates
-            } : prev);
             setJoinRequests(joinRequests.filter(r => r !== newTeammateName));
+            postAddTeammateAndDeleteRequest(newTeammateName);
+            // setProjectSelected(prev => prev ? {
+            //     ...prev,
+            //     guestNames: teammates
+            // } : prev);
         }
     }
     const postAddTeammateAndDeleteRequest = async (guestName : string )=>{
@@ -64,10 +64,10 @@ export default function ProjectDetail() {
                     }
                 }
             );
-            // console.log("Add teammate : ", addRes.data);
+            console.log("Add teammate : ", addRes.data);
 
             const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-            await delay(1000);
+            await delay(700);
             
             const deleteRes = await axios.delete(`http://localhost:3000/api/v1/projects/${projectid}/requesters/${guestName}`,
             {
@@ -76,7 +76,7 @@ export default function ProjectDetail() {
                     'Content-Type': 'application/json'
                 }
             })
-            // console.log("Delete requester : ", deleteRes.data);
+            console.log("Delete requester : ", deleteRes.data);
               
 
             fetchProjects();
@@ -90,10 +90,10 @@ export default function ProjectDetail() {
         if(teammates)
             setTeammates(prev => prev.filter(teammateName => teammateName !== teammateName));
 
-        setProjectSelected(prev => prev ? {
-            ...prev,
-            guestNames: teammates
-        } : prev);
+        // setProjectSelected(prev => prev ? {
+        //     ...prev,
+        //     guestNames: teammates
+        // } : prev);
         
         // update server
         if(projectSelected){
@@ -124,15 +124,13 @@ export default function ProjectDetail() {
         // console.log("request add");
         const user = localStorage.getItem('username') || username;
         if(user === "admin7777" || user !== projectSelected?.hostName){
-            if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName)){
+            if(joinRequests.includes(newRequesterName) || teammates.includes(newRequesterName) 
+                || joinRequests.includes("admin7777") || teammates.includes("admin7777")){
                 alert("You are already on the list");
                 return;
             }
+
             setJoinRequests([...joinRequests, newRequesterName]);
-            setProjectSelected(prev => prev ? {
-                ...prev,
-                guestNames: teammates
-            } : prev);
 
             if(projectSelected){
                 console.log("adding join request...");
@@ -154,7 +152,7 @@ export default function ProjectDetail() {
                     }
                 }
             );
-            console.log("Requester added successfully");
+            console.log("Add requester : ", res.data.message);
             fetchProjects();
         } catch (error) {
             console.error("Failed to add teammate:", error);
@@ -166,10 +164,10 @@ export default function ProjectDetail() {
         // console.log("request delete");
         setJoinRequests(prev => prev.filter(reqName => reqName !== requesterName));
         
-        setProjectSelected(prev => prev ? {
-            ...prev,
-            guestNames: teammates
-        } : prev);
+        // setProjectSelected(prev => prev ? {
+        //     ...prev,
+        //     guestNames: teammates
+        // } : prev);
         
         // update server
         if(projectSelected){

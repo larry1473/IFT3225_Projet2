@@ -57,12 +57,13 @@ export default function TaskCard({title, task}:TaskCardPropsType) {
     // create endDate & move to Done
     const handleDoneClick = (e:React.MouseEvent)=>{
         // console.log("Task finished");
-        const isInTeam = currTaskGuestnames.includes(localStorage.getItem('username') || username);
-        if(username !== task.hostName || !isInTeam){
+        const user = localStorage.getItem('username') || username;
+        if(user === task.hostName || user === projectSelected?.hostName || user === "admin7777"){
+            updateTaskEndDate();
+        }else{
             alert("You are not in this team!");
             return;
         }
-        updateTaskEndDate();
     }
     const updateTaskEndDate = async ()=>{
         const token = localStorage.getItem('token');
